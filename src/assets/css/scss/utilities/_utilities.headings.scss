@@ -11,6 +11,10 @@
  *
  */
 
+.u-text-massive {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-text-massive, $important: true);
+}
+
 .u-h1 {
     @include vision-dashboard-font-size($vision-dashboard-font-size-h1, $important: true);
 }
@@ -33,4 +37,16 @@
 
 .u-h6 {
     @include vision-dashboard-font-size($vision-dashboard-font-size-h6, $important: true);
+}
+
+.u-text-small {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-text-small, $important: true);
+}
+
+.u-text-tiny {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-text-tiny, $important: true);
+}
+
+.u-text-micro {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-text-micro, $important: true);
 }

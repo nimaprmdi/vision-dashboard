@@ -11,7 +11,7 @@ const Layouts = ({ children }: LayoutsProps): JSX.Element => {
     return (
         <Grid container spacing={2}>
             <Header />
-            <Grid item xs={8}>
+            <Grid item xs={12} md={8} mt={2}>
                 <BreadCrumb />
                 {children}
             </Grid>

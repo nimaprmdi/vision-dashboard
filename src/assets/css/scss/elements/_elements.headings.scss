@@ -13,12 +13,21 @@
 // `font-size` with a pixel fallback, as well as generating a `line-height` that
 // will sit on our baseline grid.
 
+$vision-dashboard-font-size-text-massive: 50px !default;
 $vision-dashboard-font-size-h1: 36px !default;
+$vision-dashboard-font-size-big: 30px !default;
 $vision-dashboard-font-size-h2: 28px !default;
 $vision-dashboard-font-size-h3: 24px !default;
 $vision-dashboard-font-size-h4: 20px !default;
 $vision-dashboard-font-size-h5: 18px !default;
 $vision-dashboard-font-size-h6: 16px !default;
+$vision-dashboard-font-size-text-small: 14px !default;
+$vision-dashboard-font-size-text-tiny: 12px !default;
+$vision-dashboard-font-size-text-micro: 10px !default;
+
+.text-massive {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-text-massive);
+}
 
 h1 {
     @include vision-dashboard-font-size($vision-dashboard-font-size-h1);
@@ -42,4 +51,16 @@ h5 {
 
 h6 {
     @include vision-dashboard-font-size($vision-dashboard-font-size-h6);
+}
+
+.text-small {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-text-small);
+}
+
+.text-tiny {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-text-tiny);
+}
+
+.text-micro {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-text-micro);
 }

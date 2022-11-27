@@ -1,11 +1,11 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import { AppBar } from "@mui/material";
+import { AppBar, Box } from "@mui/material";
 
 const Header = () => {
     return (
-        <Grid item minHeight="100vh" width="100%" maxWidth="260px" sx={{ backgroundColor: "red" }}>
-            Header
+        <Grid item xs={12} md={3} m={2}>
+            <Box className="c-header">Hello</Box>
         </Grid>
     );
 };
