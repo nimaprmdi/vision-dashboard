@@ -29,8 +29,6 @@
  * N.B. This option is turned off by default.
  */
 
-
-
 // Which fractions would you like in your grid system(s)? By default, inuitcss
 // provides you fractions of one whole, halves, thirds, quarters and fifths,
 // e.g.:
@@ -40,11 +38,7 @@
 //   .u-3/4
 //   .u-2/3
 
-$inuit-fractions: 1 2 3 4 5 !default;
-
-
-
-
+$vision-dashboard-fractions: 1 2 3 4 5 !default;
 
 // Optionally, inuitcss can generate classes to offset items by a certain width.
 // Would you like to generate these types of class as well? E.g.:
@@ -54,29 +48,17 @@ $inuit-fractions: 1 2 3 4 5 !default;
 //   .u-pull-1/5
 //   .u-push-2/3
 
-$inuit-offsets: false !default;
-
-
-
-
+$vision-dashboard-offsets: false !default;
 
 // By default, inuitcss uses fractions-like classes like `<div class="u-1/4">`.
 // You can change the `/` to whatever you fancy with this variable.
-$inuit-widths-delimiter: \/ !default;
-
-
-
-
+$vision-dashboard-widths-delimiter: \/ !default;
 
 // When using Sass-MQ, this defines the separator for the breakpoints suffix
 // in the class name. By default, we are generating the responsive suffixes
 // for the classes with a `@` symbol so you get classes like:
 // <div class="u-3/12@mobile">
-$inuit-widths-breakpoint-separator: \@ !default;
-
-
-
-
+$vision-dashboard-widths-breakpoint-separator: \@ !default;
 
 // A mixin to spit out our width classes. Pass in the columns we want the widths
 // to have, and an optional suffix for responsive widths. E.g. to create thirds
@@ -84,68 +66,54 @@ $inuit-widths-breakpoint-separator: \@ !default;
 //
 // @include widths(3 4, -sm);
 
-@mixin inuit-widths($columns, $breakpoint: null) {
+@mixin vision-dashboard-widths($columns, $breakpoint: null) {
+    // Loop through the number of columns for each denominator of our fractions.
+    @each $denominator in $columns {
+        // Begin creating a numerator for our fraction up until we hit the
+        // denominator.
+        @for $numerator from 1 through $denominator {
+            // Build a class in the format `.u-3/4[@<breakpoint>]`.
 
-  // Loop through the number of columns for each denominator of our fractions.
-  @each $denominator in $columns {
+            .u-#{$numerator}#{$vision-dashboard-widths-delimiter}#{$denominator}#{$breakpoint} {
+                width: ($numerator / $denominator) * 100% !important;
+            }
 
-    // Begin creating a numerator for our fraction up until we hit the
-    // denominator.
-    @for $numerator from 1 through $denominator {
-
-      // Build a class in the format `.u-3/4[@<breakpoint>]`.
-
-      .u-#{$numerator}#{$inuit-widths-delimiter}#{$denominator}#{$breakpoint} {
-        width: ($numerator / $denominator) * 100% !important;
-      }
-
-      @if ($inuit-offsets == true) {
-
-        /**
+            @if ($vision-dashboard-offsets == true) {
+                /**
          * 1. Reset any leftover or conflicting `left`/`right` values.
          */
 
-        // Build a class in the format `.u-push-1/2[@<breakpoint>]`.
+                // Build a class in the format `.u-push-1/2[@<breakpoint>]`.
 
-        .u-push-#{$numerator}#{$inuit-widths-delimiter}#{$denominator}#{$breakpoint} {
-          position: relative !important;
-          right: auto !important; /* [1] */
-          left: ($numerator / $denominator) * 100% !important;
+                .u-push-#{$numerator}#{$vision-dashboard-widths-delimiter}#{$denominator}#{$breakpoint} {
+                    position: relative !important;
+                    right: auto !important; /* [1] */
+                    left: ($numerator / $denominator) * 100% !important;
+                }
+
+                // Build a class in the format `.u-pull-5/6[@<breakpoint>]`.
+
+                .u-pull-#{$numerator}#{$vision-dashboard-widths-delimiter}#{$denominator}#{$breakpoint} {
+                    position: relative !important;
+                    right: ($numerator / $denominator) * 100% !important;
+                    left: auto !important; /* [1] */
+                }
+            }
+        }
+    }
+
+    @if ($vision-dashboard-offsets == true and $breakpoint != null) {
+        // Create auto push and pull classes.
+
+        .u-push-none#{$breakpoint} {
+            left: auto !important;
         }
 
-        // Build a class in the format `.u-pull-5/6[@<breakpoint>]`.
-
-        .u-pull-#{$numerator}#{$inuit-widths-delimiter}#{$denominator}#{$breakpoint} {
-          position: relative !important;
-          right: ($numerator / $denominator) * 100% !important;
-          left: auto !important; /* [1] */
+        .u-pull-none#{$breakpoint} {
+            right: auto !important;
         }
-
-      }
-
     }
-
-  }
-
-  @if ($inuit-offsets == true and $breakpoint != null) {
-
-    // Create auto push and pull classes.
-
-    .u-push-none#{$breakpoint} {
-      left: auto !important;
-    }
-
-    .u-pull-none#{$breakpoint} {
-      right: auto !important;
-    }
-
-  }
-
 }
-
-
-
-
 
 /**
  * A series of width helper classes that you can use to size things like grid
@@ -155,14 +123,10 @@ $inuit-widths-breakpoint-separator: \@ !default;
  * <div class="u-7/12">
  *
  * The following will generate widths helper classes based on the fractions
- * defined in the `$inuit-fractions` list.
+ * defined in the `$vision-dashboard-fractions` list.
  */
 
-@include inuit-widths($inuit-fractions);
-
-
-
-
+@include vision-dashboard-widths($vision-dashboard-fractions);
 
 /**
  * If we’re using Sass-MQ, automatically generate grid system(s) for each of our
@@ -172,13 +136,12 @@ $inuit-widths-breakpoint-separator: \@ !default;
  */
 
 @if (variable-exists(mq-breakpoints)) {
-
-  @each $inuit-bp-name, $inuit-bp-value in $mq-breakpoints {
-
-    @include mq($from: $inuit-bp-name) {
-      @include inuit-widths($inuit-fractions, #{$inuit-widths-breakpoint-separator}#{$inuit-bp-name});
+    @each $vision-dashboard-bp-name, $vision-dashboard-bp-value in $mq-breakpoints {
+        @include mq($from: $vision-dashboard-bp-name) {
+            @include vision-dashboard-widths(
+                $vision-dashboard-fractions,
+                #{$vision-dashboard-widths-breakpoint-separator}#{$vision-dashboard-bp-name}
+            );
+        }
     }
-
-  }
-
 }

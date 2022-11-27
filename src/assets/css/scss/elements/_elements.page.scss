@@ -15,8 +15,8 @@
  */
 
 html {
-  font-size: ($inuit-global-font-size / 16px) * 1em; /* [1] */
-  line-height: $inuit-global-line-height / $inuit-global-font-size; /* [1] */
-  overflow-y: scroll; /* [2] */
-  min-height: 100%; /* [3] */
+    font-size: ($vision-dashboard-global-font-size / 16px) * 1em; /* [1] */
+    line-height: $vision-dashboard-global-line-height / $vision-dashboard-global-font-size; /* [1] */
+    overflow-y: scroll; /* [2] */
+    min-height: 100%; /* [3] */
 }

@@ -11,29 +11,25 @@
  */
 
 img {
-  max-width: 100%; /* [1] */
-  font-style: italic; /* [2] */
-  vertical-align: middle; /* [3] */
+    max-width: 100%; /* [1] */
+    font-style: italic; /* [2] */
+    vertical-align: middle; /* [3] */
 }
-
-
 
 // In case you don't have control over generated `width` and `height` attributes
 // on `<img>` elements in your markup, but still want the images to be fluid,
 // set this to `false`.
 
-$inuit-static-images: true !default;
+$vision-dashboard-static-images: true !default;
 
-  @if ($inuit-static-images == true) {
-
-  /**
+@if ($vision-dashboard-static-images == true) {
+    /**
    * If a `width` and/or `height` attribute has been explicitly defined, let’s
    * not make the image fluid.
    */
 
-  img[width],
-  img[height] {
-    max-width: none;
-  }
-
+    img[width],
+    img[height] {
+        max-width: none;
+    }
 }

@@ -15,46 +15,38 @@
  *   .u-padding-vertical-small {}
  */
 
-$inuit-spacing-directions: (
-  null: null,
-  "-top": "-top",
-  "-right": "-right",
-  "-bottom": "-bottom",
-  "-left": "-left",
-  "-horizontal": "-left" "-right",
-  "-vertical": "-top" "-bottom",
+$vision-dashboard-spacing-directions: (
+    null: null,
+    "-top": "-top",
+    "-right": "-right",
+    "-bottom": "-bottom",
+    "-left": "-left",
+    "-horizontal": "-left" "-right",
+    "-vertical": "-top" "-bottom",
 ) !default;
 
-$inuit-spacing-properties: (
-  "padding": "padding",
-  "margin": "margin",
+$vision-dashboard-spacing-properties: (
+    "padding": "padding",
+    "margin": "margin",
 ) !default;
 
-$inuit-spacing-sizes: (
-  null: $inuit-global-spacing-unit,
-  "-tiny": $inuit-global-spacing-unit-tiny,
-  "-small": $inuit-global-spacing-unit-small,
-  "-large": $inuit-global-spacing-unit-large,
-  "-huge": $inuit-global-spacing-unit-huge,
-  "-none": 0
+$vision-dashboard-spacing-sizes: (
+    null: $vision-dashboard-global-spacing-unit,
+    "-tiny": $vision-dashboard-global-spacing-unit-tiny,
+    "-small": $vision-dashboard-global-spacing-unit-small,
+    "-large": $vision-dashboard-global-spacing-unit-large,
+    "-huge": $vision-dashboard-global-spacing-unit-huge,
+    "-none": 0,
 ) !default;
 
-@each $property-namespace, $property in $inuit-spacing-properties {
-
-  @each $direction-namespace, $direction-rules in $inuit-spacing-directions {
-
-    @each $size-namespace, $size in $inuit-spacing-sizes {
-
-      .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace} {
-
-        @each $direction in $direction-rules {
-          #{$property}#{$direction}: $size !important;
+@each $property-namespace, $property in $vision-dashboard-spacing-properties {
+    @each $direction-namespace, $direction-rules in $vision-dashboard-spacing-directions {
+        @each $size-namespace, $size in $vision-dashboard-spacing-sizes {
+            .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace} {
+                @each $direction in $direction-rules {
+                    #{$property}#{$direction}: $size !important;
+                }
+            }
         }
-
-      }
-
     }
-
-  }
-
 }

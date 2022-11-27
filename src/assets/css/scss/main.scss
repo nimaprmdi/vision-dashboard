@@ -107,6 +107,7 @@
 @import "objects/objects.list-bare";
 @import "objects/objects.list-inline";
 @import "objects/objects.box";
+@import "objects/objects.container";
 @import "objects/objects.block";
 @import "objects/objects.ratio";
 @import "objects/objects.crop";
@@ -117,6 +118,8 @@
 //
 // Build and include your project’s UI components here.
 @import "components/example.components.buttons";
+@import "components/buttons";
+@import "components/home";
 
 // UTILITIES
 @import "utilities/utilities.clearfix";
@@ -124,7 +127,7 @@
 // Be aware that enabling offsets produces a large chunk of classes which might
 // bloat your CSS, depending of the amount of breakpoints you defined.
 // Only set this to `true` if you are absolutely sure about what you are doing.
-$inuit-offsets: true;
+$vision-dashboard-offsets: true;
 @import "utilities/utilities.widths";
 @import "utilities/utilities.headings";
 @import "utilities/utilities.spacings";

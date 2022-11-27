@@ -8,7 +8,7 @@
 // The map keys are the strings used in the generated class names, and they can
 // follow any convention, as long as they are properly escaped strings. i.e.:
 //
-//   $inuit-ratios: (
+//   $vision-dashboard-ratios: (
 //     "2\\:1"         : (2:1),
 //     "4-by-3"        : (4:3),
 //     "full-hd"       : (16:9),
@@ -16,13 +16,17 @@
 //     "golden-ratio"  : (1.618:1) -> non-integers are okay
 //   ) !default;
 
-$inuit-ratios: (
-  "2\\:1"   : (2:1),
-  "4\\:3"   : (4:3),
-  "16\\:9"  : (16:9)
+$vision-dashboard-ratios: (
+    "2\\:1": (
+        2: 1,
+    ),
+    "4\\:3": (
+        4: 3,
+    ),
+    "16\\:9": (
+        16: 9,
+    ),
 ) !default;
-
-
 
 /**
  * Create ratio-bound content blocks, to keep media (e.g. images, videos) in
@@ -34,33 +38,28 @@ $inuit-ratios: (
  */
 
 .o-ratio {
-  position: relative;
-  display: block;
-
-  &:before {
-    content: "";
+    position: relative;
     display: block;
-    width: 100%;
-    padding-bottom: 100%; /* [1] */
-  }
 
+    &:before {
+        content: "";
+        display: block;
+        width: 100%;
+        padding-bottom: 100%; /* [1] */
+    }
 }
 
-  .o-ratio__content,
-  .o-ratio > iframe,
-  .o-ratio > embed,
-  .o-ratio > object {
+.o-ratio__content,
+.o-ratio > iframe,
+.o-ratio > embed,
+.o-ratio > object {
     position: absolute;
-    top:    0;
+    top: 0;
     bottom: 0;
-    left:   0;
+    left: 0;
     height: 100%;
-    width:  100%;
-  }
-
-
-
-
+    width: 100%;
+}
 
 /* Ratio variants.
    ========================================================================== */
@@ -72,29 +71,21 @@ $inuit-ratios: (
  *
  */
 
-@each $ratio-name, $ratio-value in $inuit-ratios {
+@each $ratio-name, $ratio-value in $vision-dashboard-ratios {
+    @each $antecedent, $consequent in $ratio-value {
+        @if (type-of($antecedent) != number) {
+            @error "`#{$antecedent}` needs to be a number.";
+        }
 
-  @each $antecedent, $consequent in $ratio-value {
+        @if (type-of($consequent) != number) {
+            @error "`#{$consequent}` needs to be a number.";
+        }
 
-    @if (type-of($antecedent) != number) {
-      @error "`#{$antecedent}` needs to be a number.";
+        .o-ratio--#{$ratio-name}:before {
+            padding-bottom: ($consequent/$antecedent) * 100%;
+        }
     }
-
-    @if (type-of($consequent) != number) {
-      @error "`#{$consequent}` needs to be a number.";
-    }
-
-    .o-ratio--#{$ratio-name}:before {
-      padding-bottom: ($consequent/$antecedent) * 100%;
-    }
-
-  }
-
 }
-
-
-
-
 
 /* Contain modifier.
    ========================================================================== */
@@ -105,13 +96,11 @@ $inuit-ratios: (
  */
 
 .o-ratio--img-contain {
-
-  > .o-ratio__content:before {
-    height: auto;
-    margin: auto;
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-  }
-
+    > .o-ratio__content:before {
+        height: auto;
+        margin: auto;
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+    }
 }

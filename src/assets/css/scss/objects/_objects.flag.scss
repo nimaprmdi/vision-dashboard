@@ -16,33 +16,33 @@
  */
 
 .o-flag {
-  display: table; /* [1] */
-  width: 100%; /* [2] */
-  border-spacing: 0; /* [3] */
+    display: table; /* [1] */
+    width: 100%; /* [2] */
+    border-spacing: 0; /* [3] */
 }
 
-  /**
+/**
    * Items within a flag object. There should only ever be one of each.
    *
    * 1. Default to aligning content to their middles.
    */
 
-  .o-flag__img,
-  .o-flag__body {
+.o-flag__img,
+.o-flag__body {
     display: table-cell;
     vertical-align: middle; /* [1] */
-  }
+}
 
-  /**
+/**
    * Flag images have a space between them and the body of the object.
    *
    * 1. Force `.flag__img` to take up as little space as possible:
    *    https://pixelsvsbytes.com/2012/02/this-css-layout-grid-is-no-holy-grail/
    */
 
-  .o-flag__img {
+.o-flag__img {
     width: 1px; /* [1] */
-    padding-right: $inuit-global-spacing-unit;
+    padding-right: $vision-dashboard-global-spacing-unit;
 
     /**
      * 1. Fixes problem with images disappearing.
@@ -63,118 +63,86 @@
      */
 
     > img {
-      max-width: none; /* [1] */
+        max-width: none; /* [1] */
     }
+}
 
-  }
-
-  /**
+/**
    * The container for the main content of the flag object.
    *
    * 1. Forces the `.flag__body` to take up all remaining space.
    */
 
-  .o-flag__body {
+.o-flag__body {
     width: auto; /* [1] */
 
     &,
     > :last-child {
-      margin-bottom: 0;
+        margin-bottom: 0;
     }
-
-  }
-
-
-
-
+}
 
 /* Size variants
    ========================================================================== */
 
 .o-flag--flush {
-
-  > .o-flag__img {
-    padding-right: 0;
-    padding-left:  0;
-  }
-
+    > .o-flag__img {
+        padding-right: 0;
+        padding-left: 0;
+    }
 }
-
 
 .o-flag--tiny {
-
-  > .o-flag__img {
-    padding-right: $inuit-global-spacing-unit-tiny;
-  }
-
-  &.o-flag--reverse {
-
     > .o-flag__img {
-      padding-right: 0;
-      padding-left: $inuit-global-spacing-unit-tiny;
+        padding-right: $vision-dashboard-global-spacing-unit-tiny;
     }
 
-  }
-
+    &.o-flag--reverse {
+        > .o-flag__img {
+            padding-right: 0;
+            padding-left: $vision-dashboard-global-spacing-unit-tiny;
+        }
+    }
 }
-
 
 .o-flag--small {
-
-  > .o-flag__img {
-    padding-right: $inuit-global-spacing-unit-small;
-  }
-
-  &.o-flag--reverse {
-
     > .o-flag__img {
-      padding-right: 0;
-      padding-left: $inuit-global-spacing-unit-small;
+        padding-right: $vision-dashboard-global-spacing-unit-small;
     }
 
-  }
-
+    &.o-flag--reverse {
+        > .o-flag__img {
+            padding-right: 0;
+            padding-left: $vision-dashboard-global-spacing-unit-small;
+        }
+    }
 }
-
 
 .o-flag--large {
-
-  > .o-flag__img {
-    padding-right: $inuit-global-spacing-unit-large;
-  }
-
-  &.o-flag--reverse {
-
     > .o-flag__img {
-      padding-right: 0;
-      padding-left: $inuit-global-spacing-unit-large;
+        padding-right: $vision-dashboard-global-spacing-unit-large;
     }
 
-  }
-
+    &.o-flag--reverse {
+        > .o-flag__img {
+            padding-right: 0;
+            padding-left: $vision-dashboard-global-spacing-unit-large;
+        }
+    }
 }
-
 
 .o-flag--huge {
-
-  > .o-flag__img {
-    padding-right: $inuit-global-spacing-unit-huge;
-  }
-
-  &.o-flag--reverse {
-
     > .o-flag__img {
-      padding-right: 0;
-      padding-left: $inuit-global-spacing-unit-huge;
+        padding-right: $vision-dashboard-global-spacing-unit-huge;
     }
 
-  }
-
+    &.o-flag--reverse {
+        > .o-flag__img {
+            padding-right: 0;
+            padding-left: $vision-dashboard-global-spacing-unit-huge;
+        }
+    }
 }
-
-
-
-
 
 /* Reversed flag
    ========================================================================== */
@@ -186,23 +154,18 @@
  */
 
 .o-flag--reverse {
-  direction: rtl; /* [1] */
+    direction: rtl; /* [1] */
 
-  > .o-flag__img,
-  > .o-flag__body {
-    direction: ltr; /* [2] */
-  }
+    > .o-flag__img,
+    > .o-flag__body {
+        direction: ltr; /* [2] */
+    }
 
-  > .o-flag__img {
-    padding-right: 0; /* [3] */
-    padding-left: $inuit-global-spacing-unit; /* [3] */
-  }
-
+    > .o-flag__img {
+        padding-right: 0; /* [3] */
+        padding-left: $vision-dashboard-global-spacing-unit; /* [3] */
+    }
 }
-
-
-
-
 
 /* Alignment variants
    ========================================================================== */
@@ -212,20 +175,15 @@
  */
 
 .o-flag--top {
-
-  > .o-flag__img,
-  > .o-flag__body {
-    vertical-align: top;
-  }
-
+    > .o-flag__img,
+    > .o-flag__body {
+        vertical-align: top;
+    }
 }
 
-
 .o-flag--bottom {
-
-  > .o-flag__img,
-  > .o-flag__body {
-    vertical-align: bottom;
-  }
-
+    > .o-flag__img,
+    > .o-flag__body {
+        vertical-align: bottom;
+    }
 }

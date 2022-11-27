@@ -8,34 +8,28 @@
  */
 
 .o-media {
-  @include inuit-clearfix();
-  display: block;
+    @include vision-dashboard-clearfix();
+    display: block;
 }
 
-  .o-media__img {
+.o-media__img {
     float: left;
-    margin-right: $inuit-global-spacing-unit;
+    margin-right: $vision-dashboard-global-spacing-unit;
 
     > img {
-      display: block;
+        display: block;
     }
+}
 
-  }
-
-  .o-media__body {
+.o-media__body {
     overflow: hidden;
     display: block;
 
     &,
     > :last-child {
-      margin-bottom: 0;
+        margin-bottom: 0;
     }
-
-  }
-
-
-
-
+}
 
 /* Size variants
    ========================================================================== */
@@ -46,99 +40,71 @@
  */
 
 .o-media--flush {
-
-  > .o-media__img {
-    margin-right: 0;
-    margin-left: 0;
- }
-
+    > .o-media__img {
+        margin-right: 0;
+        margin-left: 0;
+    }
 }
-
 
 .o-media--tiny {
-
-  > .o-media__img {
-    margin-right: $inuit-global-spacing-unit-tiny;
-  }
-
-  &.o-media--reverse {
-
     > .o-media__img {
-      margin-right: 0;
-      margin-left: $inuit-global-spacing-unit-tiny;
+        margin-right: $vision-dashboard-global-spacing-unit-tiny;
     }
 
-  }
-
+    &.o-media--reverse {
+        > .o-media__img {
+            margin-right: 0;
+            margin-left: $vision-dashboard-global-spacing-unit-tiny;
+        }
+    }
 }
-
 
 .o-media--small {
-
-  > .o-media__img {
-    margin-right: $inuit-global-spacing-unit-small;
-  }
-
-  &.o-media--reverse {
-
     > .o-media__img {
-      margin-right: 0;
-      margin-left: $inuit-global-spacing-unit-small;
+        margin-right: $vision-dashboard-global-spacing-unit-small;
     }
 
-  }
-
+    &.o-media--reverse {
+        > .o-media__img {
+            margin-right: 0;
+            margin-left: $vision-dashboard-global-spacing-unit-small;
+        }
+    }
 }
-
 
 .o-media--large {
-
-  > .o-media__img {
-    margin-right: $inuit-global-spacing-unit-large;
-  }
-
-  &.o-media--reverse {
-
     > .o-media__img {
-      margin-right: 0;
-      margin-left: $inuit-global-spacing-unit-large;
+        margin-right: $vision-dashboard-global-spacing-unit-large;
     }
 
-  }
-
+    &.o-media--reverse {
+        > .o-media__img {
+            margin-right: 0;
+            margin-left: $vision-dashboard-global-spacing-unit-large;
+        }
+    }
 }
-
 
 .o-media--huge {
-
-  > .o-media__img {
-    margin-right: $inuit-global-spacing-unit-huge;
-  }
-
-  &.o-media--reverse {
-
     > .o-media__img {
-      margin-right: 0;
-      margin-left: $inuit-global-spacing-unit-huge;
+        margin-right: $vision-dashboard-global-spacing-unit-huge;
     }
 
-  }
-
+    &.o-media--reverse {
+        > .o-media__img {
+            margin-right: 0;
+            margin-left: $vision-dashboard-global-spacing-unit-huge;
+        }
+    }
 }
-
-
-
-
 
 /* Reversed media objects
    ========================================================================== */
 
 .o-media--reverse {
-
-  > .o-media__img {
-    float: right;
-    margin-right: 0;
-    margin-left: $inuit-global-spacing-unit;
-  }
-
+    > .o-media__img {
+        float: right;
+        margin-right: 0;
+        margin-left: $vision-dashboard-global-spacing-unit;
+    }
 }

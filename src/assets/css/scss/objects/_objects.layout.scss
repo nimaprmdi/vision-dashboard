@@ -53,11 +53,7 @@
 // By default we use the `font-size: 0;` trick to remove whitespace between
 // items. Set this to true in order to use a markup-based strategy like
 // commenting out whitespace or minifying HTML.
-$inuit-use-markup-fix: false !default;
-
-
-
-
+$vision-dashboard-use-markup-fix: false !default;
 
 /* Default/mandatory classes
    ========================================================================== */
@@ -70,19 +66,18 @@ $inuit-use-markup-fix: false !default;
  */
 
 .o-layout {
-  display: block; /* [1] */
-  margin:  0; /* [2] */
-  padding: 0; /* [2] */
-  list-style: none; /* [1] */
-  margin-left: -$inuit-global-spacing-unit; /* [3] */
+    display: block; /* [1] */
+    margin: 0; /* [2] */
+    padding: 0; /* [2] */
+    list-style: none; /* [1] */
+    margin-left: -$vision-dashboard-global-spacing-unit; /* [3] */
 
-  @if ($inuit-use-markup-fix == false) {
-    font-size: 0;
-  }
-
+    @if ($vision-dashboard-use-markup-fix == false) {
+        font-size: 0;
+    }
 }
 
-  /**
+/**
    * 1. Required in order to combine fluid widths with fixed gutters.
    * 2. Allows us to manipulate grids vertically, with text-level properties,
    *    etc.
@@ -94,79 +89,61 @@ $inuit-use-markup-fix: false !default;
    * 6. Fallback for old IEs not supporting `rem` values.
    */
 
-  .o-layout__item {
+.o-layout__item {
     box-sizing: border-box; /* [1] */
     display: inline-block; /* [2] */
     vertical-align: top; /* [3] */
     width: 100%; /* [4] */
-    padding-left: $inuit-global-spacing-unit; /* [5] */
+    padding-left: $vision-dashboard-global-spacing-unit; /* [5] */
 
-    @if ($inuit-use-markup-fix == false) {
-      font-size: $inuit-global-font-size; /* [6] */
-      font-size: 1rem;
+    @if ($vision-dashboard-use-markup-fix == false) {
+        font-size: $vision-dashboard-global-font-size; /* [6] */
+        font-size: 1rem;
     }
-
-  }
-
-
-
-
+}
 
 /* Gutter size modifiers
    ========================================================================== */
 
 .o-layout--flush {
-  margin-left: 0;
+    margin-left: 0;
 
-  > .o-layout__item {
-    padding-left: 0;
-  }
-
+    > .o-layout__item {
+        padding-left: 0;
+    }
 }
-
 
 .o-layout--tiny {
-  margin-left: -$inuit-global-spacing-unit-tiny;
+    margin-left: -$vision-dashboard-global-spacing-unit-tiny;
 
-  > .o-layout__item {
-    padding-left: $inuit-global-spacing-unit-tiny;
-  }
-
+    > .o-layout__item {
+        padding-left: $vision-dashboard-global-spacing-unit-tiny;
+    }
 }
-
 
 .o-layout--small {
-  margin-left: -$inuit-global-spacing-unit-small;
+    margin-left: -$vision-dashboard-global-spacing-unit-small;
 
-  > .o-layout__item {
-    padding-left: $inuit-global-spacing-unit-small;
-  }
-
+    > .o-layout__item {
+        padding-left: $vision-dashboard-global-spacing-unit-small;
+    }
 }
-
 
 .o-layout--large {
-  margin-left: -$inuit-global-spacing-unit-large;
+    margin-left: -$vision-dashboard-global-spacing-unit-large;
 
-  > .o-layout__item {
-    padding-left: $inuit-global-spacing-unit-large;
-  }
-
+    > .o-layout__item {
+        padding-left: $vision-dashboard-global-spacing-unit-large;
+    }
 }
-
 
 .o-layout--huge {
-  margin-left: -$inuit-global-spacing-unit-huge;
+    margin-left: -$vision-dashboard-global-spacing-unit-huge;
 
-  > .o-layout__item {
-    padding-left: $inuit-global-spacing-unit-huge;
-  }
-
+    > .o-layout__item {
+        padding-left: $vision-dashboard-global-spacing-unit-huge;
+    }
 }
-
-
-
-
 
 /* Vertical alignment modifiers
    ========================================================================== */
@@ -176,26 +153,20 @@ $inuit-use-markup-fix: false !default;
  */
 
 .o-layout--middle {
-
-  > .o-layout__item {
-    vertical-align: middle;
-  }
-
+    > .o-layout__item {
+        vertical-align: middle;
+    }
 }
-
 
 /**
  * Align all grid items to the bottoms of each other.
  */
 
 .o-layout--bottom {
-
-  > .o-layout__item {
-    vertical-align: bottom;
-  }
-
+    > .o-layout__item {
+        vertical-align: bottom;
+    }
 }
-
 
 /**
  * Stretch all grid items of each row to have an equal-height.
@@ -204,30 +175,25 @@ $inuit-use-markup-fix: false !default;
  */
 
 .o-layout--stretch {
-  display: flex;
-  flex-wrap: wrap;
-
-  > .o-layout__item {
     display: flex;
-  }
+    flex-wrap: wrap;
 
-  &.o-layout--center {
-    justify-content: center;
-  }
+    > .o-layout__item {
+        display: flex;
+    }
 
-  &.o-layout--right {
-    justify-content: flex-end;
-  }
+    &.o-layout--center {
+        justify-content: center;
+    }
 
-  &.o-layout--left {
-    justify-content: flex-start;
-  }
+    &.o-layout--right {
+        justify-content: flex-end;
+    }
 
+    &.o-layout--left {
+        justify-content: flex-start;
+    }
 }
-
-
-
-
 
 /* Fill order modifiers
    ========================================================================== */
@@ -237,28 +203,24 @@ $inuit-use-markup-fix: false !default;
  */
 
 .o-layout--center {
-  text-align: center;
+    text-align: center;
 
-  > .o-layout__item {
-    text-align: left;
-  }
-
+    > .o-layout__item {
+        text-align: left;
+    }
 }
-
 
 /**
  * Fill up the layout system from the right-hand side.
  */
 
 .o-layout--right {
-  text-align: right;
+    text-align: right;
 
-  > .o-layout__item {
-    text-align: left;
-  }
-
+    > .o-layout__item {
+        text-align: left;
+    }
 }
-
 
 /**
  * Fill up the layout system from the left-hand side. This will likely only be
@@ -266,31 +228,24 @@ $inuit-use-markup-fix: false !default;
  */
 
 .o-layout--left {
-  text-align: left;
-
-  > .o-layout__item {
     text-align: left;
-  }
 
+    > .o-layout__item {
+        text-align: left;
+    }
 }
-
 
 /**
  * Reverse the rendered order of the grid system.
  */
 
 .o-layout--reverse {
-  direction: rtl;
+    direction: rtl;
 
-  > .o-layout__item {
-    direction: ltr;
-  }
-
+    > .o-layout__item {
+        direction: ltr;
+    }
 }
-
-
-
-
 
 /* Auto-widths modifier
    ========================================================================== */
@@ -300,9 +255,7 @@ $inuit-use-markup-fix: false !default;
  */
 
 .o-layout--auto {
-
-  > .o-layout__item {
-    width: auto;
-  }
-
+    > .o-layout__item {
+        width: auto;
+    }
 }

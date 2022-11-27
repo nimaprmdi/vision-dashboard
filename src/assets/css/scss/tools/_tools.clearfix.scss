@@ -6,15 +6,13 @@
 // http://www.cssmojo.com/the-very-latest-clearfix-reloaded/
 //
 // .usage {
-//   @include inuit-clearfix();
+//   @include vision-dashboard-clearfix();
 // }
 
-@mixin inuit-clearfix() {
-
-  &:after {
-    content: "" !important;
-    display: block !important;
-    clear: both !important;
-  }
-
+@mixin vision-dashboard-clearfix() {
+    &:after {
+        content: "" !important;
+        display: block !important;
+        clear: both !important;
+    }
 }
