@@ -1,20 +1,24 @@
 import React from "react";
-import "./assets/css/styles.css";
 import { Routes, Route } from "react-router-dom";
-import store from "./store/configureStore";
 import { useSelector, Provider, useDispatch } from "react-redux";
+import { RootState } from "./store/rootReducer";
+import "./assets/css/styles.css";
+import Layouts from "./components/layouts/Layouts";
+import Home from "./components/home/Home";
 
-function App() {
+const App: React.FC = (): JSX.Element => {
+    const accountState = useSelector((state: RootState) => state.account);
     const dispatch = useDispatch();
-    dispatch({ type: "ADD_USER" });
+
+    console.log(accountState);
 
     return (
-        <Provider store={store}>
-            <div className="App">
-                <Routes>{/* <Route path="/" element={<Home />} /> */}</Routes>
-            </div>
-        </Provider>
+        <Layouts>
+            <Routes>
+                <Route path="/" element={<Home />} />
+            </Routes>
+        </Layouts>
     );
-}
+};
 
 export default App;
