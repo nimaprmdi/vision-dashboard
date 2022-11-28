@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import { AppBar, Box } from "@mui/material";
+import { Box } from "@mui/material";
 
 const Header = () => {
     return (

@@ -7,16 +7,18 @@ interface LayoutsProps {
     children?: JSX.Element | JSX.Element[];
 }
 
-const Layouts = ({ children }: LayoutsProps): JSX.Element => {
+const Layouts = ({ children }: LayoutsProps) => {
     return (
-        <Grid container spacing={2}>
-            <Header />
-            <Grid item xs={12} md={8} mt={2}>
-                <BreadCrumb />
-                {children}
+        <section className="o-page">
+            <Grid container spacing={2}>
+                <Header />
+                <Grid item xs={12} md={8} mt={2}>
+                    <BreadCrumb />
+                    {children}
+                </Grid>
+                <Footer />
             </Grid>
-            <Footer />
-        </Grid>
+        </section>
     );
 };
 
