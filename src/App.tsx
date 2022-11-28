@@ -11,11 +11,13 @@ const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
 
     return (
-        <Layouts>
-            <Routes>
-                <Route path="/" element={<Home />} />
-            </Routes>
-        </Layouts>
+        <section className="o-page">
+            <Layouts>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                </Routes>
+            </Layouts>
+        </section>
     );
 };
 

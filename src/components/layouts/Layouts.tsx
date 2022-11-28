@@ -9,16 +9,16 @@ interface LayoutsProps {
 
 const Layouts = ({ children }: LayoutsProps) => {
     return (
-        <section className="o-page">
-            <Grid container spacing={2}>
+        <Grid container spacing={2}>
+            <Grid item xs={12} md={2} m={2}>
                 <Header />
-                <Grid item xs={12} md={8} mt={2}>
-                    <BreadCrumb />
-                    {children}
-                </Grid>
+            </Grid>
+            <Grid item xs={12} md={9} mt={3}>
+                <BreadCrumb />
+                {children}
                 <Footer />
             </Grid>
-        </section>
+        </Grid>
     );
 };
 

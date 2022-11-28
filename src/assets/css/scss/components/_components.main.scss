@@ -1,0 +1,14 @@
+/* ==========================================================================
+   main
+   ========================================================================== */
+.c-main {
+    display: flex;
+    justify-content: center;
+    min-height: max-content;
+    height: max-content;
+
+    @include mq($from: tablet) {
+        justify-content: center;
+        padding: 0;
+    }
+}

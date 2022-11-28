@@ -1,0 +1,18 @@
+/* ==========================================================================
+   header
+   ========================================================================== */
+.c-header {
+    border-radius: $global-radius-bg;
+    background: linear-gradient(111.84deg, #040d3f 37.3%, rgba(26, 31, 55, 0) 100%);
+    backdrop-filter: blur(60px);
+    border-radius: $global-radius-bg;
+
+    @include mq($from: tablet) {
+        min-height: 90vh;
+    }
+}
+
+.c-header__title {
+    text-align: center;
+    color: #fff;
+}

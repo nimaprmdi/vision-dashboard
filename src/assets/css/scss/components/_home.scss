@@ -1,7 +1,0 @@
-.c-home {
-    background-color: green;
-
-    @include mq($from: tablet) {
-        background-color: red;
-    }
-}

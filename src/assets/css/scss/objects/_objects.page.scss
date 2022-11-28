@@ -4,7 +4,6 @@
 .o-page {
     width: 100%;
 
-    background: rgb(1, 26, 64);
     background: linear-gradient(
         225deg,
         rgba(1, 26, 64, 1) 10%,
@@ -13,4 +12,9 @@
         rgba(1, 83, 221, 1) 68%,
         rgba(2, 30, 67, 1) 89%
     );
+
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    // overflow: hidden;
 }

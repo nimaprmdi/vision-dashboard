@@ -1,12 +1,8 @@
 import React from "react";
-import { Grid, Container, AppBar } from "@mui/material";
+import { Grid, Container, AppBar, Box } from "@mui/material";
 
 const Footer = () => {
-    return (
-        <Grid item xs={12} color="secondary">
-            Footer
-        </Grid>
-    );
+    return <Box m={2}>Footer</Box>;
 };
 
 export default Footer;

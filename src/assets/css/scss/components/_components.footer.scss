@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.c-footer {
+    min-height: 105px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: auto;
+    position: relative;
+    background-color: darkblue;
+
+    @include mq($from: tablet) {
+        margin-top: auto;
+    }
+}
