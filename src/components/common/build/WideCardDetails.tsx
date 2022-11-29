@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import WideCard from "../../common/WideCard";
+import WideCard from "../WideCard";
 import EastIcon from "@mui/icons-material/East";
 import { Box, Typography, Link, Paper, Grid, CircularProgress } from "@mui/material";
 

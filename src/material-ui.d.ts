@@ -2,7 +2,7 @@ import { PaletteOptions } from "@mui/material";
 
 declare module "@mui/material/styles/createPalette" {
     export interface PaletteOptions {
-        master: {
+        mainPrimary: {
             main: string;
             light: string;
             medium: string;

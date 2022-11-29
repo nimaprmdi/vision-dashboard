@@ -33,6 +33,11 @@ const Table = () => {
         createData("Eclair", "nimaprmdi@gmail.com", "Front-End", false, Date.now()),
         createData("Cupcake", "nimaprmdi@gmail.com", "Front-End", true, Date.now()),
         createData("Gingerbread", "nimaprmdi@gmail.com", "Front-End", false, Date.now()),
+        createData("Gingerbread", "nimaprmdi@gmail.com", "Front-End", false, Date.now(), user),
+        createData("Gingerbread", "nimaprmdi@gmail.com", "Front-End", false, Date.now()),
+        createData("Cupcake", "nimaprmdi@gmail.com", "Front-End", true, Date.now()),
+        createData("Cupcake", "nimaprmdi@gmail.com", "Front-End", true, Date.now(), user),
+        createData("Cupcake", "nimaprmdi@gmail.com", "Front-End", true, Date.now()),
     ];
 
     return (

@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material/styles";
 
 export const dashboardTheme = createTheme({
     palette: {
-        master: {
+        mainPrimary: {
             main: "#0075FF",
             light: "#1A1F37",
             medium: "#0C1E81",
@@ -57,6 +57,17 @@ export const dashboardTheme = createTheme({
         },
         h6: {
             fontSize: "1rem",
+        },
+    },
+
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: "12px",
+                    backgroundColor: "#0075FF",
+                },
+            },
         },
     },
 });

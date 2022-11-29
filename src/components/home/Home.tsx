@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import BreadCrumbItem from "../common/BreadCrumbItem";
-import WideCardMore from "../common/auto/WideCardMore";
-import WideCardDetails from "../common/auto/WideCardDetails";
+import WideCardMore from "../common/build/WideCardMore";
+import WideCardDetails from "../common/build/WideCardDetails";
 import WideCard from "../common/WideCard";
 
 import ReactApexChart from "react-apexcharts";

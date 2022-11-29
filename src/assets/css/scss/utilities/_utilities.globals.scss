@@ -2,6 +2,10 @@
    #globals utils
    ========================================================================== */
 
+/*------------------------------------*\
+  #Divider
+\*------------------------------------*/
+
 .u-divider {
     width: 100%;
     height: 2px;
@@ -13,6 +17,10 @@
         rgba(255, 255, 255, 0) 100%
     ) !important;
 }
+
+/*------------------------------------*\
+  #Avatars
+\*------------------------------------*/
 
 .u-avatar-primary {
     font-size: 18px;
@@ -29,9 +37,49 @@
     transition: 0.2s all;
     background-color: $vision-dashboard_primary_main_color !important;
     cursor: pointer;
-
     &:hover,
     &:focus {
         background-color: $vision-dashboard_accent_main_color !important;
+    }
+}
+
+.u-avatar-tertiary {
+    transition: 0.2s all;
+    background-color: $vision-dashboard_gray_dark_color !important;
+    cursor: pointer;
+    &:hover,
+    &:focus {
+        background-color: $vision-dashboard_accent_main_color !important;
+    }
+}
+
+/*------------------------------------*\
+  #Box
+\*------------------------------------*/
+
+.u-box-light {
+    border-radius: 20px;
+    background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);
+}
+
+.u-box-medium {
+    border-radius: 20px;
+    background: linear-gradient(126.75deg, rgba(34, 41, 78, 0.94) -4.23%, rgba(10, 14, 35, 0.49) 76.75%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+
+    &:before {
+        content: " ";
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: linear-gradient(182deg, #000 -9.77%, #26295a -9.76%, #150b4b17 88.02%);
+        border-radius: 0px 20px 20px 0px;
+        width: 90px;
+        height: 100%;
+        clip-path: polygon(40% 0%, 100% 0, 100% 100%, 0 100%);
     }
 }

@@ -1,4 +1,4 @@
-import WideCard from "../../common/WideCard";
+import WideCard from "../WideCard";
 import EastIcon from "@mui/icons-material/East";
 import { Box, Typography, Link } from "@mui/material";
 
