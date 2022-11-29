@@ -8,6 +8,7 @@ import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { useState } from "react";
 import Table from "../common/Table";
+import PopUp from "../common/PopUp";
 
 const Home = (): JSX.Element => {
     const [chartOptions, setChartOptions] = useState<ApexOptions>({
@@ -67,6 +68,7 @@ const Home = (): JSX.Element => {
 
     return (
         <Grid container className="c-home" sx={{ px: { xs: 2, md: 0 } }}>
+            <PopUp />
             <Grid item container spacing={2}>
                 <BreadCrumbItem />
                 <BreadCrumbItem />
