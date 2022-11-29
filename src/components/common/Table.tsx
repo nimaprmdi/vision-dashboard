@@ -47,25 +47,25 @@ const Table = () => {
             }}
         >
             <Typography ml={1} my={3} variant="h5" color="white">
-                Authors Table
+                Request Table
             </Typography>
 
             <TableMUI sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{ color: "white" }}>Dessert (100g serving)</TableCell>
-                        <TableCell sx={{ color: "white" }} align="left">
-                            Calories
+                        <TableCell sx={{ letterSpacing: 0.6, color: "white" }} align="left">
+                            Profile
                         </TableCell>
-                        <TableCell sx={{ color: "white" }} align="left">
-                            Fat&nbsp;(g)
+                        <TableCell sx={{ letterSpacing: 0.6, color: "white" }} align="left">
+                            Position
                         </TableCell>
-                        <TableCell sx={{ color: "white" }} align="left">
-                            Carbs&nbsp;(g)
+                        <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left">
+                            Status
                         </TableCell>
-                        <TableCell sx={{ color: "white" }} align="left">
-                            Protein&nbsp;(g)
+                        <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left">
+                            Request Date
                         </TableCell>
+                        <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left"></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

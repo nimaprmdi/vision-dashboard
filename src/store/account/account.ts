@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AccountState } from "../../models/account";
-import { ADD_USER } from "./accountActions";
 
 const initialState: AccountState = {
     accounts: [{ name: "" }],
@@ -11,11 +10,12 @@ const accountSlice = createSlice({
     name: "accounts",
     initialState: initialState as AccountState,
     reducers: {
-        [ADD_USER.type]: (state, action) => {
+        ADD_USER: (state, action) => {
             state.accounts.push({ name: "hello" });
             return;
         },
     },
 });
 
+export const { ADD_USER } = accountSlice.actions;
 export default accountSlice.reducer;

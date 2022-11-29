@@ -10,7 +10,7 @@ const WideCardDetails = () => {
         <WideCard
             hasBackground={false}
             className="c-smartcard"
-            sx={{ minHeight: "auto", width: "100%", pl: 4, py: 5, gap: { xs: 10, md: 19 } }}
+            sx={{ minHeight: "auto", width: "100%", px: 4, py: 5, gap: { xs: 10, md: 19 } }}
         >
             <Box className="c-smartcard__container">
                 <Grid container>
@@ -19,7 +19,7 @@ const WideCardDetails = () => {
                             Answered Tickets
                         </Typography>
 
-                        <Grid container spacing={2} pr={4}>
+                        <Grid container spacing={2} pr={{ xs: 0, md: 4 }}>
                             <Grid item xs={6} md={12}>
                                 <Box
                                     className="c-smartcard__info-card"
@@ -61,16 +61,17 @@ const WideCardDetails = () => {
                     <Grid
                         item
                         xs={12}
-                        sm={6}
+                        sm={12}
+                        md={6}
                         sx={{
-                            pr: { xl: 6 },
+                            pr: { xl: 0 },
                             display: { xs: "block", sm: "block", md: "none", lg: "none", xl: "block" },
                         }}
                         mt={8}
                     >
                         <Box className="c-smartcard__progress-container">
                             <CircularProgress
-                                size="10vw"
+                                size="150px"
                                 color="success"
                                 thickness={4}
                                 variant="determinate"

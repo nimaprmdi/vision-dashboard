@@ -7,7 +7,7 @@ const WideCardMore = () => {
         <WideCard
             className="c-smartcard"
             hasBackground={true}
-            sx={{ minHeight: "auto", width: "100%", pl: 6, py: 5, gap: { xs: 10, md: 19 } }}
+            sx={{ minHeight: "auto", width: "100%", pl: { xs: 4, md: 6 }, py: 5, gap: { xs: 10, md: 19 } }}
         >
             <Box sx={{ width: "100%", maxHeight: "305px" }}>
                 <Typography variant="h6" color="gray.light" className="u-text-small">

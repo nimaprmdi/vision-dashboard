@@ -13,6 +13,7 @@ const Home = (): JSX.Element => {
     const [chartOptions, setChartOptions] = useState<ApexOptions>({
         chart: {
             type: "area",
+            foreColor: "#fff",
         },
         dataLabels: {
             enabled: false,
@@ -30,6 +31,18 @@ const Home = (): JSX.Element => {
                 "2018-09-19T04:30:00.000Z",
                 "2018-09-19T05:30:00.000Z",
             ],
+            labels: {
+                style: {
+                    colors: "white",
+                },
+            },
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: "white",
+                },
+            },
         },
         tooltip: {
             x: {
