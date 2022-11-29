@@ -1,5 +1,4 @@
-import { createTheme, Theme, PaletteOptions } from "@mui/material/styles";
-import { orange, red } from "@mui/material/colors";
+import { createTheme } from "@mui/material/styles";
 
 export const dashboardTheme = createTheme({
     palette: {

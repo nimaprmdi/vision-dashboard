@@ -80,6 +80,9 @@
 @import "settings/example.settings.global";
 @import "settings/settings.fonts";
 
+// ABSTRACTS
+@import "abstracts/abstracts.color";
+
 // TOOLS
 @import "tools/tools.font-size";
 @import "tools/tools.clearfix";
@@ -124,6 +127,9 @@
 @import "components/components.home";
 @import "components/components.header";
 @import "components/components.footer";
+@import "components/components.navs";
+@import "components/components.breadcrumb";
+@import "components/components.smartcard";
 
 // UTILITIES
 @import "utilities/utilities.clearfix";
@@ -139,3 +145,4 @@ $vision-dashboard-offsets: true;
 @import "utilities/utilities.print";
 @import "utilities/utilities.hide";
 @import "utilities/utilities.weights";
+@import "utilities/utilities.globals";

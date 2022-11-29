@@ -1,13 +1,20 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Divider, Stack } from "@mui/material";
+import Nav from "../common/Nav";
 
 const Header = () => {
     return (
-        <Box className="c-header">
-            <Typography variant="h2" className="c-header__title u-weight-medium u-text-small">
+        <Box className="c-header" sx={{ position: "relative" }}>
+            <Typography pt={5} letterSpacing={2} variant="h2" className="c-header__title u-weight-medium u-h5">
                 VISION DASHBOARD
             </Typography>
+
+            <Box mt={4} px={4}>
+                <Box className="u-divider" />
+            </Box>
+
+            <Stack spacing={2} px={3} mt={3}>
+                <Nav />
+            </Stack>
         </Box>
     );
 };

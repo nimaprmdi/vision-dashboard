@@ -1,0 +1,51 @@
+/* ==========================================================================
+   #smart card 
+   ========================================================================== */
+
+.c-smartcard {
+    display: flex;
+    justify-content: flex-start;
+    align-content: space-between;
+    flex-wrap: wrap;
+
+    background-position: center top !important;
+}
+
+.c-smartcard__more {
+    transition: 0.2s all;
+
+    &:hover,
+    &:focus,
+    &:active {
+        opacity: 0.5;
+    }
+}
+
+.c-smartcard__container {
+    width: 100%;
+    min-height: 306px;
+}
+
+.c-smartcard__info-card {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px 16px;
+    border-radius: 10px;
+    background: linear-gradient(126.97deg, #060c29 28.26%, rgba(4, 12, 48, 0.5) 91.2%);
+}
+
+.c-smartcard__progress-container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.c-smartcard__progress-context {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}

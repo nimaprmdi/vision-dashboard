@@ -1,0 +1,36 @@
+///* ========================================================================
+//   #navs
+//   ======================================================================== */
+.c-nav__item {
+    margin-bottom: 8px;
+    background-color: "transparent";
+    border-radius: 15px;
+    transition: 0.2s all;
+    cursor: pointer;
+    color: white;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: transparentize($color: $vision-dashboard_gray_dark_color, $amount: 0.4) !important;
+
+        .c-nav__avatar {
+            background-color: $vision-dashboard_primary_main_color !important;
+        }
+    }
+}
+
+.c-nav__item.Mui-selected {
+    background-color: transparentize($color: $vision-dashboard_gray_dark_color, $amount: 0.4) !important;
+
+    .c-nav__avatar {
+        background-color: $vision-dashboard_primary_main_color !important;
+    }
+}
+
+.c-nav__avatar {
+    background-color: $vision-dashboard_gray_dark_color !important;
+    transition: 0.2s all;
+    width: 40px;
+    height: 40px;
+}

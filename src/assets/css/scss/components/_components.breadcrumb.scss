@@ -1,0 +1,11 @@
+///* ========================================================================
+//   #bread crumb
+//   ======================================================================== */
+.c-breadcrumb {
+    background: linear-gradient(126.97deg, rgba(6, 11, 38, 0.74) 28.26%, rgba(26, 31, 55, 0.5) 91.2%);
+    border-radius: $global-radius-bg !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+}
