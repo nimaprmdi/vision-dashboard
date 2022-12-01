@@ -8,7 +8,6 @@ const ServiceBadge = () => {
             className="u-box-light"
             sx={{ display: "flex", alignContent: "space-between", flexWrap: "wrap" }}
             width="100%"
-            height="240px"
             py={3}
             px={3}
         >
@@ -32,6 +31,8 @@ const ServiceBadge = () => {
                     alignItems: "center",
                     justifyContent: "space-between",
                     flexWrap: "wrap",
+                    gap: 2,
+                    mt: 4,
                 }}
             >
                 <Box sx={{ display: "flex", gap: 2 }}>
@@ -40,12 +41,12 @@ const ServiceBadge = () => {
                     </Avatar>
 
                     <Box>
-                        <Typography variant="h6" className="u-text-small" color="white">
-                            Tehran Azadi Laleh Street
-                        </Typography>
+                        <span title="Tehran Azadi Laleh Street" className="u-text-small" style={{ color: "white" }}>
+                            {"Tehran Azadi Laleh Street".slice(0, 20) + "..."}
+                        </span>
 
                         <Typography variant="h6" className="u-text-small" color="gray.light">
-                            2022 / 15 / 5
+                            2022-15-5
                         </Typography>
                     </Box>
                 </Box>

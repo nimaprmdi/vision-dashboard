@@ -1,7 +1,7 @@
-import React from "react";
 import { Grid, Box, Typography, Stack, Button } from "@mui/material";
 import ServiceBadge from "../common/build/ServiceBadge";
 import ProfileSummary from "../common/build/ProfileSummary";
+import MapBox from "../common/MapBox";
 
 const SingleDetails = () => {
     return (
@@ -44,7 +44,7 @@ const SingleDetails = () => {
             </Grid>
 
             <Grid item container xs={12} md={5}>
-                <Box className="u-box-light" sx={{ width: "100%", height: "300px" }} p={3}>
+                <Box className="u-box-light" sx={{ width: "100%", height: { xs: "500px", md: "100%" } }} p={3}>
                     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Typography variant="h5" color="white">
                             Location
@@ -54,10 +54,16 @@ const SingleDetails = () => {
                             View On Map
                         </Button>
                     </Box>
+
+                    <Box sx={{ height: "90%" }}>
+                        <MapBox />
+                    </Box>
                 </Box>
             </Grid>
 
-            <Grid item xs={12} mt={4}></Grid>
+            <Grid item xs={12} mt={3}>
+                <Box sx={{ width: "100%", height: "100px" }} className="u-box-light"></Box>
+            </Grid>
         </Grid>
     );
 };
