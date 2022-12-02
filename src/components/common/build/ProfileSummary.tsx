@@ -16,7 +16,9 @@ const ProfileSummary = () => {
                 Admin
             </Typography>
 
-            <Box mt={4} mb={3} className="u-divider" />
+            <Box pr={2}>
+                <Box mt={4} mb={3} className="u-divider" />
+            </Box>
         </Box>
     );
 };

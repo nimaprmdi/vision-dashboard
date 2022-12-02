@@ -7,6 +7,7 @@ import { RootState } from "./store/rootReducer";
 import "./assets/css/styles.css";
 import Archives from "./components/archive/Archives";
 import SingleDetails from "./components/archive/SingleDetails";
+import SingleChat from "./components/archive/SingleChat";
 
 const App: React.FC = (): JSX.Element => {
     const accountState = useSelector((state: RootState) => state.account);
@@ -19,6 +20,7 @@ const App: React.FC = (): JSX.Element => {
                     <Route path="/" element={<Home />} />
                     <Route path="/requests" element={<Archives />} />
                     <Route path="/single" element={<SingleDetails />} />
+                    <Route path="/single-chat" element={<SingleChat />} />
                 </Routes>
             </Layouts>
         </section>

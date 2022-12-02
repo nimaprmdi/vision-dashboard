@@ -65,7 +65,26 @@ export const dashboardTheme = createTheme({
             styleOverrides: {
                 root: {
                     borderRadius: "12px",
+                },
+                colorInherit: {
                     backgroundColor: "#0075FF",
+                },
+            },
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                input: { color: "#fff" },
+                notchedOutline: {
+                    border: "1px solid transparent",
+                    borderImage: "linear-gradient(154deg, #ffffff0f 0%,  white 40%, #ffffff0f 100%) 1",
+                    color: "#fff",
+                },
+            },
+        },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    color: "#fff !important",
                 },
             },
         },

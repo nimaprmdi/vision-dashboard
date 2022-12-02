@@ -32,7 +32,7 @@ const MapBox = () => {
     return (
         <Box
             className="haji"
-            mt={3}
+            mt={1.5}
             style={{
                 width: "100%",
                 height: "100%",
