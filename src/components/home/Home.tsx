@@ -68,7 +68,7 @@ const Home = (): JSX.Element => {
 
     return (
         <Grid container className="c-home" sx={{ px: { xs: 2, md: 0 } }}>
-            <PopUp />
+            {/* <PopUp /> */}
             <Grid item container spacing={2}>
                 <BreadCrumbItem />
                 <BreadCrumbItem />

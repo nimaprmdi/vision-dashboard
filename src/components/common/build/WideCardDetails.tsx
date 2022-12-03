@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import WideCard from "../WideCard";
-import EastIcon from "@mui/icons-material/East";
-import { Box, Typography, Link, Paper, Grid, CircularProgress } from "@mui/material";
+import { Box, Typography, Grid, CircularProgress } from "@mui/material";
 
 const WideCardDetails = () => {
     const [progress, setProgress] = useState(95);

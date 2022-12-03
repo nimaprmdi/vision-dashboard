@@ -1,11 +1,19 @@
-import { Grid, Box, Typography, Stack, Button } from "@mui/material";
+import MapBox from "../common/MapBox";
 import ServiceBadge from "../common/build/ServiceBadge";
 import ProfileSummary from "../common/build/ProfileSummary";
-import MapBox from "../common/MapBox";
-import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import CommandButtons from "../common/build/CommandButtons";
+import { ICommandButtons } from "../../models/commandButtons";
+import { Grid, Box, Typography, Stack, Button } from "@mui/material";
+import Details from "../common/build/Details";
+import Actions from "../common/build/Actions";
 
 const SingleDetails = () => {
+    const commandButtons: ICommandButtons[] = [
+        { title: "Close Ticket", color: "primary" },
+        { title: "Delete Ticket", color: "error" },
+        { title: "Mark as Reviewing", color: "warning" },
+    ];
+
     return (
         <Grid container spacing={2} sx={{ px: { xs: 2, md: 0 } }}>
             <Grid item container xs={12} md={7} spacing={1}>
@@ -17,31 +25,7 @@ const SingleDetails = () => {
                 </Grid>
 
                 <Grid item xs={12} pl={2}>
-                    <Box className="u-box-light" py={3.5} px={3}>
-                        <Typography variant="h5" color="white">
-                            Profile Informations
-                        </Typography>
-
-                        <Typography mt={2} variant="h6" className="u-text-small" color="gray.light">
-                            Hi, I’m Mark Johnson, Decisions: If you can’t decide, the answer is no. If two equally
-                            difficult paths, choose the one more painful in the short term (pain avoidance is creating
-                            an illusion of equality).
-                        </Typography>
-
-                        <Box mt={5} className="u-divider" />
-
-                        <Stack mt={3.5}>
-                            <Box sx={{ display: "flex", gap: 1 }}>
-                                <Typography variant="h6" className="u-text-small" color="gray.light">
-                                    Address:
-                                </Typography>
-
-                                <Typography variant="h6" className="u-text-small" color="white">
-                                    Tehran Azadi Street
-                                </Typography>
-                            </Box>
-                        </Stack>
-                    </Box>
+                    <Details />
                 </Grid>
             </Grid>
 
@@ -64,31 +48,7 @@ const SingleDetails = () => {
             </Grid>
 
             <Grid item xs={12}>
-                <Box
-                    sx={{
-                        width: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: { xs: "center", md: "space-between" },
-                        px: 4,
-                        py: { xs: 4, md: 3 },
-                        flexWrap: "wrap",
-                        gap: { xs: 4, md: 2 },
-                    }}
-                    className="u-box-light"
-                >
-                    <Typography
-                        width={{ xs: "100%", md: "max-content" }}
-                        textAlign="center"
-                        variant="h1"
-                        color="white"
-                        fontWeight={700}
-                    >
-                        Request Actions
-                    </Typography>
-
-                    <CommandButtons />
-                </Box>
+                <Actions />
             </Grid>
         </Grid>
     );

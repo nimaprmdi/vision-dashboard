@@ -19,6 +19,10 @@
     @include vision-dashboard-font-size($vision-dashboard-font-size-h1, $important: true);
 }
 
+.u-text-big {
+    @include vision-dashboard-font-size($vision-dashboard-font-size-big, $important: true);
+}
+
 .u-h2 {
     @include vision-dashboard-font-size($vision-dashboard-font-size-h2, $important: true);
 }

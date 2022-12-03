@@ -1,11 +1,16 @@
-import React from "react";
-import { Grid, Box, Typography, Button, TextField } from "@mui/material";
 import ChatBox from "../common/build/ChatBox";
 import PostComment from "../common/build/PostComment";
-import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import CommandButtons from "../common/build/CommandButtons";
+import { ICommandButtons } from "../../models/commandButtons";
+import { Grid, Box, Typography } from "@mui/material";
 
 const SingleChat = () => {
+    const commandButtons: ICommandButtons[] = [
+        { title: "Close Ticket", color: "primary" },
+        { title: "Delete Ticket", color: "error" },
+        { title: "Mark as Reviewing", color: "warning" },
+    ];
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} lg={7} px={{ xs: 2, md: 0 }}>
@@ -27,7 +32,7 @@ const SingleChat = () => {
 
                     <Box className="u-divider" mt={6} />
 
-                    <CommandButtons />
+                    <CommandButtons sx={{ justifyContent: "center", mt: 2 }} buttons={commandButtons} />
                 </Box>
             </Grid>
         </Grid>

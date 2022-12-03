@@ -20,12 +20,14 @@ const ChatBox = () => {
                 Ticket Area
             </Typography>
 
-            <Box>
+            <Box className="c-chat">
                 <Box sx={{ display: "flex", justifyContent: "flex-start", mb: 4 }}>
                     <Box className="u-box-blue" width={{ xs: "100%", sm: "80%" }} maxWidth={{ md: "500px" }} p={2}>
-                        <Typography variant="h6" color="white">
-                            Oliver Liam
-                        </Typography>
+                        <Box>
+                            <Typography variant="h6" color="white">
+                                Oliver Liam
+                            </Typography>
+                        </Box>
 
                         <Typography variant="h6" color="gray.light" mt={1}>
                             Hi, I’m Mark Johnson, Decisions: If you can’t decide, the answer is no. If two equally
