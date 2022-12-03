@@ -2,12 +2,9 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Grid from "@mui/material/Grid";
 import BreadCrumb from "./BreadCrumb";
+import { Outlet } from "react-router-dom";
 
-interface LayoutsProps {
-    children?: JSX.Element | JSX.Element[];
-}
-
-const Layouts = ({ children }: LayoutsProps) => {
+const Layouts = () => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={2.5} m={2}>
@@ -15,7 +12,7 @@ const Layouts = ({ children }: LayoutsProps) => {
             </Grid>
             <Grid item xs={12} md={9} mt={3}>
                 <BreadCrumb />
-                {children}
+                <Outlet />
                 <Footer />
             </Grid>
         </Grid>

@@ -9,6 +9,8 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/rootReducer";
 import "./assets/css/styles.css";
+import LayoutsHasHeader from "./components/layouts/LayoutsHasHeader";
+import LginForm from "./components/auth/LoginForm";
 
 const App: React.FC = (): JSX.Element => {
     const accountState = useSelector((state: RootState) => state.account);
@@ -16,15 +18,19 @@ const App: React.FC = (): JSX.Element => {
 
     return (
         <section className="o-page">
-            <Layouts>
-                <Routes>
+            <Routes>
+                <Route element={<Layouts />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/requests" element={<Archives />} />
                     <Route path="/single" element={<SingleDetails />} />
                     <Route path="/single-chat" element={<SingleChat />} />
                     <Route path="/single-profile" element={<SingleProfile />} />
-                </Routes>
-            </Layouts>
+                </Route>
+
+                <Route element={<LayoutsHasHeader />}>
+                    <Route path="/login" element={<LginForm />} />
+                </Route>
+            </Routes>
         </section>
     );
 };
