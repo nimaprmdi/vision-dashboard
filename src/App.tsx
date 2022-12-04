@@ -12,6 +12,7 @@ import "./assets/css/styles.css";
 import LayoutsHasHeader from "./components/layouts/LayoutsHasHeader";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+import AddRequest from "./components/Requests/AddRequest";
 
 const App: React.FC = (): JSX.Element => {
     const accountState = useSelector((state: RootState) => state.account);
@@ -26,6 +27,7 @@ const App: React.FC = (): JSX.Element => {
                     <Route path="/single" element={<SingleDetails />} />
                     <Route path="/single-chat" element={<SingleChat />} />
                     <Route path="/single-profile" element={<SingleProfile />} />
+                    <Route path="/request" element={<AddRequest />} />
                 </Route>
 
                 <Route element={<LayoutsHasHeader />}>
