@@ -1,8 +1,13 @@
-import React from "react";
+import BlurHeader from "./BlurHeader";
 import { Outlet } from "react-router-dom";
 
 const LayoutsHasHeader = () => {
-    return <Outlet />;
+    return (
+        <>
+            <BlurHeader />
+            <Outlet />
+        </>
+    );
 };
 
 export default LayoutsHasHeader;

@@ -4,12 +4,32 @@
 .c-header {
     border-radius: $global-radius-bg;
     background: linear-gradient(142deg, #0411555c 58.3%, rgba(34, 57, 168, 0) 101%);
-    // linear-gradient(142deg, #0411555c 58.3%, rgb(34 57 168 / 7%) 77%)
     backdrop-filter: blur(60px);
     border-radius: $global-radius-bg;
 
     @include mq($from: fablet) {
         min-height: 90vh;
+    }
+}
+
+.c-header-blur {
+    width: 980px;
+    max-width: 95%;
+    backdrop-filter: blur(60px);
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    border: 1px solid transparent;
+    border-image: linear-gradient(154deg, #ffffff0f 0%, white 40%, #ffffff0f 100%) 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+
+    @include mq($from: tablet) {
+        max-width: 100%;
     }
 }
 

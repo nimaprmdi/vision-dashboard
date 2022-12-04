@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/rootReducer";
 import "./assets/css/styles.css";
 import LayoutsHasHeader from "./components/layouts/LayoutsHasHeader";
-import LginForm from "./components/auth/LoginForm";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 
 const App: React.FC = (): JSX.Element => {
     const accountState = useSelector((state: RootState) => state.account);
@@ -28,7 +29,8 @@ const App: React.FC = (): JSX.Element => {
                 </Route>
 
                 <Route element={<LayoutsHasHeader />}>
-                    <Route path="/login" element={<LginForm />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                 </Route>
             </Routes>
         </section>

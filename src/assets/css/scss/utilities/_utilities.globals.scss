@@ -100,3 +100,21 @@
     backdrop-filter: blur(60px);
     border-radius: 20px;
 }
+
+.u-box-light-secondary {
+    background: linear-gradient(123.64deg, rgba(255, 255, 255, 0) -22.38%, rgba(255, 255, 255, 0.039) 70.38%);
+    backdrop-filter: blur(21px);
+    border: 2px solid transparent;
+    border-image: linear-gradient(154deg, #ffffff0f 0%, white 40%, #ffffff0f 100%) 1;
+    transform: 0.2s all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background: transparent;
+    }
+}

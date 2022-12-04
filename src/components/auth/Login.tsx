@@ -1,11 +1,10 @@
-import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Link } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Grid, Box, Typography } from "@mui/material";
 import login_background from "../../assets/img/login-bg.jpg";
 import LoginForm from "../common/build/LoginForm";
 
 const Login = () => {
     return (
-        <Grid container sx={{ height: "100vh", bgcolor: "brown" }}>
+        <Grid container sx={{ height: "100vh" }}>
             <Grid item xs={12} md={6} sx={{ display: { xs: "none", md: "block" } }}>
                 <Box
                     sx={{
