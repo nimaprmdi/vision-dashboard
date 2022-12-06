@@ -1,16 +1,24 @@
-import { Grid } from "@mui/material";
+import { useMemo } from "react";
 import BreadCrumbItem from "../common/BreadCrumbItem";
 import WideCardMore from "../common/build/WideCardMore";
 import WideCardDetails from "../common/build/WideCardDetails";
 import WideCard from "../common/WideCard";
-
 import ReactApexChart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
-import { useState } from "react";
 import Table from "../common/Table";
 import PopUp from "../common/PopUp";
+import PreLoader from "../common/PreLoader";
+import { Grid } from "@mui/material";
+import { ApexOptions } from "apexcharts";
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
+import { GET_REQUESTS } from "../../graphql/quey";
+import { IRequests } from "../../models/requests";
+import HomeIcon from "@mui/icons-material/Home";
+import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 
 const Home = (): JSX.Element => {
+    const { data, loading, error } = useQuery(GET_REQUESTS);
+
     const [chartOptions, setChartOptions] = useState<ApexOptions>({
         chart: {
             type: "area",
@@ -66,14 +74,20 @@ const Home = (): JSX.Element => {
         ],
     });
 
+    if (loading) return <PreLoader />;
+
+    if (error) return <PopUp title={error.message} />;
+
+    console.log(data.requests);
+
     return (
         <Grid container className="c-home" sx={{ px: { xs: 2, md: 0 } }}>
-            {/* <PopUp /> */}
             <Grid item container spacing={2}>
-                <BreadCrumbItem />
-                <BreadCrumbItem />
-                <BreadCrumbItem />
-                <BreadCrumbItem />
+                <BreadCrumbItem
+                    title="Requests"
+                    value={data && data.requests.length}
+                    icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
+                />
             </Grid>
 
             <Grid item container spacing={2} xs={12} mt={2}>

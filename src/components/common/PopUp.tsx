@@ -1,11 +1,26 @@
+import { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+interface PopUpProps {
+    title: string;
+    description?: string;
+    link?: string;
+}
 
-const PopUp = () => {
-    return (
+const PopUp = ({ title, description, link = "/" }: PopUpProps) => {
+    const [isOpen, setIsOpen] = useState(true);
+    const navigate = useNavigate();
+
+    const handleClose = () => {
+        setIsOpen(false);
+        navigate(link);
+    };
+
+    return isOpen ? (
         <Box className="c-popup" sx={{ px: { xs: 2, md: 0 } }}>
             <Box className="c-popup__container">
                 <Typography variant="h3" className="u-text-h5" color="white" align="center">
-                    Pop Up
+                    {title}
                 </Typography>
 
                 <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -17,19 +32,19 @@ const PopUp = () => {
                         color="gray.light"
                         align="center"
                     >
-                        Hi, I’m Mark Johnson, Decisions: If you can’t decide, the answer is no. If two equally difficult
-                        paths, choose the one more painful in the short term (pain avoidance is creating an illusion of
-                        equality).
+                        {description}
                     </Typography>
                 </Box>
 
                 <Box my={3} className="u-divider" />
 
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={() => handleClose()}>
                     CLOSE
                 </Button>
             </Box>
         </Box>
+    ) : (
+        <></>
     );
 };
 

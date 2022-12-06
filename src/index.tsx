@@ -7,14 +7,23 @@ import { Provider } from "react-redux";
 import store from "./store/configureStore";
 import { ThemeProvider } from "@mui/material/styles";
 import { dashboardTheme } from "./dashboardTheme";
+import { InMemoryCache, ApolloClient, ApolloProvider } from "@apollo/client";
+
+const client = new ApolloClient({
+    uri: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
+    cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+
 root.render(
     <ThemeProvider theme={dashboardTheme}>
         <Provider store={store}>
             <BrowserRouter>
                 <React.StrictMode>
-                    <App />
+                    <ApolloProvider client={client}>
+                        <App />
+                    </ApolloProvider>
                 </React.StrictMode>
             </BrowserRouter>
         </Provider>

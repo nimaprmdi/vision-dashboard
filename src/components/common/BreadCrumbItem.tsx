@@ -1,22 +1,27 @@
 import { Grid, Box, Typography, Avatar } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
 
-const BreadCrumbItem = () => {
+interface BreadCrumbProps {
+    title: string;
+    value: string;
+    icon: JSX.Element;
+}
+
+const BreadCrumbItem = ({ title, value, icon }: BreadCrumbProps) => {
     return (
         <Grid item xs={12} sm={6} md={3}>
             <Box className="c-breadcrumb" sx={{ borderRadius: "20px" }}>
                 <Box>
                     <Typography color="gray.light" variant="h6" className="u-text-tiny">
-                        Reuests
+                        {title}
                     </Typography>
 
                     <Typography color="white" variant="h5">
-                        $53,000
+                        {value}
                     </Typography>
                 </Box>
 
                 <Avatar className="u-avatar-secondary" variant="rounded">
-                    <HomeIcon sx={{ fontSize: "18px" }} />
+                    {icon}
                 </Avatar>
             </Box>
         </Grid>

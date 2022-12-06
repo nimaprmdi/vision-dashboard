@@ -1,7 +1,6 @@
-import React from "react";
-import { Box, Grid, Typography, Button } from "@mui/material";
-import AddRequestForm from "../common/build/AddRequestForm";
 import Details from "../common/build/Details";
+import AddRequestForm from "../common/build/AddRequestForm";
+import { Box, Grid, Typography } from "@mui/material";
 
 const AddRequest = () => {
     return (
@@ -22,8 +21,8 @@ const AddRequest = () => {
                         <Typography mt={{ xs: 4, md: 2 }} variant="h5" color="white" fontWeight={700}>
                             Add Request
                         </Typography>
-                        {/* 
-                        <Button variant="contained" color="primary">
+
+                        {/* <Button variant="contained" color="primary">
                             Add New Request
                         </Button> */}
                     </Box>
