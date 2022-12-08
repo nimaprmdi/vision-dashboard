@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import accountReducer from "./account/account";
 import entitiesReducer from "./entities/entitiesReducer";
-import requestsReducer from "./requests/requests";
+import requestsReducer from "./requests/requestsReducer";
 
 const rootReducer = combineReducers({
     account: accountReducer,

@@ -12,7 +12,7 @@ import AddRequest from "./components/Requests/AddRequest";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/rootReducer";
-import { loadRequests } from "./store/requests/requests";
+import fetchRequests from "./store/requests/requestsActions";
 import "./assets/css/styles.css";
 
 const App: React.FC = (): JSX.Element => {
@@ -20,9 +20,7 @@ const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(loadRequests() as any);
-
-        console.log("hello");
+        dispatch(fetchRequests() as any);
     }, []);
 
     return (

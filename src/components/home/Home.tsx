@@ -12,12 +12,12 @@ import { ApexOptions } from "apexcharts";
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import { GET_REQUESTS } from "../../graphql/quey";
-import { IRequests } from "../../models/requests";
-import HomeIcon from "@mui/icons-material/Home";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/rootReducer";
 
 const Home = (): JSX.Element => {
-    const { data, loading, error } = useQuery(GET_REQUESTS);
+    const requests = useSelector((state: RootState) => state.requests);
 
     const [chartOptions, setChartOptions] = useState<ApexOptions>({
         chart: {
@@ -74,18 +74,12 @@ const Home = (): JSX.Element => {
         ],
     });
 
-    if (loading) return <PreLoader />;
-
-    if (error) return <PopUp title={error.message} />;
-
-    console.log(data.requests);
-
     return (
         <Grid container className="c-home" sx={{ px: { xs: 2, md: 0 } }}>
             <Grid item container spacing={2}>
                 <BreadCrumbItem
                     title="Requests"
-                    value={data && data.requests.length}
+                    value={requests && requests.requests.length.toString()}
                     icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
                 />
             </Grid>
