@@ -22,7 +22,7 @@ const api: Middleware<{}, RootState> = (storeApi) => (next) => async (action) =>
             data,
         });
 
-        storeApi.dispatch({ type: actions.apiCallSuccess.type, payload: response.data });
+        storeApi.dispatch(response.data);
 
         if (OnSuccess) {
             storeApi.dispatch({
@@ -37,7 +37,9 @@ const api: Middleware<{}, RootState> = (storeApi) => (next) => async (action) =>
         storeApi.dispatch({ type: actions.apiCallFailed });
 
         if (onError) {
-            storeApi.dispatch({ type: onError, payload: message });
+            storeApi.dispatch(actions.apiCallFailed(message));
         }
     }
 };
+
+export default api;

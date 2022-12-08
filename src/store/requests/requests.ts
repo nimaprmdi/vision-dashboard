@@ -1,8 +1,9 @@
+import * as actions from "../api";
 import * as models from "../../models/requests";
+import moment from "moment";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../rootReducer";
-import * as actions from "../api";
-import moment from "moment";
+import { Dispatch } from "@reduxjs/toolkit";
 
 const initialState: models.IRequestsInitialState = {
     requests: [],
@@ -19,8 +20,8 @@ const requestsSlice = createSlice({
     initialState: initialState as models.IRequestsInitialState,
     reducers: {
         // FETCHS
-        FETCH_DATA_REQUESTED: (state, action) => {
-            console.log("hello");
+        FETCH_DATA: (state, action) => {
+            state.isLoading = true;
         },
 
         FETCH_DATA_SUCCESSFUL: (state, action: models.IRequestsFetchSuccessfull) => {
@@ -34,24 +35,46 @@ const requestsSlice = createSlice({
             state.requests = [];
             state.error = action.payload;
         },
-
-        FETCH_DATA: (state, action) => {
-            state.isLoading = true;
-        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, FETCH_DATA_REQUESTED } = requestsSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED } = requestsSlice.actions;
 export default requestsSlice.reducer;
 
 /* Action Creators */
-interface IDispatch {
-    type: string;
-    payload: {};
-}
-
-export const fetchRequests = (dispatch: IDispatch, getState: () => RootState) => {
+export const loadRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().requests;
     const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
     if (diffInMinutes < 10) return;
+
+    const data = JSON.stringify({
+        query: `{
+        requests {
+            requestService
+            requestDate
+            requestStafId
+            requestStatus
+            requestPhone
+            requestName
+            requestMobile
+            requestLocation
+            requestLastName
+            requestId
+            requestGender
+            requestAddress
+        }
+        }`,
+        variables: {},
+    });
+
+    dispatch(
+        actions.apiCallBegan({
+            url: "",
+            method: "post",
+            data: data,
+            onStart: FETCH_DATA.type,
+            OnSuccess: FETCH_DATA_SUCCESSFUL.type,
+            onError: FETCH_DATA_FAILED.type,
+        })
+    );
 };
