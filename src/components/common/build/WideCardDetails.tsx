@@ -103,7 +103,7 @@ const WideCardDetails = ({
                                     {progressTitle}
                                 </Typography>
                                 <Typography variant="h4" className="u-text-massive" color="white">
-                                    {progressPercent?.toString()}
+                                    {progressPercent?.toFixed(0)}
                                 </Typography>
                                 <Typography
                                     sx={{ display: { xs: "block", sm: "none", md: "none", lg: "none", xl: "block" } }}

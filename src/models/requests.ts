@@ -9,13 +9,18 @@ interface IRequestAccount {
 
 // Primary Model
 interface IRequests {
-    id: string;
-    requestData: string;
+    requestId: number;
+    account: IRequestAccount;
+    requestDate: string;
     requestName: string;
     requestLastName: string;
     requestService: string;
     requestStatus: "pending" | "solved";
-    account: IRequestAccount;
+    requestMobile: string;
+    requestPhone: string;
+    requestStafId: string;
+    requestGender: boolean;
+    requestAddress: string;
 }
 
 // Initial State - Reducer Model

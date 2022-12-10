@@ -35,6 +35,8 @@ const Table = ({ tableTitle, data }: TableProps) => {
 
     const tableState = useSelector((state: RootState) => state[data]);
 
+    console.log(tableState);
+
     const rows = [
         createData("Frozen yoghurt", "nimaprmdi@gmail.com", "Front-End", true, Date.now(), user),
         createData("Ice cream sandwich", "nimaprmdi@gmail.com", "Front-End", true, Date.now()),
@@ -67,10 +69,10 @@ const Table = ({ tableTitle, data }: TableProps) => {
                 <TableHead>
                     <TableRow>
                         <TableCell sx={{ letterSpacing: 0.6, color: "white" }} align="left">
-                            Profile
+                            Name
                         </TableCell>
                         <TableCell sx={{ letterSpacing: 0.6, color: "white" }} align="left">
-                            Position
+                            Services
                         </TableCell>
                         <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left">
                             Status
@@ -78,42 +80,62 @@ const Table = ({ tableTitle, data }: TableProps) => {
                         <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left">
                             Request Date
                         </TableCell>
-                        <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left"></TableCell>
+                        <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left">
+                            -----
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    {tableState[data].map((tableItem) => (
+                        <TableRow key={tableItem.requestId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                             <TableCell
                                 sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }}
                                 component="th"
                                 scope="row"
                             >
                                 <Avatar alt="image" sx={{ bgcolor: "master.light" }}>
-                                    {row.userImage ? <img src={row.userImage} /> : row.name.charAt(0)}
+                                    {/* {row.userImage ? <img src={row.userImage} /> : row.name.charAt(0)} */}
+
+                                    <Typography variant="h4" textTransform="capitalize" color="white">
+                                        {tableItem.requestName.charAt(0)}
+                                    </Typography>
                                 </Avatar>
 
                                 <Box>
-                                    {row.name}
+                                    <Typography
+                                        variant="h6"
+                                        textTransform="capitalize"
+                                        className="u-text-small"
+                                        color="white"
+                                    >
+                                        {tableItem.requestName}
+                                    </Typography>
 
                                     <Typography variant="h6" className="u-text-small" color="gray.light">
-                                        {row.email}
+                                        {tableItem.requestMobile}
                                     </Typography>
                                 </Box>
                             </TableCell>
                             <TableCell sx={{ color: "white" }} align="left">
-                                {row.position}
+                                <Typography
+                                    textTransform="capitalize"
+                                    variant="h6"
+                                    className="u-text-small"
+                                    color="white"
+                                >
+                                    {tableItem.requestService}
+                                </Typography>
                             </TableCell>
                             <TableCell sx={{ color: "white" }} align="left">
-                                {row.status ? (
-                                    <Chip label="online" color="success" />
+                                {tableItem.requestStatus === "solved" ? (
+                                    <Chip label="Solved" color="success" />
                                 ) : (
-                                    <Chip label="offline" color="primary" variant="outlined" />
+                                    <Chip label="Pending" color="primary" variant="outlined" />
                                 )}
                             </TableCell>
 
                             <TableCell sx={{ color: "white" }} align="left">
-                                {new Date(row.date).toISOString().split("T")[0]}
+                                {new Date(tableItem.requestDate).toISOString().split("T")[0]}
                             </TableCell>
 
                             <TableCell>
