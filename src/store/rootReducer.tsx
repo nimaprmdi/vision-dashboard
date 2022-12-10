@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import accountReducer from "./account/account";
+import accountReducer from "./account/accountsReducer";
 import entitiesReducer from "./entities/entitiesReducer";
 import requestsReducer from "./requests/requestsReducer";
 

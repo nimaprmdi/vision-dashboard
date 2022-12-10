@@ -2,7 +2,7 @@ import React from "react";
 import Table from "../common/Table";
 
 const Archives = () => {
-    return <Table />;
+    return <Table data="requests" />;
 };
 
 export default Archives;

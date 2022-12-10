@@ -1,6 +1,6 @@
 import * as http from "../../services/httpServices";
 import moment from "moment";
-import { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED } from "./requestsReducer";
+import { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ANSWERED_REQUESTS } from "./requestsReducer";
 import { RootState } from "../rootReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 
@@ -30,7 +30,7 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
         variables: {},
     });
 
-    dispatch(FETCH_DATA({}));
+    dispatch(FETCH_DATA());
 
     http.default
         .post("", data)
@@ -38,8 +38,11 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
             const requests = response.data;
 
             dispatch(FETCH_DATA_SUCCESSFUL(requests.data.requests));
+            dispatch(GET_ANSWERED_REQUESTS());
         })
         .catch((error) => {
+            console.log(error);
+
             const errorMsg = error.message;
 
             dispatch(FETCH_DATA_FAILED(errorMsg));

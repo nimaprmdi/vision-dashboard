@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: models.IRequestsInitialState = {
     requests: [],
-    isLoading: false,
+    isLoading: true,
     lastFetch: null,
     totalRequests: 0,
     answeredRequests: 0,
@@ -16,7 +16,7 @@ const requestsSlice = createSlice({
     initialState: initialState as models.IRequestsInitialState,
     reducers: {
         // FETCHS
-        FETCH_DATA: (state, action) => {
+        FETCH_DATA: (state) => {
             state.isLoading = true;
         },
 
@@ -31,8 +31,14 @@ const requestsSlice = createSlice({
             state.requests = [];
             state.error = action.payload;
         },
+
+        // Handlers
+        GET_ANSWERED_REQUESTS: (state) => {
+            const answeredRequests = state.requests.filter((request) => request.requestStatus === "solved");
+            state.answeredRequests = answeredRequests.length;
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED } = requestsSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ANSWERED_REQUESTS } = requestsSlice.actions;
 export default requestsSlice.reducer;

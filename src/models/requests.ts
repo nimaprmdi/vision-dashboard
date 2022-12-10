@@ -14,11 +14,11 @@ interface IRequests {
     requestName: string;
     requestLastName: string;
     requestService: string;
-    requestStatus: string;
+    requestStatus: "pending" | "solved";
     account: IRequestAccount;
 }
 
-// Reducer Model
+// Initial State - Reducer Model
 interface IRequestsInitialState {
     requests: IRequests[];
     isLoading: boolean;

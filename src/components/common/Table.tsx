@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Table as TableMUI,
     Typography,
@@ -14,8 +13,15 @@ import {
     Link,
 } from "@mui/material";
 import user from "../../assets/img/user.png";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/rootReducer";
 
-const Table = () => {
+interface TableProps {
+    tableTitle?: string;
+    data: "requests";
+}
+
+const Table = ({ tableTitle, data }: TableProps) => {
     function createData(
         name: string,
         email: string,
@@ -26,6 +32,8 @@ const Table = () => {
     ) {
         return { name, email, position, status, date, userImage };
     }
+
+    const tableState = useSelector((state: RootState) => state[data]);
 
     const rows = [
         createData("Frozen yoghurt", "nimaprmdi@gmail.com", "Front-End", true, Date.now(), user),
@@ -52,7 +60,7 @@ const Table = () => {
             }}
         >
             <Typography ml={1} my={3} variant="h5" color="white">
-                Request Table
+                {tableTitle}
             </Typography>
 
             <TableMUI sx={{ minWidth: 650 }} aria-label="simple table">

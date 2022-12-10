@@ -1,17 +1,28 @@
+// Single Account Model
 interface Iaccount {
     name: string;
 }
 
-type AccountState = {
+// Initial State Model
+interface IAccountInitialState {
     accounts: Iaccount[];
     totalAccounts: number;
-};
+    isLoading: boolean;
+    lastFetch: null | number;
+    error: string;
+}
 
-type AccountAction = {
+// Fetch Successful - Action Model
+interface IAccountFetchSuccessful {
     type: string;
-    article: Iaccount;
-};
+    payload: Iaccount[];
+}
 
-type DispatchType = (args: AccountAction) => AccountAction;
+interface IAccountFetchFailed {
+    type: string;
+    payload: string;
+}
 
-export type { Iaccount, AccountState, AccountAction, DispatchType };
+type DispatchType = (args: IAccountFetchSuccessful) => IAccountFetchSuccessful;
+
+export type { Iaccount, IAccountInitialState, IAccountFetchSuccessful, IAccountFetchFailed, DispatchType };

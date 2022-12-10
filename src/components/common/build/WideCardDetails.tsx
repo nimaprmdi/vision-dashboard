@@ -1,10 +1,28 @@
-import { useState } from "react";
 import WideCard from "../WideCard";
 import { Box, Typography, Grid, CircularProgress } from "@mui/material";
 
-const WideCardDetails = () => {
-    const [progress, setProgress] = useState(95);
+interface WideCardDetailsProps {
+    title: string;
+    boxTopTitle?: string;
+    boxTopValue?: string;
+    boxBottomTitle?: string;
+    boxBottomValue?: string;
 
+    progressTitle?: string;
+    progressPercent?: number;
+    progressDesc?: string;
+}
+
+const WideCardDetails = ({
+    title,
+    boxTopTitle,
+    boxTopValue,
+    boxBottomTitle,
+    boxBottomValue,
+    progressTitle,
+    progressPercent,
+    progressDesc,
+}: WideCardDetailsProps) => {
     return (
         <WideCard
             hasBackground={false}
@@ -15,7 +33,7 @@ const WideCardDetails = () => {
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} xl={6}>
                         <Typography variant="h5" color="white">
-                            Answered Tickets
+                            {title}
                         </Typography>
 
                         <Grid container spacing={2} pr={{ xs: 0, md: 4 }}>
@@ -28,11 +46,11 @@ const WideCardDetails = () => {
                                     }}
                                 >
                                     <Typography width="100%" variant="h6" className="u-text-small" color="gray.light">
-                                        Answered
+                                        {boxTopTitle}
                                     </Typography>
 
                                     <Typography mt={0.5} width="100%" variant="h5" color="white">
-                                        145 Tickets
+                                        {boxTopValue}
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -46,11 +64,11 @@ const WideCardDetails = () => {
                                     }}
                                 >
                                     <Typography width="100%" variant="h6" className="u-text-small" color="gray.light">
-                                        Answered
+                                        {boxBottomTitle}
                                     </Typography>
 
                                     <Typography mt={0.5} width="100%" variant="h5" color="white">
-                                        145 Tickets
+                                        {boxBottomValue}
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -74,7 +92,7 @@ const WideCardDetails = () => {
                                 color="success"
                                 thickness={4}
                                 variant="determinate"
-                                value={progress}
+                                value={progressPercent}
                                 sx={{
                                     borderRadius: "10px",
                                 }}
@@ -82,10 +100,10 @@ const WideCardDetails = () => {
 
                             <Box className="c-smartcard__progress-context">
                                 <Typography variant="h6" className="u-text-tiny" color="gray.light">
-                                    Safety
+                                    {progressTitle}
                                 </Typography>
                                 <Typography variant="h4" className="u-text-massive" color="white">
-                                    9.6
+                                    {progressPercent?.toString()}
                                 </Typography>
                                 <Typography
                                     sx={{ display: { xs: "block", sm: "none", md: "none", lg: "none", xl: "block" } }}
@@ -93,7 +111,7 @@ const WideCardDetails = () => {
                                     className="u-text-tiny"
                                     color="gray.light"
                                 >
-                                    Total Scores
+                                    {progressDesc}
                                 </Typography>
                             </Box>
                         </Box>

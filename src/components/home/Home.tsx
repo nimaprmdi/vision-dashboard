@@ -1,23 +1,19 @@
-import { useMemo } from "react";
+import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import BreadCrumbItem from "../common/BreadCrumbItem";
 import WideCardMore from "../common/build/WideCardMore";
 import WideCardDetails from "../common/build/WideCardDetails";
 import WideCard from "../common/WideCard";
 import ReactApexChart from "react-apexcharts";
 import Table from "../common/Table";
-import PopUp from "../common/PopUp";
-import PreLoader from "../common/PreLoader";
+import Skull from "../common/Skull";
+import { useState } from "react";
 import { Grid } from "@mui/material";
 import { ApexOptions } from "apexcharts";
-import { useQuery } from "@apollo/client";
-import { useState } from "react";
-import { GET_REQUESTS } from "../../graphql/quey";
-import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 
 const Home = (): JSX.Element => {
-    const requests = useSelector((state: RootState) => state.requests);
+    const requestsState = useSelector((state: RootState) => state.requests);
 
     const [chartOptions, setChartOptions] = useState<ApexOptions>({
         chart: {
@@ -77,11 +73,17 @@ const Home = (): JSX.Element => {
     return (
         <Grid container className="c-home" sx={{ px: { xs: 2, md: 0 } }}>
             <Grid item container spacing={2}>
-                <BreadCrumbItem
-                    title="Requests"
-                    value={requests && requests.requests.length.toString()}
-                    icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
-                />
+                <Grid item xs={12} sm={6} md={3}>
+                    {requestsState.isLoading ? (
+                        <Skull sx={{ height: "85px" }} />
+                    ) : (
+                        <BreadCrumbItem
+                            title="Requests"
+                            value={requestsState && requestsState.requests.length.toString()}
+                            icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
+                        />
+                    )}
+                </Grid>
             </Grid>
 
             <Grid item container spacing={2} xs={12} mt={2}>
@@ -90,7 +92,20 @@ const Home = (): JSX.Element => {
                 </Grid>
 
                 <Grid item xs={12} md={5}>
-                    <WideCardDetails />
+                    {requestsState.isLoading ? (
+                        <Skull sx={{ height: "386px" }} />
+                    ) : (
+                        <WideCardDetails
+                            title="Requests Information"
+                            boxTopTitle="Answered"
+                            boxTopValue={requestsState.answeredRequests.toString()}
+                            boxBottomTitle="Not Answered"
+                            boxBottomValue={(requestsState.requests.length - requestsState.answeredRequests).toString()}
+                            progressPercent={(requestsState.answeredRequests / requestsState.requests.length) * 100}
+                            progressTitle="Total"
+                            progressDesc="Answered"
+                        />
+                    )}
                 </Grid>
             </Grid>
 
@@ -108,12 +123,25 @@ const Home = (): JSX.Element => {
                 </Grid>
 
                 <Grid item xs={12} md={5}>
-                    <WideCardDetails />
+                    {requestsState.isLoading ? (
+                        <Skull sx={{ height: "386px" }} />
+                    ) : (
+                        <WideCardDetails
+                            title="Requests Information"
+                            boxTopTitle="Answered"
+                            boxTopValue={requestsState.answeredRequests.toString()}
+                            boxBottomTitle="Not Answered"
+                            boxBottomValue={(requestsState.requests.length - requestsState.answeredRequests).toString()}
+                            progressPercent={(requestsState.answeredRequests / requestsState.requests.length) * 100}
+                            progressTitle="Total"
+                            progressDesc="Answered"
+                        />
+                    )}
                 </Grid>
             </Grid>
 
             <Grid item container xs={12}>
-                <Table />
+                <Table data="requests" />
             </Grid>
         </Grid>
     );

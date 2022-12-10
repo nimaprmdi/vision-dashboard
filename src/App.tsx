@@ -9,14 +9,14 @@ import LayoutsHasHeader from "./components/layouts/LayoutsHasHeader";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import AddRequest from "./components/Requests/AddRequest";
-import { Routes, Route } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./store/rootReducer";
+import Notfound from "./components/404/Notfound";
 import fetchRequests from "./store/requests/requestsActions";
+import { Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import "./assets/css/styles.css";
+import ServerError from "./components/404/ServerError";
 
 const App: React.FC = (): JSX.Element => {
-    const accountState = useSelector((state: RootState) => state.account);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,6 +33,8 @@ const App: React.FC = (): JSX.Element => {
                     <Route path="/single-chat" element={<SingleChat />} />
                     <Route path="/single-profile" element={<SingleProfile />} />
                     <Route path="/request" element={<AddRequest />} />
+                    <Route path="/404" element={<Notfound />} />
+                    <Route path="/server-error" element={<ServerError />} />
                 </Route>
 
                 <Route element={<LayoutsHasHeader />}>
