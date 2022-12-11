@@ -1,41 +1,27 @@
-import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
-import BreadCrumbItem from "../common/BreadCrumbItem";
 import WideCardMore from "../common/build/WideCardMore";
 import WideCardDetails from "../common/build/WideCardDetails";
 import WideCard from "../common/WideCard";
-
 import Table from "../common/Table";
 import Skull from "../common/Skull";
-
 import { Grid } from "@mui/material";
-
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 
 import Chart from "../common/Chart";
+import AdminInformationCards from "../common/build/AdminInformationCards";
 
 const Home = (): JSX.Element => {
     const requestsState = useSelector((state: RootState) => state.requests);
+    const accountsState = useSelector((state: RootState) => state.accounts);
+    const ticketsState = useSelector((state: RootState) => state.tickets);
 
     return (
         <Grid container className="c-home" sx={{ px: { xs: 2, md: 0 } }}>
-            <Grid item container spacing={2}>
-                <Grid item xs={12} sm={6} md={3}>
-                    {requestsState.isLoading ? (
-                        <Skull sx={{ height: "85px" }} />
-                    ) : (
-                        <BreadCrumbItem
-                            title="Requests"
-                            value={requestsState && requestsState.requests.length.toString()}
-                            icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
-                        />
-                    )}
-                </Grid>
-            </Grid>
+            <AdminInformationCards />
 
             <Grid item container spacing={2} xs={12} mt={2}>
                 <Grid item xs={12} md={7}>
-                    <WideCardMore />
+                    {accountsState.isLoading ? <Skull sx={{ height: "386px" }} /> : <WideCardMore />}
                 </Grid>
 
                 <Grid item xs={12} md={5}>
@@ -45,10 +31,10 @@ const Home = (): JSX.Element => {
                         <WideCardDetails
                             title="Requests Information"
                             boxTopTitle="Answered"
-                            boxTopValue={requestsState.answeredRequests.toString()}
+                            boxTopValue={ticketsState.tickets.length.toString()}
                             boxBottomTitle="Not Answered"
-                            boxBottomValue={(requestsState.requests.length - requestsState.answeredRequests).toString()}
-                            progressPercent={(requestsState.answeredRequests / requestsState.requests.length) * 100}
+                            boxBottomValue={(ticketsState.tickets.length - ticketsState.totalClosedTickets).toString()}
+                            progressPercent={(ticketsState.totalClosedTickets / ticketsState.tickets.length) * 100}
                             progressTitle="Total"
                             progressDesc="Percent"
                         />

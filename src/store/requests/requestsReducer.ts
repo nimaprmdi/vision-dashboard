@@ -34,8 +34,7 @@ const requestsSlice = createSlice({
 
         // Handlers
         GET_ANSWERED_REQUESTS: (state) => {
-            const answeredRequests = state.requests.filter((request) => request.requestStatus === "solved");
-            state.answeredRequests = answeredRequests.length;
+            state.answeredRequests = state.requests.filter((request) => request.requestStatus === "solved").length;
         },
     },
 });

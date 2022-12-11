@@ -1,6 +1,23 @@
 // Single Account Model
 interface Iaccount {
-    name: string;
+    accountId: string;
+    accountName: string;
+    accountLastName: string;
+    accountEmail: string;
+    accountUserName: string;
+    accountIsAdmin: string;
+    accountBio: string;
+    accountLocation: string;
+    accountRequests: JSON;
+    accountAnsweredTickets: JSON;
+    accountAnsweredRequests: JSON;
+    accountTickets: JSON;
+    accountColor: {
+        hex: string;
+    };
+    accountProfileImage: {
+        url: string;
+    };
 }
 
 // Initial State Model

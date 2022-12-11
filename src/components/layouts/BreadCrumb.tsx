@@ -1,8 +1,11 @@
-import React from "react";
 import { Stack, Breadcrumbs, Link, Typography } from "@mui/material";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { useLocation } from "react-router-dom";
 
 const BreadCrumb = (): JSX.Element => {
+    const location = useLocation();
+
+    console.log(location);
+
     return (
         <Stack mb={2} bgcolor="error" sx={{ px: { xs: 3, md: 0 } }}>
             <Breadcrumbs color="gray.light" separator="/" aria-label="breadcrumb">

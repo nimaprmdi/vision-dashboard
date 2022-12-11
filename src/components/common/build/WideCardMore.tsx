@@ -19,7 +19,7 @@ const WideCardMore = () => {
                 </Typography>
 
                 <Typography variant="h6" color="gray.light" mt={2.5}>
-                    Glad to see you again! <br /> Ask me anything.
+                    Glad to see you again! <br /> Want to view more?
                 </Typography>
             </Box>
 

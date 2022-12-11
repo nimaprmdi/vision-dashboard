@@ -37,5 +37,5 @@ const accountSlice = createSlice({
     },
 });
 
-export const { FETCH_DATA } = accountSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_TOTAL_ACCOUNTS } = accountSlice.actions;
 export default accountSlice.reducer;

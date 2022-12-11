@@ -11,17 +11,20 @@ import {
     Box,
     Chip,
     Link,
+    Theme,
 } from "@mui/material";
 import user from "../../assets/img/user.png";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
+import { SystemStyleObject } from "@mui/system";
 
 interface TableProps {
     tableTitle?: string;
     data: "requests";
+    sx?: SystemStyleObject<Theme>;
 }
 
-const Table = ({ tableTitle, data }: TableProps) => {
+const Table = ({ tableTitle, data, sx }: TableProps) => {
     function createData(
         name: string,
         email: string,
@@ -59,6 +62,7 @@ const Table = ({ tableTitle, data }: TableProps) => {
                 backdropFilter: "blur(60px)",
                 p: 2,
                 mt: 3,
+                ...sx,
             }}
         >
             <Typography ml={1} my={3} variant="h5" color="white">

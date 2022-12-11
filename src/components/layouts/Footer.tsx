@@ -17,8 +17,9 @@ const Footer = () => {
                     className="u-text-small"
                     color="white"
                     sx={{ fontWeight: 400, letterSpacing: 0.5 }}
+                    textTransform="capitalize"
                 >
-                    {new Date().getFullYear()} - Made with ❤️ by Nima Prmdi (Open-Source GPL-V3)
+                    {new Date().getFullYear()} - Made by Nima Prmdi featuring with 🐈 (Open-Source GPL-V3)
                 </Typography>
 
                 <Box sx={{ display: "flex", gap: 2 }}>
