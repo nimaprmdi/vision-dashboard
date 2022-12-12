@@ -13,18 +13,19 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
     const data = JSON.stringify({
         query: `{
             requests {
-                requestService
-                requestDate
-                requestStafId
-                requestStatus
-                requestPhone
-                requestName
-                requestMobile
-                requestLocation
-                requestLastName
-                requestId
-                requestGender
-                requestAddress
+                id
+                itemId
+                itemStatus
+                lastName
+                location
+                mobile
+                name
+                phone
+                service
+                stafId
+                date
+                gender
+                address
             }
         }`,
         variables: {},

@@ -9,6 +9,7 @@ import { RootState } from "../../store/rootReducer";
 
 import Chart from "../common/Chart";
 import AdminInformationCards from "../common/build/AdminInformationCards";
+import TableRowRequests from "../common/build/TableRowRequests";
 
 const Home = (): JSX.Element => {
     const requestsState = useSelector((state: RootState) => state.requests);
@@ -75,7 +76,9 @@ const Home = (): JSX.Element => {
                 {requestsState.isLoading ? (
                     <Skull sx={{ height: { xs: "450px", md: "906px" }, mt: 3 }} />
                 ) : (
-                    <Table data="requests" />
+                    <Table data="requests">
+                        <TableRowRequests />
+                    </Table>
                 )}
             </Grid>
         </Grid>

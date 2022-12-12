@@ -1,4 +1,4 @@
-import * as models from "../../models/requests";
+import * as models from "../../models/request";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: models.IRequestsInitialState = {
@@ -34,7 +34,7 @@ const requestsSlice = createSlice({
 
         // Handlers
         GET_ANSWERED_REQUESTS: (state) => {
-            state.answeredRequests = state.requests.filter((request) => request.requestStatus === "solved").length;
+            state.answeredRequests = state.requests.filter((request) => request.itemStatus === "solved").length;
         },
     },
 });

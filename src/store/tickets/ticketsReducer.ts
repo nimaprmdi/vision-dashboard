@@ -30,7 +30,7 @@ const ticketsSlice = createSlice({
 
         // Handlers
         GET_ALL_CLOSED_TICKETS: (state) => {
-            state.totalClosedTickets = state.tickets.filter((ticket) => ticket.ticketIsClose).length;
+            state.totalClosedTickets = state.tickets.filter((ticket) => ticket.isClose).length;
         },
     },
 });

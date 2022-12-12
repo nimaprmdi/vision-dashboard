@@ -3,29 +3,27 @@ import { useLocation } from "react-router-dom";
 
 const BreadCrumb = (): JSX.Element => {
     const location = useLocation();
-
-    console.log(location);
+    const navItems = location.pathname.split("/").filter((item) => item);
 
     return (
         <Stack mb={2} bgcolor="error" sx={{ px: { xs: 3, md: 0 } }}>
             <Breadcrumbs color="gray.light" separator="/" aria-label="breadcrumb">
-                <Link color="gray.light" underline="hover" key="1" href="/">
-                    MUI
-                </Link>
-
-                <Link
-                    underline="hover"
-                    key="2"
-                    href="/material-ui/getting-started/installation/"
-                    color="gray.light"
-                    // onClick={handleClick}
-                >
-                    Core
-                </Link>
-
-                <Typography key="3" color="white">
-                    Breadcrumb
-                </Typography>
+                {!navItems.length ? (
+                    <Typography key="3" color="white">
+                        Home
+                    </Typography>
+                ) : (
+                    navItems.map((nav, index: number) => (
+                        <Typography
+                            key={`breadcrumb-item-${index}`}
+                            variant="h5"
+                            color="gray.light"
+                            textTransform="capitalize"
+                        >
+                            {nav}
+                        </Typography>
+                    ))
+                )}
             </Breadcrumbs>
 
             <Typography mt={1} variant="h6" color="white">

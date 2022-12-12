@@ -42,10 +42,7 @@ const AdminInformationCards = () => {
                 ) : (
                     <BreadCrumbItem
                         title="Total Stafs"
-                        value={
-                            accountsState &&
-                            accountsState.accounts.filter((item) => item.accountIsAdmin).length.toString()
-                        }
+                        value={accountsState && accountsState.accounts.filter((item) => item.isAdmin).length.toString()}
                         icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
                     />
                 )}

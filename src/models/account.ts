@@ -1,28 +1,28 @@
 // Single Account Model
-interface Iaccount {
-    accountId: string;
-    accountName: string;
-    accountLastName: string;
-    accountEmail: string;
-    accountUserName: string;
-    accountIsAdmin: string;
-    accountBio: string;
-    accountLocation: string;
-    accountRequests: JSON;
-    accountAnsweredTickets: JSON;
-    accountAnsweredRequests: JSON;
-    accountTickets: JSON;
-    accountColor: {
+interface IAccount {
+    itemId: string;
+    name: string;
+    lastName: string;
+    email: string;
+    userName: string;
+    isAdmin: string;
+    bio: string;
+    location: string;
+    itemRequests: JSON;
+    answeredTickets: JSON;
+    answeredRequests: JSON;
+    itemTickets: JSON;
+    color: {
         hex: string;
     };
-    accountProfileImage: {
+    profileImage: {
         url: string;
     };
 }
 
 // Initial State Model
 interface IAccountInitialState {
-    accounts: Iaccount[];
+    accounts: IAccount[];
     totalAccounts: number;
     isLoading: boolean;
     lastFetch: null | number;
@@ -32,7 +32,7 @@ interface IAccountInitialState {
 // Fetch Successful - Action Model
 interface IAccountFetchSuccessful {
     type: string;
-    payload: Iaccount[];
+    payload: IAccount[];
 }
 
 interface IAccountFetchFailed {
@@ -42,4 +42,4 @@ interface IAccountFetchFailed {
 
 type DispatchType = (args: IAccountFetchSuccessful) => IAccountFetchSuccessful;
 
-export type { Iaccount, IAccountInitialState, IAccountFetchSuccessful, IAccountFetchFailed, DispatchType };
+export type { IAccount, IAccountInitialState, IAccountFetchSuccessful, IAccountFetchFailed, DispatchType };

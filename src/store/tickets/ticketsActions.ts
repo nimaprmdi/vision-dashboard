@@ -13,14 +13,25 @@ const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
     const data = JSON.stringify({
         query: `{
             tickets {
-              ticketDate
-              ticketDescription
-              ticketHasReply
-              ticketId
-              ticketIsClose
-              ticketIsPending
-              ticketSubject
-              ticketUserId
+                userId
+                itemId
+                isPending
+                isClose
+                id
+                hasReply
+                description
+                date
+                subject
+                accounts {
+                  ... on Account {
+                    id
+                    email
+                     name
+                    color {
+                      hex
+                    }
+                  }
+                }
             }
         }`,
         variables: {},

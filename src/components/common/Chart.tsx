@@ -60,9 +60,7 @@ const Chart = () => {
 
     useEffect(() => {
         if (!requestsState.isLoading) {
-            const requestsDates = requestsState.requests.map(
-                (item) => new Date(item.requestDate).toISOString().split("T")[0]
-            );
+            const requestsDates = requestsState.requests.map((item) => new Date(item.date).toISOString().split("T")[0]);
 
             const uniq = [...new Set(requestsDates)];
 

@@ -40,11 +40,11 @@ const App: React.FC = (): JSX.Element => {
             <Routes>
                 <Route element={<Layouts />}>
                     <Route path="/" element={<Home />} />
-                    <Route path="/requests" element={<Archives />} />
+                    <Route path="/archives/:type" element={<Archives />} />
                     <Route path="/single" element={<SingleDetails />} />
                     <Route path="/single-chat" element={<SingleChat />} />
                     <Route path="/single-profile" element={<SingleProfile />} />
-                    <Route path="/request" element={<AddRequest />} />
+                    <Route path="/add-request" element={<AddRequest />} />
                     <Route path="/server-error" element={<ServerError />} />
                     <Route path="*" element={<Notfound />} />
                 </Route>

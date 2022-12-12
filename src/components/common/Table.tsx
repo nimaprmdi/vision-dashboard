@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     Table as TableMUI,
     Typography,
@@ -13,48 +14,24 @@ import {
     Link,
     Theme,
 } from "@mui/material";
-import user from "../../assets/img/user.png";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { SystemStyleObject } from "@mui/system";
 
 interface TableProps {
     tableTitle?: string;
-    data: "requests";
+    data: "requests" | "tickets" | "accounts";
     sx?: SystemStyleObject<Theme>;
+    children?: JSX.Element | JSX.Element[];
 }
 
-const Table = ({ tableTitle, data, sx }: TableProps) => {
-    function createData(
-        name: string,
-        email: string,
-        position: string,
-        status: boolean,
-        date: number,
-        userImage?: string
-    ) {
-        return { name, email, position, status, date, userImage };
-    }
-
+const Table = ({ tableTitle, data, sx, children }: TableProps) => {
     const tableState = useSelector((state: RootState) => state[data]);
-
-    console.log(tableState);
-
-    const rows = [
-        createData("Frozen yoghurt", "nimaprmdi@gmail.com", "Front-End", true, Date.now(), user),
-        createData("Ice cream sandwich", "nimaprmdi@gmail.com", "Front-End", true, Date.now()),
-        createData("Eclair", "nimaprmdi@gmail.com", "Front-End", false, Date.now()),
-        createData("Cupcake", "nimaprmdi@gmail.com", "Front-End", true, Date.now()),
-        createData("Gingerbread", "nimaprmdi@gmail.com", "Front-End", false, Date.now()),
-        createData("Gingerbread2", "nimaprmdi@gmail.com", "Front-End", false, Date.now(), user),
-        createData("Gingerbread3", "nimaprmdi@gmail.com", "Front-End", false, Date.now()),
-        createData("Cupcake3", "nimaprmdi@gmail.com", "Front-End", true, Date.now()),
-        createData("Cupcake4", "nimaprmdi@gmail.com", "Front-End", true, Date.now(), user),
-        createData("Cupcake5", "nimaprmdi@gmail.com", "Front-End", true, Date.now()),
-    ];
 
     return (
         <TableContainer
+            className="c-table"
             component={Paper}
             sx={{
                 borderRadius: "20px",
@@ -89,67 +66,7 @@ const Table = ({ tableTitle, data, sx }: TableProps) => {
                         </TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {tableState[data].map((tableItem) => (
-                        <TableRow key={tableItem.requestId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                            <TableCell
-                                sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }}
-                                component="th"
-                                scope="row"
-                            >
-                                <Avatar alt="image" sx={{ bgcolor: "master.light" }}>
-                                    {/* {row.userImage ? <img src={row.userImage} /> : row.name.charAt(0)} */}
-
-                                    <Typography variant="h4" textTransform="capitalize" color="white">
-                                        {tableItem.requestName.charAt(0)}
-                                    </Typography>
-                                </Avatar>
-
-                                <Box>
-                                    <Typography
-                                        variant="h6"
-                                        textTransform="capitalize"
-                                        className="u-text-small"
-                                        color="white"
-                                    >
-                                        {tableItem.requestName}
-                                    </Typography>
-
-                                    <Typography variant="h6" className="u-text-small" color="gray.light">
-                                        {tableItem.requestMobile}
-                                    </Typography>
-                                </Box>
-                            </TableCell>
-                            <TableCell sx={{ color: "white" }} align="left">
-                                <Typography
-                                    textTransform="capitalize"
-                                    variant="h6"
-                                    className="u-text-small"
-                                    color="white"
-                                >
-                                    {tableItem.requestService}
-                                </Typography>
-                            </TableCell>
-                            <TableCell sx={{ color: "white" }} align="left">
-                                {tableItem.requestStatus === "solved" ? (
-                                    <Chip label="Solved" color="success" />
-                                ) : (
-                                    <Chip label="Pending" color="primary" variant="outlined" />
-                                )}
-                            </TableCell>
-
-                            <TableCell sx={{ color: "white" }} align="left">
-                                {new Date(tableItem.requestDate).toISOString().split("T")[0]}
-                            </TableCell>
-
-                            <TableCell>
-                                <Link href="#" underline="none" color="gray.light" variant="h6">
-                                    Edit
-                                </Link>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
+                <TableBody>{children}</TableBody>
             </TableMUI>
         </TableContainer>
     );

@@ -1,12 +1,15 @@
+import { IAccount } from "./account";
+
 interface ITicket {
-    ticketId: string;
-    ticketDate: string;
-    ticketDescription: string;
-    ticketHasReply: string;
-    ticketIsClose: string;
-    ticketIsPending: string;
-    ticketSubject: string;
-    ticketUserId: string;
+    itemId: string;
+    date: string;
+    description: string;
+    hasReply: string;
+    isClose: string;
+    isPending: string;
+    subject: string;
+    userId: string;
+    accounts: IAccount;
 }
 
 interface ITicketsInitialState {
