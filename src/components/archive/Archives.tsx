@@ -1,12 +1,12 @@
 import Table from "../common/Table";
-import { Box } from "@mui/material";
-import { useParams } from "react-router-dom";
 import TableRowRequests from "../common/build/TableRowRequests";
 import TableRowTickets from "../common/build/TableRowTickets";
+import TableRowAccounts from "../common/build/TableRowAccounts";
+import { Box } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const Archives = () => {
     const { type } = useParams<{ type: "requests" | "tickets" | "accounts" }>();
-    const archiveType: "requests" | "tickets" | "accounts" = type || "requests";
 
     const handleArchiveComponent = () => {
         switch (type) {
@@ -14,6 +14,8 @@ const Archives = () => {
                 return <TableRowRequests />;
             case "tickets":
                 return <TableRowTickets />;
+            case "accounts":
+                return <TableRowAccounts />;
             default:
                 return <></>;
         }

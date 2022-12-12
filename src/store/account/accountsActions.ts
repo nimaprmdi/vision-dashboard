@@ -12,27 +12,29 @@ const fetchAccounts = () => (dispatch: Dispatch, getState: () => RootState) => {
 
     const data = JSON.stringify({
         query: `{
-            accounts {
-              userName
-              name
-              location
-              lastName
-              itemid
-              itemTickets
-              itemRequests
-              isAdmin
-              id
-              email
-              color {
-                hex
-              }
-              bio
-              answeredTickets
-              answeredRequests
-              profileImage {
-                url
-              }
+          accounts {
+            id
+            name
+            lastName
+            userName
+            email
+            location
+            itemid
+            itemTickets
+            itemRequests
+            isAdmin
+            createdAt
+            bio
+            answeredTickets
+            answeredRequests
+            color {
+              hex
             }
+            profileImage {
+              url
+              updatedAt
+            }
+          }
         }`,
         variables: {},
     });

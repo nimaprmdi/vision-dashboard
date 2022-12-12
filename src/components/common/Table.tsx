@@ -27,8 +27,6 @@ interface TableProps {
 }
 
 const Table = ({ tableTitle, data, sx, children }: TableProps) => {
-    const tableState = useSelector((state: RootState) => state[data]);
-
     return (
         <TableContainer
             className="c-table"
@@ -53,13 +51,16 @@ const Table = ({ tableTitle, data, sx, children }: TableProps) => {
                             Name
                         </TableCell>
                         <TableCell sx={{ letterSpacing: 0.6, color: "white" }} align="left">
-                            Services
+                            {data === "requests" && "Services"}
+                            {data === "tickets" && "User"}
+                            {data === "accounts" && "Email"}
                         </TableCell>
                         <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left">
                             Status
                         </TableCell>
                         <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left">
-                            Request Date
+                            {data === "accounts" && "Registered at"}
+                            {data === "requests" && "Request Date"}
                         </TableCell>
                         <TableCell sx={{ letterSpacing: 0.61, color: "white" }} align="left">
                             -----

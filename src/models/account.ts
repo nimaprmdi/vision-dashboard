@@ -1,6 +1,6 @@
 // Single Account Model
 interface IAccount {
-    itemId: string;
+    itemid: string;
     name: string;
     lastName: string;
     email: string;
@@ -12,6 +12,7 @@ interface IAccount {
     answeredTickets: JSON;
     answeredRequests: JSON;
     itemTickets: JSON;
+    createdAt: string;
     color: {
         hex: string;
     };

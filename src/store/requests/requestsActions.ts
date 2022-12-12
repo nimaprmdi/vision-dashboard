@@ -26,6 +26,16 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
                 date
                 gender
                 address
+                account {
+                    name
+                    userName
+                    color {
+                        hex
+                    }
+                    profileImage {
+                        url
+                    }
+                }
             }
         }`,
         variables: {},

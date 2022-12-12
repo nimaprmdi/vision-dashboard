@@ -2,15 +2,15 @@ import { Typography, TableRow, TableCell, Avatar, Chip, Link, Box } from "@mui/m
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
 
-const TableRowRequests = (): JSX.Element => {
-    const requestsState = useSelector((state: RootState) => state.requests);
+const TableRowAccounts = () => {
+    const accountsState = useSelector((state: RootState) => state.accounts);
 
     return (
         <>
-            {requestsState.requests.map((request) => (
+            {accountsState.accounts.map((account) => (
                 <TableRow
+                    key={account.itemid}
                     className="c-table__row"
-                    key={request.itemId}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                     <TableCell
@@ -18,41 +18,41 @@ const TableRowRequests = (): JSX.Element => {
                         component="th"
                         scope="row"
                     >
-                        <Avatar alt="image" sx={{ bgcolor: request.account.color.hex || "gray.light" }}>
-                            {request.account.profileImage ? (
-                                <img src={request.account.profileImage.url} />
+                        <Avatar alt="image" sx={{ bgcolor: account.color.hex || "gray.light" }}>
+                            {account.profileImage ? (
+                                <img src={account.profileImage.url} />
                             ) : (
                                 <Typography variant="h4" textTransform="capitalize" color="white">
-                                    {request.name.charAt(0)}
+                                    {account.name.charAt(0)}
                                 </Typography>
                             )}
                         </Avatar>
 
                         <Box>
                             <Typography variant="h6" textTransform="capitalize" className="u-text-small" color="white">
-                                {`For ${request.name} ${request.lastName} By ( ${request.account.userName} )`}
+                                {`${account.name} ${account.lastName}`}
                             </Typography>
 
                             <Typography variant="h6" className="u-text-small" color="gray.light">
-                                {request.mobile}
+                                {account.userName}
                             </Typography>
                         </Box>
                     </TableCell>
                     <TableCell sx={{ color: "white" }} align="left">
                         <Typography textTransform="capitalize" variant="h6" className="u-text-small" color="white">
-                            {request.service}
+                            {account.email}
                         </Typography>
                     </TableCell>
                     <TableCell sx={{ color: "white" }} align="left">
-                        {request.itemStatus === "solved" ? (
-                            <Chip label="Solved" color="success" />
+                        {account.isAdmin ? (
+                            <Chip label="Admin" color="success" />
                         ) : (
-                            <Chip label="Pending" color="primary" variant="outlined" />
+                            <Chip label="User" color="primary" variant="outlined" />
                         )}
                     </TableCell>
 
                     <TableCell sx={{ color: "white" }} align="left">
-                        {new Date(request.date).toISOString().split("T")[0]}
+                        {new Date(account.createdAt).toISOString().split("T")[0]}
                     </TableCell>
 
                     <TableCell>
@@ -66,4 +66,4 @@ const TableRowRequests = (): JSX.Element => {
     );
 };
 
-export default TableRowRequests;
+export default TableRowAccounts;
