@@ -41,7 +41,9 @@ const App: React.FC = (): JSX.Element => {
                 <Route element={<Layouts />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/archives/:type" element={<Archives />} />
-                    <Route path="/single" element={<SingleDetails />} />
+
+                    <Route path="/request/:id" element={<SingleDetails />} />
+
                     <Route path="/single-chat" element={<SingleChat />} />
                     <Route path="/single-profile" element={<SingleProfile />} />
                     <Route path="/add-request" element={<AddRequest />} />
