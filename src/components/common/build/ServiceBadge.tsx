@@ -1,8 +1,15 @@
-import { Grid, Box, Typography, Avatar, Stack } from "@mui/material";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import HomeIcon from "@mui/icons-material/Home";
+import { Box, Typography, Avatar } from "@mui/material";
 
-const ServiceBadge = () => {
+interface ServiceBadgeProps {
+    service: string;
+    address: string;
+    date: string;
+    price?: boolean;
+}
+
+const ServiceBadge = ({ service, address, date, price }: ServiceBadgeProps) => {
     return (
         <Box
             className="u-box-light"
@@ -14,10 +21,10 @@ const ServiceBadge = () => {
             <Box className="u-box-medium" width="100%" py={2}>
                 <Box>
                     <Typography ml={2} className="u-text-tiny" variant="h6" color="white" fontWeight={700}>
-                        Admin
+                        Request
                     </Typography>
-                    <Typography ml={2} mt={0.5} variant="h3" color="white" fontWeight={700}>
-                        Admin
+                    <Typography textTransform="capitalize" ml={2} mt={0.5} variant="h3" color="white" fontWeight={700}>
+                        {service}
                     </Typography>
                 </Box>
 
@@ -41,18 +48,23 @@ const ServiceBadge = () => {
                     </Avatar>
 
                     <Box>
-                        <span title="Tehran Azadi Laleh Street" className="u-text-small" style={{ color: "white" }}>
-                            {"Tehran Azadi Laleh Street".slice(0, 20) + "..."}
-                        </span>
+                        <Typography
+                            textTransform="capitalize"
+                            title="Tehran Azadi Laleh Street"
+                            className="u-text-small"
+                            sx={{ color: "white" }}
+                        >
+                            {address.slice(0, 20) + "..."}
+                        </Typography>
 
                         <Typography variant="h6" className="u-text-small" color="gray.light">
-                            2022-15-5
+                            {date && new Date(date).toISOString().split("T")[0]}
                         </Typography>
                     </Box>
                 </Box>
 
                 <Typography variant="h6" className="u-text-small" color="white">
-                    $154.50
+                    {price || ""}
                 </Typography>
             </Box>
         </Box>

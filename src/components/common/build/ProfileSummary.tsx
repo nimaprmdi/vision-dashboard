@@ -1,19 +1,25 @@
 import React from "react";
 import { Grid, Box, Typography } from "@mui/material";
 
-const ProfileSummary = () => {
+interface ProfileSummaryProps {
+    name: string;
+    lastName: string;
+    isAdmin: boolean;
+}
+
+const ProfileSummary = ({ name, lastName, isAdmin }: ProfileSummaryProps) => {
     return (
         <Box className="u-box-light" width="100%" pt={3} pl={3} pb={0.5}>
-            <Typography variant="h1" color="white" fontWeight={700}>
-                Nima
+            <Typography textTransform="capitalize" variant="h1" color="white" fontWeight={700}>
+                {name}
             </Typography>
 
-            <Typography variant="h1" color="white" fontWeight={700}>
-                Pour Mohammadi
+            <Typography textTransform="capitalize" variant="h1" color="white" fontWeight={700}>
+                {lastName}
             </Typography>
 
             <Typography mt={2} variant="h3" color="gray.light" fontWeight={700}>
-                Admin
+                {isAdmin ? "Admin" : "User"}
             </Typography>
 
             <Box pr={2}>

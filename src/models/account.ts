@@ -5,7 +5,7 @@ interface IAccount {
     lastName: string;
     email: string;
     userName: string;
-    isAdmin: string;
+    isAdmin: boolean;
     bio: string;
     location: string;
     itemRequests: JSON;

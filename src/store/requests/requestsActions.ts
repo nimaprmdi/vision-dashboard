@@ -26,9 +26,13 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
                 date
                 gender
                 address
+                description
+                location
                 account {
                     name
+                    lastName
                     userName
+                    isAdmin
                     color {
                         hex
                     }
@@ -54,6 +58,34 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
             const errorMsg = error.message;
             dispatch(FETCH_DATA_FAILED(errorMsg));
         });
+};
+
+const createUser = () => (dispatch: Dispatch, getState: () => RootState) => {
+    var data = JSON.stringify({
+        query: `
+        mutation createUser($name: String!) {
+            createRequest(
+                data:{
+                    itemId: 11,
+                    name: $name,
+                    lastName: "hosseini",
+                    gender: false,
+                    mobile: "09391391979",
+                    address: "tehran azadi",
+                    service: "nurse",
+                    date: "2022-12-12T13:36:44.448Z",
+                    stafId: "clbaft2323uap0bw567bfg99z",
+                    itemStatus: "pending",
+                    description: "Hello Desc",
+                    phone: "02144904064"
+                }
+            ) 
+            {
+                id
+            }
+        }`,
+        variables: { name: "ali" },
+    });
 };
 
 export default fetchRequests;

@@ -1,13 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { ICommandButtons } from "../../../models/commandButtons";
-import CommandButtons from "./CommandButtons";
+import ViewInArIcon from "@mui/icons-material/ViewInAr";
 
-const Actions = () => {
-    const commandButtons: ICommandButtons[] = [
-        { title: "Close Ticket", color: "primary" },
-        { title: "Delete Ticket", color: "error" },
-        { title: "Mark as Reviewing", color: "warning" },
-    ];
+interface ActionProps {
+    buttons: ICommandButtons[];
+}
+
+const Actions = ({ buttons }: ActionProps) => {
     return (
         <Box
             sx={{
@@ -32,7 +31,26 @@ const Actions = () => {
                 Request Actions
             </Typography>
 
-            <CommandButtons sx={{ justifyContent: { xs: "center", md: "flex-end" } }} buttons={commandButtons} />
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    flexWrap: "wrap",
+                    justifyContent: { xs: "center", md: "flex-end" },
+                }}
+            >
+                {buttons.map((button, index: number) => (
+                    <Button
+                        key={`ticketcommandbutton-${index}`}
+                        startIcon={<ViewInArIcon />}
+                        variant="contained"
+                        color={button.color}
+                    >
+                        {button.title}
+                    </Button>
+                ))}
+            </Box>
         </Box>
     );
 };

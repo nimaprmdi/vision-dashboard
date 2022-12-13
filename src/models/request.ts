@@ -13,6 +13,11 @@ interface IRequest {
     stafId: string;
     gender: boolean;
     address: string;
+    description: string;
+    location: {
+        longitude: number;
+        latitude: number;
+    };
     account: IAccount;
 }
 

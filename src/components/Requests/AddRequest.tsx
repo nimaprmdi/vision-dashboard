@@ -32,7 +32,7 @@ const AddRequest = () => {
             </Grid>
 
             <Grid item xs={12} md={4.5}>
-                <Details />
+                {/* <Details /> */}
             </Grid>
         </Grid>
     );

@@ -1,31 +1,23 @@
 import React from "react";
-import { Grid, Box, Typography, Stack, Button } from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 
-const Details = () => {
+interface DetailsProps {
+    description: string;
+    children?: JSX.Element | JSX.Element[];
+}
+
+const Details = ({ description, children }: DetailsProps) => {
     return (
-        <Box className="u-box-light" py={3.5} px={3}>
-            <Typography variant="h5" color="white">
-                Profile Informations
-            </Typography>
+        <Box className="u-box-light" py={2} px={3}>
+            {description && (
+                <Typography pt={4} variant="h6" className="u-text-small" color="gray.light">
+                    {description}
+                </Typography>
+            )}
 
-            <Typography mt={2} variant="h6" className="u-text-small" color="gray.light">
-                Hi, I’m Mark Johnson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths,
-                choose the one more painful in the short term (pain avoidance is creating an illusion of equality).
-            </Typography>
+            {description && <Box mt={5} className="u-divider" />}
 
-            <Box mt={5} className="u-divider" />
-
-            <Stack mt={3.5}>
-                <Box sx={{ display: "flex", gap: 1 }}>
-                    <Typography variant="h6" className="u-text-small" color="gray.light">
-                        Address:
-                    </Typography>
-
-                    <Typography variant="h6" className="u-text-small" color="white">
-                        Tehran Azadi Street
-                    </Typography>
-                </Box>
-            </Stack>
+            <Stack mt={3.5}>{children}</Stack>
         </Box>
     );
 };

@@ -87,9 +87,7 @@ const AddRequestForm = () => {
                         Choose Your Location
                     </Typography>
 
-                    <Box sx={{ width: "100%", height: "300px" }}>
-                        <MapBox />
-                    </Box>
+                    <Box sx={{ width: "100%", height: "300px" }}>{/* <MapBox /> */}</Box>
                 </Box>
 
                 <Button variant="contained" color="primary" sx={{ width: "max-content", mt: 3 }}>

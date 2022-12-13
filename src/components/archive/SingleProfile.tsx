@@ -21,11 +21,11 @@ const SingleProfile = () => {
                 </Grid>
 
                 <Grid order={{ xs: 2, md: 3 }} item xs={12} sm={6} md={3}>
-                    <Details />
+                    {/* <Details /> */}
                 </Grid>
 
                 <Grid item xs={12} order={4} mt={1}>
-                    <Actions />
+                    {/* <Actions /> */}
                 </Grid>
             </Grid>
         </Box>

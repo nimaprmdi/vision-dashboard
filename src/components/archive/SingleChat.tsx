@@ -32,7 +32,7 @@ const SingleChat = () => {
 
                     <Box className="u-divider" mt={6} />
 
-                    <CommandButtons sx={{ justifyContent: "center", mt: 2 }} buttons={commandButtons} />
+                    {/* <CommandButtons sx={{ justifyContent: "center", mt: 2 }} buttons={commandButtons} /> */}
                 </Box>
             </Grid>
         </Grid>

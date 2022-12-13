@@ -3,8 +3,15 @@ import { Box } from "@mui/material";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const MapBox = () => {
+interface MapBoxProps {
+    isChanged?: boolean;
+    location: { longitude: number; latitude: number };
+}
+
+const MapBox = ({ isChanged, location }: MapBoxProps) => {
     const [data, setData] = useState({});
+
+    console.log(location);
 
     mapboxgl.accessToken = "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
 
@@ -25,9 +32,13 @@ const MapBox = () => {
     }, []);
 
     useEffect(() => {
-        setLng(42.35);
-        setLat(-70.9);
-    }, [data]);
+        setLng(location.longitude);
+        setLat(location.latitude);
+
+        if (map.current && isChanged) {
+            map.current.resize();
+        }
+    }, [data, isChanged]);
 
     return (
         <Box
