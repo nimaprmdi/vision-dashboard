@@ -21,6 +21,7 @@
         "apexcharts": "^3.36.3",
         "axios": "^1.2.0",
         "graphql": "^16.6.0",
+        "graphql-request": "^5.0.0",
         "inuitcss": "^6.0.0",
         "mapbox-gl": "^2.11.0",
         "moment": "^2.29.4",
@@ -36,6 +37,7 @@
         "redux-logger": "^3.0.6",
         "redux-thunk": "^2.4.2",
         "sass": "^1.56.1",
+        "swr": "^2.0.0",
         "typescript": "^4.9.3",
         "web-vitals": "^2.1.4"
     },

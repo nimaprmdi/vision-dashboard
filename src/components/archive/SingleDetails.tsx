@@ -12,6 +12,7 @@ import { RootState } from "../../store/rootReducer";
 import { useEffect, useState } from "react";
 import { IRequest } from "../../models/request";
 import Skull from "../common/Skull";
+import axios from "axios";
 
 interface requestsChart {
     title: string;
@@ -26,6 +27,9 @@ const SingleDetails = () => {
     const [isMapChanged, setIsMapChanged] = useState(false);
     const requestState = useSelector((state: RootState) => state.requests);
     const dispatch = useDispatch();
+
+    const [data, setData] = useState<File>();
+    const [assetId, setAssetId] = useState<string>();
 
     const commandButtons: ICommandButtons[] = [
         { title: "Close Ticket", color: "primary" },
@@ -58,6 +62,52 @@ const SingleDetails = () => {
             setIsMapChanged(true);
         }
     }, [request]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.currentTarget && e.currentTarget.files && setData(e.currentTarget.files[0]);
+
+        const formData = new FormData();
+
+        if (e.currentTarget && e.currentTarget.files) {
+            formData.append("fileUpload", e.currentTarget.files[0]);
+            fetch(`https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master/upload`, {
+                method: "POST",
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log("Success:", result);
+                    setAssetId("");
+                    setAssetId(result.id);
+
+                    return result;
+                })
+                .then((result) => {
+                    console.log("result", result);
+
+                    const imageId: string = result.id;
+
+                    const data = JSON.stringify({
+                        query: `mutation MyMutation {
+                            publishAsset(where: {id: "${imageId.toString()}" }) {
+                              id
+                            }
+                        }`,
+                    });
+
+                    axios
+                        .post(
+                            "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
+                            data
+                        )
+                        .then((response) => console.log("publish response ", response))
+                        .catch((error) => console.log("publish error", error));
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+    };
 
     return (
         <Grid container spacing={2} sx={{ px: { xs: 2, md: 0 } }}>
@@ -145,6 +195,7 @@ const SingleDetails = () => {
             </Grid>
 
             <Grid item xs={12}>
+                {/* <input type="file" onChange={(e) => handleInputChange(e)} /> */}
                 <Actions buttons={commandButtons} />
             </Grid>
         </Grid>

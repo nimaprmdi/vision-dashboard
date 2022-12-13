@@ -5,6 +5,7 @@ interface IAccount {
     lastName: string;
     email: string;
     userName: string;
+    password: string;
     isAdmin: boolean;
     bio: string;
     location: string;

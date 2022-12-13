@@ -3,6 +3,8 @@ import moment from "moment";
 import { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ANSWERED_REQUESTS } from "./requestsReducer";
 import { RootState } from "../rootReducer";
 import { Dispatch } from "@reduxjs/toolkit";
+import { IAccount } from "../../models/account";
+import axios from "axios";
 
 const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().requests;
@@ -60,32 +62,100 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
         });
 };
 
-const createUser = () => (dispatch: Dispatch, getState: () => RootState) => {
+const createUser = (inputData: IAccount) => (dispatch: Dispatch, getState: () => RootState) => {
+    const {
+        itemid,
+        name,
+        lastName,
+        email,
+        userName,
+        password,
+        isAdmin,
+        bio,
+        location,
+        itemRequests,
+        answeredTickets,
+        answeredRequests,
+        itemTickets,
+        createdAt,
+        color,
+        profileImage,
+    } = inputData;
+
     var data = JSON.stringify({
         query: `
-        mutation createUser($name: String!) {
-            createRequest(
-                data:{
-                    itemId: 11,
-                    name: $name,
-                    lastName: "hosseini",
-                    gender: false,
-                    mobile: "09391391979",
-                    address: "tehran azadi",
-                    service: "nurse",
-                    date: "2022-12-12T13:36:44.448Z",
-                    stafId: "clbaft2323uap0bw567bfg99z",
-                    itemStatus: "pending",
-                    description: "Hello Desc",
-                    phone: "02144904064"
+            mutation createUser(
+                $itemid: String!
+                $name: String!
+                $lastName: String!
+                $email: String!
+                $userName: String!
+                $password: String!
+                $isAdmin: Boolean!
+                $bio: String
+                $location: String
+                $itemRequests: Json
+                $answeredRequests: Json
+                $itemTickets: Json
+                $answeredTickets: Json
+                $color: ColorInput
+                $profileImage: AssetCreateOneInlineInput
+                $tickets: TicketCreateManyInlineInput
+                $requests: AccountRequestsCreateManyInlineInput
+                ) {
+                createRequest(
+                    data:{
+                        itemid: $itemid
+                        name: $name
+                        lastName: $lastName
+                        email: $email
+                        userName: $userName
+                        password: $password
+                        isAdmin: $isAdmin
+                        bio: $bio
+                        location: $location
+                        itemRequests: $itemRequests
+                        answeredRequests: $answeredRequests
+                        itemTickets: $itemTickets
+                        answeredTickets: $answeredTickets
+                        color: $color
+                        profileImage: $profileImage
+                        tickets: $tickets
+                        requests: $requests
+                    }
+                ) 
+                {
+                    id
                 }
-            ) 
-            {
-                id
             }
-        }`,
-        variables: { name: "ali" },
+        `,
+        variables: {
+            itemid: itemid,
+            name: name,
+            lastName: lastName,
+            email: email,
+            userName: userName,
+            password: password,
+            isAdmin: isAdmin,
+            bio: bio,
+            location: location,
+            itemRequests: itemRequests,
+            answeredTickets: answeredTickets,
+            answeredRequests: answeredRequests,
+            itemTickets: itemTickets,
+            createdAt: createdAt,
+            color: color,
+            profileImage: profileImage,
+        },
     });
+
+    http.default
+        .post("/upload", profileImage)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => console.log(error));
 };
 
+export { createUser };
 export default fetchRequests;
