@@ -5,11 +5,11 @@ import { ICommandButtons } from "../../models/commandButtons";
 import { Grid, Box, Typography } from "@mui/material";
 
 const SingleChat = () => {
-    const commandButtons: ICommandButtons[] = [
-        { title: "Close Ticket", color: "primary" },
-        { title: "Delete Ticket", color: "error" },
-        { title: "Mark as Reviewing", color: "warning" },
-    ];
+    // const commandButtons: ICommandButtons[] = [
+    //     { title: "Close Ticket", color: "primary" },
+    //     { title: "Delete Ticket", color: "error" },
+    //     { title: "Mark as Reviewing", color: "warning" },
+    // ];
 
     return (
         <Grid container spacing={2}>

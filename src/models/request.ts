@@ -2,7 +2,7 @@ import { IAccount } from "./account";
 
 // Primary Model
 interface IRequest {
-    itemId: number;
+    itemId: string;
     date: string;
     name: string;
     lastName: string;

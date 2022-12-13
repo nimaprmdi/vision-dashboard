@@ -1,12 +1,14 @@
 import { Box, Typography, Button } from "@mui/material";
 import { ICommandButtons } from "../../../models/commandButtons";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
+import { Dispatch } from "@reduxjs/toolkit";
 
 interface ActionProps {
+    title?: string;
     buttons: ICommandButtons[];
 }
 
-const Actions = ({ buttons }: ActionProps) => {
+const Actions = ({ title, buttons }: ActionProps) => {
     return (
         <Box
             sx={{
@@ -15,7 +17,7 @@ const Actions = ({ buttons }: ActionProps) => {
                 alignItems: "center",
                 justifyContent: { xs: "center", md: "space-between" },
                 px: 4,
-                py: { xs: 4, md: 3 },
+                py: { xs: 4, md: 6 },
                 flexWrap: "wrap",
                 gap: { xs: 4, md: 2 },
             }}
@@ -28,7 +30,7 @@ const Actions = ({ buttons }: ActionProps) => {
                 color="white"
                 fontWeight={700}
             >
-                Request Actions
+                {title || "Actions"}
             </Typography>
 
             <Box
@@ -46,6 +48,7 @@ const Actions = ({ buttons }: ActionProps) => {
                         startIcon={<ViewInArIcon />}
                         variant="contained"
                         color={button.color}
+                        onClick={() => button.handler()}
                     >
                         {button.title}
                     </Button>

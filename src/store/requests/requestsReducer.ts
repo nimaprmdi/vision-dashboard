@@ -36,8 +36,26 @@ const requestsSlice = createSlice({
         GET_ANSWERED_REQUESTS: (state) => {
             state.answeredRequests = state.requests.filter((request) => request.itemStatus === "solved").length;
         },
+
+        PEND_REQUEST: (state, action: { type: string; payload: string }) => {
+            const requestIndex = state.requests.findIndex((request) => request.itemId === action.payload);
+            state.requests[requestIndex] = { ...state.requests[requestIndex], itemStatus: "pending" };
+        },
+
+        SOLVE_REQUEST: (state, action: { type: string; payload: string }) => {
+            const requestIndex = state.requests.findIndex((request) => request.itemId === action.payload);
+            state.requests[requestIndex] = { ...state.requests[requestIndex], itemStatus: "solved" };
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ANSWERED_REQUESTS } = requestsSlice.actions;
+export const {
+    FETCH_DATA,
+    FETCH_DATA_SUCCESSFUL,
+    FETCH_DATA_FAILED,
+    GET_ANSWERED_REQUESTS,
+    PEND_REQUEST,
+    SOLVE_REQUEST,
+} = requestsSlice.actions;
+
 export default requestsSlice.reducer;

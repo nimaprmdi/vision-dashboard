@@ -11,8 +11,6 @@ interface MapBoxProps {
 const MapBox = ({ isChanged, location }: MapBoxProps) => {
     const [data, setData] = useState({});
 
-    console.log(location);
-
     mapboxgl.accessToken = "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
 
     const mapContainer = useRef<any>(null);

@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { IRequest } from "../../models/request";
 import Skull from "../common/Skull";
 import axios from "axios";
+import { pendRequest } from "../../store/requests/requestsActions";
+import { Dispatch } from "@reduxjs/toolkit";
 
 interface requestsChart {
     title: string;
@@ -20,26 +22,29 @@ interface requestsChart {
 }
 
 const SingleDetails = () => {
+    // params
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
+    // state
     const [request, setRequest] = useState<IRequest>();
     const [requestChart, setRequestChart] = useState<requestsChart[]>();
     const [isMapChanged, setIsMapChanged] = useState(false);
+    // utils
     const requestState = useSelector((state: RootState) => state.requests);
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    // @todo : sending image
     const [data, setData] = useState<File>();
     const [assetId, setAssetId] = useState<string>();
 
     const commandButtons: ICommandButtons[] = [
-        { title: "Close Ticket", color: "primary" },
-        { title: "Delete Ticket", color: "error" },
-        { title: "Mark as Reviewing", color: "warning" },
+        { title: "Close Ticket", color: "primary", handler: pendRequest(id!) },
+        { title: "Delete Ticket", color: "error", handler: pendRequest(id!) },
+        { title: "Mark as Reviewing", color: "warning", handler: pendRequest(id!) },
     ];
 
     useEffect(() => {
         if (!requestState.isLoading && id) {
-            const currentRequest = requestState.requests.find((request) => request.itemId === Number(id));
+            const currentRequest = requestState.requests.find((request) => request.itemId === id);
             currentRequest ? setRequest(currentRequest) : navigate("/404");
         } else {
             if (!id) {
@@ -196,7 +201,7 @@ const SingleDetails = () => {
 
             <Grid item xs={12}>
                 {/* <input type="file" onChange={(e) => handleInputChange(e)} /> */}
-                <Actions buttons={commandButtons} />
+                <Actions title="Requests Actions" buttons={commandButtons} />
             </Grid>
         </Grid>
     );

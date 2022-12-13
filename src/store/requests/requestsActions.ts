@@ -1,10 +1,9 @@
 import * as http from "../../services/httpServices";
 import moment from "moment";
-import { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ANSWERED_REQUESTS } from "./requestsReducer";
+import * as requestsActions from "./requestsReducer";
 import { RootState } from "../rootReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import { IAccount } from "../../models/account";
-import axios from "axios";
 
 const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().requests;
@@ -47,18 +46,18 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
         variables: {},
     });
 
-    dispatch(FETCH_DATA());
+    dispatch(requestsActions.FETCH_DATA());
 
     http.default
         .post("", data)
         .then((response) => {
             const requests = response.data;
-            dispatch(FETCH_DATA_SUCCESSFUL(requests.data.requests));
-            dispatch(GET_ANSWERED_REQUESTS());
+            dispatch(requestsActions.FETCH_DATA_SUCCESSFUL(requests.data.requests));
+            dispatch(requestsActions.GET_ANSWERED_REQUESTS());
         })
         .catch((error) => {
             const errorMsg = error.message;
-            dispatch(FETCH_DATA_FAILED(errorMsg));
+            dispatch(requestsActions.FETCH_DATA_FAILED(errorMsg));
         });
 };
 
@@ -157,5 +156,9 @@ const createUser = (inputData: IAccount) => (dispatch: Dispatch, getState: () =>
         .catch((error) => console.log(error));
 };
 
-export { createUser };
+const pendRequest = (itemId: string) => (dispatch: Dispatch) => {
+    dispatch(requestsActions.PEND_REQUEST(itemId));
+};
+
+export { createUser, pendRequest };
 export default fetchRequests;
