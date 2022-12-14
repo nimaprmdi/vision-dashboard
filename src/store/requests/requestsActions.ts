@@ -183,6 +183,8 @@ const pendRequest =
                 .post("", data)
                 .then(() => {
                     dispatch(requestsActions.PEND_REQUEST(itemId));
+                    dispatch(requestsActions.GET_ANSWERED_REQUESTS());
+
                     toast.success("Request Updated");
 
                     // @todo : clean code
@@ -217,6 +219,7 @@ const solveRequest =
                 .post("", data)
                 .then(() => {
                     dispatch(requestsActions.SOLVE_REQUEST(itemId));
+                    dispatch(requestsActions.GET_ANSWERED_REQUESTS());
                     toast.success("Request Updated");
 
                     // @todo : clean code
@@ -251,6 +254,7 @@ const reviewRequest =
                 .post("", data)
                 .then(() => {
                     dispatch(requestsActions.REVIEW_REQUEST(itemId));
+                    dispatch(requestsActions.GET_ANSWERED_REQUESTS());
                     toast.success("Request Updated");
 
                     // @todo : clean code

@@ -177,23 +177,35 @@ const SingleDetails = () => {
             </Grid>
 
             <Grid item container xs={12} md={5}>
-                {requestState.isLoading ? (
+                {requestState.isLoading && request && Object.keys(request.location).length ? (
                     <Skull sx={{ height: "470px" }} />
                 ) : (
                     <Box className="u-box-light" sx={{ width: "100%", height: { xs: "500px", md: "100%" } }} p={3}>
-                        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                            <Typography variant="h5" color="white">
-                                Location
-                            </Typography>
+                        {request && request?.location ? (
+                            <>
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                    <Typography variant="h5" color="white" mb={2}>
+                                        Location
+                                    </Typography>
+                                </Box>
 
-                            <Button variant="contained" color="primary">
-                                View On Map
-                            </Button>
-                        </Box>
-
-                        {request && request?.location && (
-                            <Box sx={{ height: "90%" }}>
-                                <MapBox isChanged={isMapChanged} location={request.location} />
+                                <Box sx={{ height: "90%" }}>
+                                    <MapBox isChanged={isMapChanged} location={request.location} />
+                                </Box>
+                            </>
+                        ) : (
+                            <Box
+                                sx={{
+                                    width: "100%",
+                                    height: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Typography variant="h6" color="white">
+                                    No Location Found
+                                </Typography>
                             </Box>
                         )}
                     </Box>

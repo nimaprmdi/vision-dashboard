@@ -9,8 +9,6 @@ interface MapBoxProps {
 }
 
 const MapBox = ({ isChanged, location }: MapBoxProps) => {
-    const [data, setData] = useState({});
-
     mapboxgl.accessToken = "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
 
     const mapContainer = useRef<any>(null);
@@ -21,13 +19,21 @@ const MapBox = ({ isChanged, location }: MapBoxProps) => {
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
+
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: "mapbox://styles/mapbox/streets-v11",
             center: [lng, lat],
             zoom: zoom,
         });
-    }, []);
+
+        new mapboxgl.Marker({
+            // color: "#FFFFFF",
+            draggable: false,
+        })
+            .setLngLat([lng, lat])
+            .addTo(map.current);
+    }, [lng, lng]);
 
     useEffect(() => {
         setLng(location.longitude);
@@ -36,7 +42,7 @@ const MapBox = ({ isChanged, location }: MapBoxProps) => {
         if (map.current && isChanged) {
             map.current.resize();
         }
-    }, [data, isChanged]);
+    }, [isChanged]);
 
     return (
         <Box

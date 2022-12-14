@@ -30,7 +30,7 @@ const Home = (): JSX.Element => {
                         <Skull sx={{ height: "386px" }} />
                     ) : (
                         <WideCardDetails
-                            title="Requests Information"
+                            title="Tickets Information"
                             boxTopTitle="Answered"
                             boxTopValue={ticketsState.tickets.length.toString()}
                             boxBottomTitle="Not Answered"
