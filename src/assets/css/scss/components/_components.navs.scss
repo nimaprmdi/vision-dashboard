@@ -20,8 +20,20 @@
     }
 }
 
-.c-nav__item.Mui-selected {
+.c-nav__item--active li {
     background-color: transparentize($color: $vision-dashboard_gray_dark_color, $amount: 0.4) !important;
+}
+
+.c-nav__item li {
+    transition: 0.2s all;
+    border-radius: 10px;
+    margin-bottom: 8px;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: transparentize($color: $vision-dashboard_gray_dark_color, $amount: 0.2) !important;
+    }
 
     .c-nav__avatar {
         background-color: $vision-dashboard_primary_main_color !important;

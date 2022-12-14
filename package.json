@@ -1,4 +1,5 @@
 {
+    "homepage": "https://nimaprmdi.github.io/vision-dashboard",
     "name": "vision-dashboard",
     "version": "0.1.0",
     "private": true,
@@ -20,6 +21,7 @@
         "@types/react-redux": "^7.1.24",
         "apexcharts": "^3.36.3",
         "axios": "^1.2.0",
+        "gh-pages": "^4.0.0",
         "graphql": "^16.6.0",
         "graphql-request": "^5.0.0",
         "inuitcss": "^6.0.0",
@@ -46,7 +48,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "build-sass": "node-sass -w src/assets/css/scss/main.scss src/assets/css/styles.css --output-style compressed"
+        "build-sass": "node-sass -w src/assets/css/scss/main.scss src/assets/css/styles.css --output-style compressed",
+        "deploy": "gh-pages -d build"
     },
     "eslintConfig": {
         "extends": [

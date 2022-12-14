@@ -118,3 +118,18 @@
         background: transparent;
     }
 }
+
+/*------------------------------------*\
+  #Link
+\*------------------------------------*/
+
+.u-link-primary {
+    color: $vision-dashboard_white_color;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: $vision-dashboard_primary_main_color;
+    }
+}
