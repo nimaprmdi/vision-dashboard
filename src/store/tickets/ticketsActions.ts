@@ -22,6 +22,7 @@ const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
             description
             date
             subject
+            responses
             accounts {
               ... on Account {
                 id

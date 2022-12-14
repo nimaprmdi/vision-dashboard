@@ -1,5 +1,11 @@
 import { IAccount } from "./account";
 
+interface ITicketResponse {
+    title: string;
+    description: string;
+    isAdmin: boolean;
+}
+
 interface ITicket {
     itemId: string;
     date: string;
@@ -9,6 +15,7 @@ interface ITicket {
     isPending: string;
     subject: string;
     userId: string;
+    responses: ITicketResponse[];
     accounts: IAccount;
 }
 
@@ -30,4 +37,4 @@ interface ITicketFetchFailed {
     payload: string;
 }
 
-export type { ITicketsInitialState, ITicket, ITicketFetchSuccessful, ITicketFetchFailed };
+export type { ITicketsInitialState, ITicket, ITicketFetchSuccessful, ITicketFetchFailed, ITicketResponse };

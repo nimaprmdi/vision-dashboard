@@ -7,14 +7,8 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
 import { dashboardTheme } from "./dashboardTheme";
-import { InMemoryCache, ApolloClient, ApolloProvider } from "@apollo/client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-
-const client = new ApolloClient({
-    uri: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
-    cache: new InMemoryCache(),
-});
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -23,10 +17,8 @@ root.render(
         <Provider store={store}>
             <BrowserRouter>
                 <React.StrictMode>
-                    <ApolloProvider client={client}>
-                        <App />
-                        <ToastContainer />
-                    </ApolloProvider>
+                    <App />
+                    <ToastContainer />
                 </React.StrictMode>
             </BrowserRouter>
         </Provider>

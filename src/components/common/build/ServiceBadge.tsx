@@ -54,7 +54,7 @@ const ServiceBadge = ({ service, address, date, price }: ServiceBadgeProps) => {
                             className="u-text-small"
                             sx={{ color: "white" }}
                         >
-                            {address.slice(0, 20) + "..."}
+                            {address.slice(0, 120) + "..."}
                         </Typography>
 
                         <Typography variant="h6" className="u-text-small" color="gray.light">

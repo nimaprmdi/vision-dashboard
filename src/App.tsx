@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 // Home
 import Home from "./components/home/Home";
 // Layouts
@@ -37,25 +37,33 @@ const App: React.FC = (): JSX.Element => {
 
     return (
         <section className="o-page">
-            <Routes>
-                <Route element={<Layouts />}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/archives/:type" element={<Archives />} />
+            <Suspense
+                fallback={
+                    <div>
+                        <p>Loading...</p>
+                    </div>
+                }
+            >
+                <Routes>
+                    <Route element={<Layouts />}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/archives/:type" element={<Archives />} />
 
-                    <Route path="/request/:id" element={<SingleDetails />} />
+                        <Route path="/request/:id" element={<SingleDetails />} />
+                        <Route path="/ticket/:id" element={<SingleChat />} />
 
-                    <Route path="/single-chat" element={<SingleChat />} />
-                    <Route path="/single-profile" element={<SingleProfile />} />
-                    <Route path="/add-request" element={<AddRequest />} />
-                    <Route path="/server-error" element={<ServerError />} />
-                    <Route path="*" element={<Notfound />} />
-                </Route>
+                        <Route path="/single-profile" element={<SingleProfile />} />
+                        <Route path="/add-request" element={<AddRequest />} />
+                        <Route path="/server-error" element={<ServerError />} />
+                        <Route path="*" element={<Notfound />} />
+                    </Route>
 
-                <Route element={<LayoutsHasHeader />}>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                </Route>
-            </Routes>
+                    <Route element={<LayoutsHasHeader />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Route>
+                </Routes>
+            </Suspense>
         </section>
     );
 };

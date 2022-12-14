@@ -1,6 +1,7 @@
-import { Typography, TableRow, TableCell, Avatar, Chip, Link, Box } from "@mui/material";
+import { Typography, TableRow, TableCell, Avatar, Chip, Link as MUILink, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
+import { Link } from "react-router-dom";
 
 const TableRowTickets = () => {
     const ticketsState = useSelector((state: RootState) => state.tickets);
@@ -60,8 +61,10 @@ const TableRowTickets = () => {
                     </TableCell>
 
                     <TableCell>
-                        <Link href="#" underline="none" color="gray.light" variant="h6">
-                            Edit
+                        <Link to={`/ticket/${ticket.itemId}`}>
+                            <MUILink underline="none" color="gray.light" variant="h6">
+                                Edit
+                            </MUILink>
                         </Link>
                     </TableCell>
                 </TableRow>
