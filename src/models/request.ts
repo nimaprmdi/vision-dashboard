@@ -7,7 +7,7 @@ interface IRequest {
     name: string;
     lastName: string;
     service: string;
-    itemStatus: "pending" | "solved";
+    itemStatus: "pending" | "solved" | "reviewing";
     mobile: string;
     phone: string;
     stafId: string;

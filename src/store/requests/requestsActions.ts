@@ -4,6 +4,7 @@ import * as requestsActions from "./requestsReducer";
 import { RootState } from "../rootReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import { IAccount } from "../../models/account";
+import { toast } from "react-toastify";
 
 const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().requests;
@@ -158,7 +159,65 @@ const createUser = (inputData: IAccount) => (dispatch: Dispatch, getState: () =>
 
 const pendRequest = (itemId: string) => (dispatch: Dispatch) => {
     dispatch(requestsActions.PEND_REQUEST(itemId));
+
+    const data = JSON.stringify({
+        query: `
+            mutation {
+                updateRequest(data: {itemStatus: "pending"}, where: {itemId: "${itemId}"})
+            } 
+        `,
+    });
+
+    toast.success("hello");
+
+    http.default
+        .post("", data)
+        .then((response) => toast.success("Request Updated"))
+        .catch((error) => toast.error(error.message));
 };
 
-export { createUser, pendRequest };
+const solveRequest = (itemId: string) => (dispatch: Dispatch) => {
+    dispatch(requestsActions.SOLVE_REQUEST(itemId));
+
+    const data = JSON.stringify({
+        query: `
+            mutation MyMutation {
+                updateRequest(data: {itemStatus: "solved"}, where: {itemId: "${itemId}"} ) {
+                    id
+                }
+            }
+        `,
+    });
+
+    const publsishRequest = JSON.stringify({
+        query: `
+            mutation MyMutation {
+                publishRequest(where: {itemId: "${itemId}"}) { id }
+            }          
+        `,
+    });
+
+    toast.success("hello");
+
+    http.default
+        .post("", data)
+        .then((response) => {
+            toast.success("Request Updated");
+
+            http.default
+                .post("", publsishRequest)
+                .then((response) => console.log(response))
+                .catch((error) => {
+                    toast.error("Failed Publishing request");
+                    console.log(error);
+                });
+        })
+        .catch((error) => toast.error(error.message));
+};
+
+const reviewRequest = (itemId: string) => (dispatch: Dispatch) => {
+    dispatch(requestsActions.REVIEW_REQUEST(itemId));
+};
+
+export { createUser, pendRequest, solveRequest, reviewRequest };
 export default fetchRequests;

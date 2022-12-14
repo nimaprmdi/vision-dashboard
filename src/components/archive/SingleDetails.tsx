@@ -13,8 +13,7 @@ import { useEffect, useState } from "react";
 import { IRequest } from "../../models/request";
 import Skull from "../common/Skull";
 import axios from "axios";
-import { pendRequest } from "../../store/requests/requestsActions";
-import { Dispatch } from "@reduxjs/toolkit";
+import { pendRequest, solveRequest, reviewRequest } from "../../store/requests/requestsActions";
 
 interface requestsChart {
     title: string;
@@ -30,6 +29,7 @@ const SingleDetails = () => {
     const [isMapChanged, setIsMapChanged] = useState(false);
     // utils
     const requestState = useSelector((state: RootState) => state.requests);
+
     const navigate = useNavigate();
 
     // @todo : sending image
@@ -37,18 +37,19 @@ const SingleDetails = () => {
     const [assetId, setAssetId] = useState<string>();
 
     const commandButtons: ICommandButtons[] = [
-        { title: "Close Ticket", color: "primary", handler: pendRequest(id!) },
-        { title: "Delete Ticket", color: "error", handler: pendRequest(id!) },
-        { title: "Mark as Reviewing", color: "warning", handler: pendRequest(id!) },
+        { title: "Solved Request", color: "primary", handler: solveRequest(id!) },
+        { title: "Pend Request", color: "error", handler: pendRequest(id!) },
+        { title: "Mark as Reviewing", color: "warning", handler: reviewRequest(id!) },
     ];
 
     useEffect(() => {
         if (!requestState.isLoading && id) {
             const currentRequest = requestState.requests.find((request) => request.itemId === id);
-            currentRequest ? setRequest(currentRequest) : navigate("/404");
+            currentRequest && setRequest(currentRequest);
+            // currentRequest ? setRequest(currentRequest) : navigate("/404");
         } else {
             if (!id) {
-                navigate("/404");
+                // navigate("/404");
             }
         }
     }, [requestState]);
@@ -56,12 +57,12 @@ const SingleDetails = () => {
     useEffect(() => {
         if (request) {
             setRequestChart([
-                { title: "Address", payload: request.address },
-                { title: "Service", payload: request.service },
-                { title: "Status", payload: request.itemStatus },
-                { title: "Mobile", payload: request.mobile },
-                { title: "Phone", payload: request.phone },
-                { title: "Gender", payload: request.gender },
+                { title: "Address: ", payload: request.address },
+                { title: "Service: ", payload: request.service },
+                { title: "Status: ", payload: request.itemStatus },
+                { title: "Mobile: ", payload: request.mobile },
+                { title: "Phone: ", payload: request.phone },
+                { title: "Gender: ", payload: request.gender },
             ]);
 
             setIsMapChanged(true);

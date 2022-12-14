@@ -1,7 +1,7 @@
+import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import { Box, Typography, Button } from "@mui/material";
 import { ICommandButtons } from "../../../models/commandButtons";
-import ViewInArIcon from "@mui/icons-material/ViewInAr";
-import { Dispatch } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
 interface ActionProps {
     title?: string;
@@ -9,6 +9,8 @@ interface ActionProps {
 }
 
 const Actions = ({ title, buttons }: ActionProps) => {
+    const dispatch = useDispatch();
+
     return (
         <Box
             sx={{
@@ -48,7 +50,7 @@ const Actions = ({ title, buttons }: ActionProps) => {
                         startIcon={<ViewInArIcon />}
                         variant="contained"
                         color={button.color}
-                        onClick={() => button.handler()}
+                        onClick={() => dispatch(button.handler as any)}
                     >
                         {button.title}
                     </Button>

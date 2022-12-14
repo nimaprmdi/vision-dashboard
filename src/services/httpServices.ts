@@ -15,7 +15,7 @@ axiosApiInstance.interceptors.response.use(
 
         if (!expectedErrors) {
             toast.error("An unexpected error occurrred.");
-
+            console.log(error);
             // @todo : Error Tracker here -> sentry.io
 
             if (window.location.pathname !== redirectServerError) {
@@ -36,9 +36,9 @@ axiosApiInstance.interceptors.response.use(
                 toast.error(error.message);
             }
 
-            if (window.location.pathname !== redirect404) {
-                window.location.href = redirect404;
-            }
+            // if (window.location.pathname !== redirect404) {
+            //     window.location.href = redirect404;
+            // }
         }
 
         return Promise.reject(error);

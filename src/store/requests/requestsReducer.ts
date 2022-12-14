@@ -46,6 +46,11 @@ const requestsSlice = createSlice({
             const requestIndex = state.requests.findIndex((request) => request.itemId === action.payload);
             state.requests[requestIndex] = { ...state.requests[requestIndex], itemStatus: "solved" };
         },
+
+        REVIEW_REQUEST: (state, action: { type: string; payload: string }) => {
+            const requestIndex = state.requests.findIndex((request) => request.itemId === action.payload);
+            state.requests[requestIndex] = { ...state.requests[requestIndex], itemStatus: "reviewing" };
+        },
     },
 });
 
@@ -56,6 +61,7 @@ export const {
     GET_ANSWERED_REQUESTS,
     PEND_REQUEST,
     SOLVE_REQUEST,
+    REVIEW_REQUEST,
 } = requestsSlice.actions;
 
 export default requestsSlice.reducer;
