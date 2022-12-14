@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/vision-dashboard/static/css/main.f2e21ced.css",
+    "main.js": "/vision-dashboard/static/js/main.afa44460.js",
+    "static/js/787.a107eda1.chunk.js": "/vision-dashboard/static/js/787.a107eda1.chunk.js",
+    "static/media/login-bg.jpg": "/vision-dashboard/static/media/login-bg.847bb35ca77c597a8f50.jpg",
+    "static/media/user-background.jpg": "/vision-dashboard/static/media/user-background.e6643a596282e44c7bc5.jpg",
+    "static/media/frankfurt.jpg": "/vision-dashboard/static/media/frankfurt.8a6cc677a6c236d663e9.jpg",
+    "index.html": "/vision-dashboard/index.html",
+    "main.f2e21ced.css.map": "/vision-dashboard/static/css/main.f2e21ced.css.map",
+    "main.afa44460.js.map": "/vision-dashboard/static/js/main.afa44460.js.map",
+    "787.a107eda1.chunk.js.map": "/vision-dashboard/static/js/787.a107eda1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f2e21ced.css",
+    "static/js/main.afa44460.js"
+  ]
+}
