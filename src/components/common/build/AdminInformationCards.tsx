@@ -53,7 +53,7 @@ const AdminInformationCards = () => {
                     <Skull sx={{ height: "85px" }} />
                 ) : (
                     <BreadCrumbItem
-                        title="Total Stafs"
+                        title="Total Tickets"
                         value={ticketsState && ticketsState.tickets.length.toString()}
                         icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
                     />
