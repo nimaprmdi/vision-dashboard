@@ -1,5 +1,9 @@
 import axsio from "axios";
+import configureStore from "../store/configureStore";
 import { toast } from "react-toastify";
+import { ADD_SERVER_ERROR } from "../store/entities/entitiesReducer";
+
+const store = configureStore;
 
 const axiosApiInstance = axsio.create({
     baseURL: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
@@ -36,10 +40,12 @@ axiosApiInstance.interceptors.response.use(
                 toast.error(error.message);
             }
 
-            // if (window.location.pathname !== redirect404) {
-            //     window.location.href = redirect404;
-            // }
+            if (window.location.pathname !== redirect404) {
+                window.location.href = redirect404;
+            }
         }
+
+        store.dispatch(ADD_SERVER_ERROR({ status: error.response.status, message: error.response.message }));
 
         return Promise.reject(error);
     }

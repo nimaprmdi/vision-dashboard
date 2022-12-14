@@ -1,5 +1,11 @@
-interface Entities {
-    isOpen: boolean;
+interface IServerErrors {
+    status: number;
+    message: string;
 }
 
-export type { Entities };
+interface Entities {
+    isOpen: boolean;
+    httpErrors: IServerErrors;
+}
+
+export type { Entities, IServerErrors };

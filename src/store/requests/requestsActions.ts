@@ -192,7 +192,7 @@ const solveRequest = (itemId: string) => (dispatch: Dispatch) => {
     const publsishRequest = JSON.stringify({
         query: `
             mutation MyMutation {
-                publishRequest(where: {itemId: "${itemId}"}) { id }
+                publishRequest(where: {haji: "${itemId}"}) { id }
             }          
         `,
     });

@@ -14,6 +14,7 @@ import { IRequest } from "../../models/request";
 import Skull from "../common/Skull";
 import axios from "axios";
 import { pendRequest, solveRequest, reviewRequest } from "../../store/requests/requestsActions";
+import { ADD_SERVER_ERROR } from "../../store/entities/entitiesReducer";
 
 interface requestsChart {
     title: string;
@@ -29,7 +30,7 @@ const SingleDetails = () => {
     const [isMapChanged, setIsMapChanged] = useState(false);
     // utils
     const requestState = useSelector((state: RootState) => state.requests);
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     // @todo : sending image
@@ -45,11 +46,11 @@ const SingleDetails = () => {
     useEffect(() => {
         if (!requestState.isLoading && id) {
             const currentRequest = requestState.requests.find((request) => request.itemId === id);
-            currentRequest && setRequest(currentRequest);
-            // currentRequest ? setRequest(currentRequest) : navigate("/404");
+            // currentRequest && setRequest(currentRequest);
+            currentRequest ? setRequest(currentRequest) : navigate("/404");
         } else {
             if (!id) {
-                // navigate("/404");
+                navigate("/404");
             }
         }
     }, [requestState]);
