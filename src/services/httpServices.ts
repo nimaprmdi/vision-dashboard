@@ -12,6 +12,8 @@ const axiosApiInstance = axsio.create({
 axiosApiInstance.interceptors.response.use(
     (response) => response,
     (error) => {
+        console.log(error);
+
         const redirect404: string = process.env.REACT_APP_NOT_FOUND_REDIRECT as string;
         const redirectServerError: string = process.env.REACT_APP_SERVER_ERROR_REDIRECT as string;
 
@@ -19,7 +21,7 @@ axiosApiInstance.interceptors.response.use(
 
         if (!expectedErrors) {
             toast.error("An unexpected error occurrred.");
-            console.log(error);
+
             // @todo : Error Tracker here -> sentry.io
 
             if (window.location.pathname !== redirectServerError) {

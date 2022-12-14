@@ -38,15 +38,14 @@ const SingleDetails = () => {
     const [assetId, setAssetId] = useState<string>();
 
     const commandButtons: ICommandButtons[] = [
-        { title: "Solved Request", color: "primary", handler: solveRequest(id!) },
-        { title: "Pend Request", color: "error", handler: pendRequest(id!) },
-        { title: "Mark as Reviewing", color: "warning", handler: reviewRequest(id!) },
+        { title: "Mark as solved", color: "primary", handler: solveRequest(id!, request && request.itemStatus) },
+        { title: "Mark as pending", color: "error", handler: pendRequest(id!, request && request.itemStatus) },
+        { title: "Mark as reviewing", color: "warning", handler: reviewRequest(id!, request && request.itemStatus) },
     ];
 
     useEffect(() => {
         if (!requestState.isLoading && id) {
             const currentRequest = requestState.requests.find((request) => request.itemId === id);
-            // currentRequest && setRequest(currentRequest);
             currentRequest ? setRequest(currentRequest) : navigate("/404");
         } else {
             if (!id) {

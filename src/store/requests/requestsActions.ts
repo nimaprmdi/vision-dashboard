@@ -6,6 +6,15 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { IAccount } from "../../models/account";
 import { toast } from "react-toastify";
 
+const publishRequest = (itemId: string) =>
+    JSON.stringify({
+        query: `
+        mutation MyMutation {
+            publishRequest(where: {itemId: "${itemId}"}) { id }
+        }          
+        `,
+    });
+
 const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().requests;
     const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
@@ -157,67 +166,107 @@ const createUser = (inputData: IAccount) => (dispatch: Dispatch, getState: () =>
         .catch((error) => console.log(error));
 };
 
-const pendRequest = (itemId: string) => (dispatch: Dispatch) => {
-    dispatch(requestsActions.PEND_REQUEST(itemId));
-
-    const data = JSON.stringify({
-        query: `
-            mutation {
-                updateRequest(data: {itemStatus: "pending"}, where: {itemId: "${itemId}"})
-            } 
-        `,
-    });
-
-    toast.success("hello");
-
-    http.default
-        .post("", data)
-        .then((response) => toast.success("Request Updated"))
-        .catch((error) => toast.error(error.message));
-};
-
-const solveRequest = (itemId: string) => (dispatch: Dispatch) => {
-    dispatch(requestsActions.SOLVE_REQUEST(itemId));
-
-    const data = JSON.stringify({
-        query: `
-            mutation MyMutation {
-                updateRequest(data: {itemStatus: "solved"}, where: {itemId: "${itemId}"} ) {
-                    id
-                }
-            }
-        `,
-    });
-
-    const publsishRequest = JSON.stringify({
-        query: `
-            mutation MyMutation {
-                publishRequest(where: {haji: "${itemId}"}) { id }
-            }          
-        `,
-    });
-
-    toast.success("hello");
-
-    http.default
-        .post("", data)
-        .then((response) => {
-            toast.success("Request Updated");
+const pendRequest =
+    (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
+        if (itemStatus !== "pending") {
+            const data = JSON.stringify({
+                query: `
+                    mutation {
+                        updateRequest(data: {itemStatus: "pending"}, where: {itemId: "${itemId}"} ) {
+                            id
+                        }
+                    }
+                `,
+            });
 
             http.default
-                .post("", publsishRequest)
-                .then((response) => console.log(response))
-                .catch((error) => {
-                    toast.error("Failed Publishing request");
-                    console.log(error);
-                });
-        })
-        .catch((error) => toast.error(error.message));
-};
+                .post("", data)
+                .then(() => {
+                    dispatch(requestsActions.PEND_REQUEST(itemId));
+                    toast.success("Request Updated");
 
-const reviewRequest = (itemId: string) => (dispatch: Dispatch) => {
-    dispatch(requestsActions.REVIEW_REQUEST(itemId));
-};
+                    // @todo : clean code
+                    http.default
+                        .post("", publishRequest(itemId))
+                        .then((response) => console.log(response))
+                        .catch((error) => {
+                            toast.error("Failed Publishing request");
+                            console.log(error);
+                        });
+                })
+                .catch((error) => toast.error(error.message));
+        } else {
+            toast.info("Request Already Is Pending");
+        }
+    };
+
+const solveRequest =
+    (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
+        if (itemStatus !== "solved") {
+            const data = JSON.stringify({
+                query: `
+                mutation MyMutation {
+                    updateRequest(data: {itemStatus: "solved"}, where: {itemId: "${itemId}"} ) {
+                        id
+                    }
+                }
+            `,
+            });
+
+            http.default
+                .post("", data)
+                .then(() => {
+                    dispatch(requestsActions.SOLVE_REQUEST(itemId));
+                    toast.success("Request Updated");
+
+                    // @todo : clean code
+                    http.default
+                        .post("", publishRequest(itemId))
+                        .then((response) => console.log(response))
+                        .catch((error) => {
+                            toast.error("Failed Publishing request");
+                            console.log(error);
+                        });
+                })
+                .catch((error) => toast.error(error.message));
+        } else {
+            toast.info("Request Already Is Solved");
+        }
+    };
+
+const reviewRequest =
+    (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
+        if (itemStatus !== "reviewing") {
+            const data = JSON.stringify({
+                query: `
+                mutation MyMutation {
+                    updateRequest(data: {itemStatus: "reviewing"}, where: {itemId: "${itemId}"} ) {
+                        id
+                    }
+                }
+            `,
+            });
+
+            http.default
+                .post("", data)
+                .then(() => {
+                    dispatch(requestsActions.REVIEW_REQUEST(itemId));
+                    toast.success("Request Updated");
+
+                    // @todo : clean code
+                    http.default
+                        .post("", publishRequest(itemId))
+                        .then((response) => console.log(response))
+                        .catch((error) => {
+                            toast.error("Failed Publishing request");
+                            console.log(error);
+                        });
+                })
+                .catch((error) => toast.error(error.message));
+        } else {
+            toast.info("Request Already Is Reviewing");
+        }
+    };
 
 export { createUser, pendRequest, solveRequest, reviewRequest };
 export default fetchRequests;
