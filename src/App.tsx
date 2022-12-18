@@ -37,33 +37,25 @@ const App: React.FC = (): JSX.Element => {
 
     return (
         <section className="o-page">
-            <Suspense
-                fallback={
-                    <div>
-                        <p>Loading...</p>
-                    </div>
-                }
-            >
-                <Routes>
-                    <Route element={<Layouts />}>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/archives/:type" element={<Archives />} />
+            <Routes>
+                <Route element={<Layouts />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/archives/:type" element={<Archives />} />
 
-                        <Route path="/request/:id" element={<SingleDetails />} />
-                        <Route path="/ticket/:id" element={<SingleChat />} />
+                    <Route path="/request/:id" element={<SingleDetails />} />
+                    <Route path="/ticket/:id" element={<SingleChat />} />
 
-                        <Route path="/single-profile" element={<SingleProfile />} />
-                        <Route path="/add-request" element={<AddRequest />} />
-                        <Route path="/server-error" element={<ServerError />} />
-                        <Route path="*" element={<Notfound />} />
-                    </Route>
+                    <Route path="/single-profile" element={<SingleProfile />} />
+                    <Route path="/add-request" element={<AddRequest />} />
+                    <Route path="/server-error" element={<ServerError />} />
+                    <Route path="*" element={<Notfound />} />
+                </Route>
 
-                    <Route element={<LayoutsHasHeader />}>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Route>
-                </Routes>
-            </Suspense>
+                <Route element={<LayoutsHasHeader />}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                </Route>
+            </Routes>
         </section>
     );
 };

@@ -1,30 +1,23 @@
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Theme } from "@mui/material";
 import { ICommandButtons } from "../../../models/commandButtons";
 import { useDispatch } from "react-redux";
+import { SystemStyleObject } from "@mui/system";
 
 interface ActionProps {
     title?: string;
     buttons: ICommandButtons[];
+    parentProps?: React.AnchorHTMLAttributes<HTMLDivElement>;
+    childProps?: React.AnchorHTMLAttributes<HTMLDivElement>;
+    parentSx?: SystemStyleObject<Theme>;
+    childSx?: SystemStyleObject<Theme>;
 }
 
-const Actions = ({ title, buttons }: ActionProps) => {
+const Actions = ({ title, buttons, parentProps, childProps, parentSx, childSx }: ActionProps) => {
     const dispatch = useDispatch();
 
     return (
-        <Box
-            sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: { xs: "center", md: "space-between" },
-                px: 4,
-                py: { xs: 4, md: 6 },
-                flexWrap: "wrap",
-                gap: { xs: 4, md: 2 },
-            }}
-            className="u-box-light"
-        >
+        <Box {...parentProps} sx={{ ...parentSx }}>
             <Typography
                 width={{ xs: "100%", md: "max-content" }}
                 textAlign="center"
@@ -35,15 +28,7 @@ const Actions = ({ title, buttons }: ActionProps) => {
                 {title || "Actions"}
             </Typography>
 
-            <Box
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    flexWrap: "wrap",
-                    justifyContent: { xs: "center", md: "flex-end" },
-                }}
-            >
+            <Box {...childProps} sx={{ ...childSx }}>
                 {buttons.map((button, index: number) => (
                     <Button
                         key={`ticketcommandbutton-${index}`}

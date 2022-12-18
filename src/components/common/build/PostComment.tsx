@@ -1,7 +1,27 @@
-import React from "react";
-import { Grid, Box, Typography, Button, TextField } from "@mui/material";
+import apiServices from "../../../services/VisionDashboardApiServices";
+import React, { useState, useEffect } from "react";
+import { Box, Typography, Button, TextField, FormControl } from "@mui/material";
+import { ITicketResponse } from "../../../models/tickets";
+import { IPostTicketCommentData } from "../../../models/tickets";
 
-const PostComment = () => {
+interface IPostCommentProps {
+    itemId?: string;
+    isAdmin: boolean;
+    responses: ITicketResponse[];
+}
+
+const PostComment = ({ itemId, responses, isAdmin }: IPostCommentProps) => {
+    const [data, setData] = useState<IPostTicketCommentData>({ title: "", description: "", isAdmin: false });
+
+    const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setData({ ...data, [e.currentTarget.name]: e.currentTarget.value, isAdmin });
+    };
+
+    const onSubmit = () => {
+        itemId && apiServices.updateResponse(itemId, [...responses, data]);
+        setData({ title: "", description: "", isAdmin: false });
+    };
+
     return (
         <Box className="u-box-light" height="auto" mt={3} p={3}>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -9,24 +29,37 @@ const PostComment = () => {
                     Submit An Answer
                 </Typography>
 
-                <Button variant="contained" color="primary">
+                <Button onClick={() => onSubmit()} variant="contained" color="primary">
                     Post Answer
                 </Button>
             </Box>
 
             <Box mt={2}>
-                <TextField sx={{ width: "100%" }} required id="outlined-required" label="Enter Title" />
+                <FormControl sx={{ width: "100%" }}>
+                    <TextField
+                        id="comment-title"
+                        name="title"
+                        value={data.title}
+                        sx={{ width: "100%" }}
+                        required
+                        label="Enter Title"
+                        type="text"
+                        onChange={(e) => inputChangeHandler(e)}
+                    />
 
-                <TextField
-                    sx={{ width: "100%", mt: 2 }}
-                    required
-                    id="outlined-required"
-                    label="Enter Description"
-                    defaultValue=""
-                    size="small"
-                    multiline={true}
-                    rows={6}
-                />
+                    <TextField
+                        id="comment-description"
+                        name="description"
+                        value={data.description}
+                        sx={{ width: "100%", mt: 2 }}
+                        required
+                        label="Enter Description"
+                        size="small"
+                        multiline={true}
+                        rows={6}
+                        onChange={(e) => inputChangeHandler(e)}
+                    />
+                </FormControl>
             </Box>
         </Box>
     );

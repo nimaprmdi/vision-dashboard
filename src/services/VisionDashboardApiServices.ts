@@ -1,9 +1,12 @@
 import http from "./httpServices";
 import requestsQuery from "./query/Requests";
+import ticketsQuery from "./query/Tickets";
 import * as requestsActions from "../store/requests/requestsReducer";
+import fetchTickets from "../store/tickets/ticketsActions";
 import configureStore from "../store/configureStore";
 import { toast } from "react-toastify";
 import { IAccount } from "../models/account";
+import { ITicketResponse } from "../models/tickets";
 
 const store = configureStore;
 
@@ -14,6 +17,16 @@ class VisionDashboardApiServices {
                 mutation MyMutation {
                     publishRequest(where: {itemId: "${itemId}"}) { id }
                 }          
+            `,
+        });
+    };
+
+    private publsishTicket = (itemId: string) => {
+        return JSON.stringify({
+            query: `
+                mutation MyMutation {
+                    publishTicket(where: {itemId: "${itemId}"}) { id }
+                } 
             `,
         });
     };
@@ -88,6 +101,26 @@ class VisionDashboardApiServices {
                 });
             })
             .catch((error) => toast.error(error.message));
+    };
+
+    // Updating Request
+    updateResponse = (itemId: string, data: ITicketResponse[]) => {
+        http.post("", ticketsQuery.updateResponse(itemId, data))
+            .then(() => {
+                toast.success("Answer Submitted");
+                http.post("", this.publsishTicket(itemId))
+                    .then(() => {
+                        toast.success("Ticket Published Successfuly");
+                        store.dispatch(fetchTickets() as any);
+                    })
+                    .catch((error) => {
+                        toast.error("Error Publishing Ticket");
+                        console.log(error);
+                    });
+            })
+            .catch(() => {
+                toast.error("There Was an error for submitting answer");
+            });
     };
 }
 

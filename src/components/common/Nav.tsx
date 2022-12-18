@@ -7,7 +7,6 @@ import routes from "../../routes";
 
 const Nav = () => {
     const { pathname } = useLocation();
-    console.log(pathname);
     const entities = useSelector((state: RootState) => state.entities);
 
     return (

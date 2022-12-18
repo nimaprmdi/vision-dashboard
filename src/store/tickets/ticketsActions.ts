@@ -29,6 +29,7 @@ const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
                 email
                 name
                 lastName
+                isAdmin
                 color {
                   hex
                 }

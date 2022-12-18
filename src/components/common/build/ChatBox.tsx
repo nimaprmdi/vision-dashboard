@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { ITicketResponse } from "../../../models/tickets";
+import { getDataFromTree } from "@apollo/client/react/ssr";
 
 interface ChatBoxProps {
     data: ITicketResponse[];
@@ -26,26 +27,30 @@ const ChatBox = ({ data }: ChatBoxProps) => {
             </Typography>
 
             <Box className="c-chat">
-                {data.map((item, index: number) => (
-                    <Box sx={{ display: "flex", justifyContent: item.isAdmin ? "flex-start" : "flex-end", mb: 4 }}>
+                {Array.isArray(data) &&
+                    data.map((item, index: number) => (
                         <Box
-                            className={item.isAdmin ? "u-box-blue" : "u-box-green"}
-                            width={{ xs: "100%", sm: "80%" }}
-                            maxWidth={{ md: "500px" }}
-                            p={2}
+                            key={`chat-box-${index}`}
+                            sx={{ display: "flex", justifyContent: item.isAdmin ? "flex-start" : "flex-end", mb: 4 }}
                         >
-                            <Box>
-                                <Typography variant="h6" color="white">
-                                    {item.title || ""}
+                            <Box
+                                className={item.isAdmin ? "u-box-blue" : "u-box-green"}
+                                width={{ xs: "100%", sm: "80%" }}
+                                maxWidth={{ md: "500px" }}
+                                p={2}
+                            >
+                                <Box>
+                                    <Typography variant="h6" color="white">
+                                        {item.title || ""}
+                                    </Typography>
+                                </Box>
+
+                                <Typography variant="h6" color="gray.light" mt={1}>
+                                    {item.description || ""}
                                 </Typography>
                             </Box>
-
-                            <Typography variant="h6" color="gray.light" mt={1}>
-                                {item.description || ""}
-                            </Typography>
                         </Box>
-                    </Box>
-                ))}
+                    ))}
             </Box>
         </Box>
     );

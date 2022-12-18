@@ -1,20 +1,18 @@
-import MapBox from "../common/MapBox";
-import ServiceBadge from "../common/build/ServiceBadge";
-import ProfileSummary from "../common/build/ProfileSummary";
-import CommandButtons from "../common/build/CommandButtons";
-import Details from "../common/build/Details";
-import Actions from "../common/build/Actions";
-import { Grid, Box, Typography, Button } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
-import { ICommandButtons } from "../../models/commandButtons";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/rootReducer";
-import { useEffect, useState } from "react";
-import { IRequest } from "../../models/request";
 import Skull from "../common/Skull";
 import axios from "axios";
+import MapBox from "../common/MapBox";
+import Details from "../common/build/Details";
+import Actions from "../common/build/Actions";
+import ServiceBadge from "../common/build/ServiceBadge";
+import ProfileSummary from "../common/build/ProfileSummary";
 import { pendRequest, solveRequest, reviewRequest } from "../../store/requests/requestsActions";
-import { ADD_SERVER_ERROR } from "../../store/entities/entitiesReducer";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import { Typography, Grid, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import { ICommandButtons } from "../../models/commandButtons";
+import { RootState } from "../../store/rootReducer";
+import { IRequest } from "../../models/request";
 
 interface requestsChart {
     title: string;
@@ -82,7 +80,6 @@ const SingleDetails = () => {
             })
                 .then((response) => response.json())
                 .then((result) => {
-                    console.log("Success:", result);
                     setAssetId("");
                     setAssetId(result.id);
 
@@ -214,7 +211,30 @@ const SingleDetails = () => {
 
             <Grid item xs={12}>
                 {/* <input type="file" onChange={(e) => handleInputChange(e)} /> */}
-                <Actions title="Requests Actions" buttons={commandButtons} />
+
+                <Actions
+                    title="Requests Actions"
+                    buttons={commandButtons}
+                    parentProps={{
+                        className: "u-box-light",
+                    }}
+                    parentSx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        flexWrap: "wrap",
+                        justifyContent: { xs: "center", md: "space-between" },
+                        py: 4,
+                        px: 3,
+                    }}
+                    childSx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        flexWrap: "wrap",
+                        justifyContent: { xs: "center", md: "flex-end" },
+                    }}
+                />
             </Grid>
         </Grid>
     );

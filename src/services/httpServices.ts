@@ -13,6 +13,7 @@ axiosApiInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         console.log(error);
+        store.dispatch(ADD_SERVER_ERROR({ status: error.response.status, message: error.response.message }));
 
         const redirect404: string = process.env.REACT_APP_NOT_FOUND_REDIRECT as string;
         const redirectServerError: string = process.env.REACT_APP_SERVER_ERROR_REDIRECT as string;
@@ -24,9 +25,9 @@ axiosApiInstance.interceptors.response.use(
 
             // @todo : Error Tracker here -> sentry.io
 
-            if (window.location.pathname !== redirectServerError) {
-                window.location.href = redirectServerError;
-            }
+            // if (window.location.pathname !== redirectServerError) {
+            //     window.location.href = redirectServerError;
+            // }
         } else {
             if (error.response.status === 400) {
                 toast.error("Bad Request - The request could not be understood by the server");
@@ -42,12 +43,10 @@ axiosApiInstance.interceptors.response.use(
                 toast.error(error.message);
             }
 
-            if (window.location.pathname !== redirect404) {
-                window.location.href = redirect404;
-            }
+            // if (window.location.pathname !== redirect404) {
+            //     window.location.href = redirect404;
+            // }
         }
-
-        store.dispatch(ADD_SERVER_ERROR({ status: error.response.status, message: error.response.message }));
 
         return Promise.reject(error);
     }

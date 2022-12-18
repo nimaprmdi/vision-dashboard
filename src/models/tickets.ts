@@ -1,8 +1,14 @@
 import { IAccount } from "./account";
 
 interface ITicketResponse {
-    title: string;
-    description: string;
+    title: string | undefined;
+    description: string | undefined;
+    isAdmin: boolean;
+}
+
+interface IPostTicketCommentData {
+    title: string | undefined;
+    description: string | undefined;
     isAdmin: boolean;
 }
 
@@ -37,4 +43,11 @@ interface ITicketFetchFailed {
     payload: string;
 }
 
-export type { ITicketsInitialState, ITicket, ITicketFetchSuccessful, ITicketFetchFailed, ITicketResponse };
+export type {
+    ITicketsInitialState,
+    ITicket,
+    ITicketFetchSuccessful,
+    ITicketFetchFailed,
+    ITicketResponse,
+    IPostTicketCommentData,
+};
