@@ -58,7 +58,7 @@ const TableRowRequests = (): JSX.Element => {
 
                     <TableCell>
                         <Link to={`/request/${request.itemId}`}>
-                            <MUILink underline="none" color="gray.light" variant="h6">
+                            <MUILink component="div" underline="none" color="gray.light" variant="h6">
                                 Edit
                             </MUILink>
                         </Link>

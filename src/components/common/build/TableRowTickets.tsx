@@ -62,7 +62,7 @@ const TableRowTickets = () => {
 
                     <TableCell>
                         <Link to={`/ticket/${ticket.itemId}`}>
-                            <MUILink underline="none" color="gray.light" variant="h6">
+                            <MUILink component="div" underline="none" color="gray.light" variant="h6">
                                 Edit
                             </MUILink>
                         </Link>

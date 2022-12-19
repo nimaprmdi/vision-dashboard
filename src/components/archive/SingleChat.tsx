@@ -1,7 +1,9 @@
 import Skull from "../common/Skull";
 import ChatBox from "../common/build/ChatBox";
 import PostComment from "../common/build/PostComment";
+import Actions from "../common/build/Actions";
 import CommandButtons from "../common/build/CommandButtons";
+
 import { useEffect, useState } from "react";
 import { ICommandButtons } from "../../models/commandButtons";
 import { Grid, Box, Typography } from "@mui/material";
@@ -9,7 +11,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { ITicket } from "../../models/tickets";
-import Actions from "../common/build/Actions";
+import { closeTicket } from "../../store/tickets/ticketsActions";
 
 const SingleChat = () => {
     const { id } = useParams<{ id: string }>();
@@ -19,7 +21,8 @@ const SingleChat = () => {
     const [ticket, setTicket] = useState<ITicket>();
 
     const commandButtons: ICommandButtons[] = [
-        { title: "Close", color: "primary", handler: () => console.log("s") },
+        { title: "Close", color: "success", handler: closeTicket(id!, true) },
+        { title: "Open", color: "primary", handler: closeTicket(id!, false) },
         { title: "Delete", color: "error", handler: () => console.log("s") },
         { title: "Reviwing", color: "warning", handler: () => console.log("s") },
     ];

@@ -14,21 +14,12 @@ class TicketsQuery {
         });
     };
 
-    updateIsClose = (itemId: string) => {
+    updateIsClose = (itemId: string, isClose: boolean) => {
         return JSON.stringify({
             query: `mutation {
-                        updateTicket(data: { isClose : true } , where: {itemId: "${itemId}"}) {
+                        updateTicket(data: { isClose : ${isClose} } , where: {itemId: "${itemId}"}) {
                             id
                         }
-                    }
-            `,
-        });
-    };
-
-    updateTicketIsClose = (itemId: string) => {
-        return JSON.stringify({
-            query: `mutation MyMutation {
-                        updateTicket(data: {isClose: false}, where: {itemId: "${itemId}"})
                     }
             `,
         });

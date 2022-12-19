@@ -2,6 +2,7 @@ import http from "./httpServices";
 import requestsQuery from "./query/Requests";
 import ticketsQuery from "./query/Tickets";
 import * as requestsActions from "../store/requests/requestsReducer";
+import * as ticketsActions from "../store/tickets/ticketsReducer";
 import fetchTickets from "../store/tickets/ticketsActions";
 import fetchRequests from "../store/requests/requestsActions";
 import configureStore from "../store/configureStore";
@@ -102,10 +103,10 @@ class VisionDashboardApiServices {
     solveRequest = (itemId: string) => {
         http.post("", requestsQuery.solveRequestQuery(itemId))
             .then(() => {
-                store.dispatch(requestsActions.SOLVE_REQUEST(itemId));
-                store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
-
-                this.publishRequest(itemId, "Request Published", "failed publishing request");
+                this.publishRequest(itemId, "Request Published", "failed publishing request").then((response) => {
+                    store.dispatch(requestsActions.SOLVE_REQUEST(itemId));
+                    store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
+                });
             })
             .catch((error) => toast.error(error.message));
     };
@@ -114,9 +115,10 @@ class VisionDashboardApiServices {
     reviewRequest = (itemId: string) => {
         http.post("", requestsQuery.reviewRequestQuery(itemId))
             .then(() => {
-                store.dispatch(requestsActions.REVIEW_REQUEST(itemId));
-                store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
-                this.publishRequest(itemId, "Request Published", "failed publishing request");
+                this.publishRequest(itemId, "Request Published", "failed publishing request").then((response) => {
+                    store.dispatch(requestsActions.REVIEW_REQUEST(itemId));
+                    store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
+                });
             })
             .catch((error) => toast.error(error.message));
     };
@@ -134,11 +136,13 @@ class VisionDashboardApiServices {
     };
 
     // Update Ticket isClose
-    updateIsClose = (itemId: string) => {
-        http.post("", ticketsQuery.updateIsClose(itemId))
+    updateIsClose = (itemId: string, isClose: boolean) => {
+        http.post("", ticketsQuery.updateIsClose(itemId, isClose))
             .then(() => {
                 toast.success("Ticket Updated");
-                this.publishTicket(itemId, "Ticket Published", "Ticket Publish Failed");
+                this.publishTicket(itemId, "Ticket Published", "Ticket Publish Failed").then(() => {
+                    store.dispatch(ticketsActions.PEND_TICKET(itemId));
+                });
             })
             .catch((error) => toast.error("Ticket Did Not Close"));
     };

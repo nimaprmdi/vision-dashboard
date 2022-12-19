@@ -4,6 +4,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "../rootReducer";
 import { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS } from "./ticketsReducer";
 import { toast } from "react-toastify";
+import apiService from "../../services/VisionDashboardApiServices";
 
 const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().tickets;
@@ -60,21 +61,11 @@ const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
         });
 };
 
-const pendTicket = (itemId: string) => (dispatch: Dispatch, getState: () => RootState) => {
-    const data = JSON.stringify({
-        query: ``,
-    });
-
-    http.default
-        .post("", data)
-        .then((response) => {
-            toast.success("Ticket Updated");
-        })
-        .catch((error) => {
-            toast.error("Error Updating Ticket");
-        });
+const closeTicket = (itemId: string, itemStatus: boolean) => (dispatch: Dispatch, getState: () => RootState) => {
+    apiService.updateIsClose(itemId, itemStatus);
+    toast.info("Ticket Already Is Closed");
 };
 
-export { pendTicket };
+export { closeTicket };
 
 export default fetchTickets;
