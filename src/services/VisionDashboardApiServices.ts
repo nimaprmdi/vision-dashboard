@@ -146,6 +146,20 @@ class VisionDashboardApiServices {
             })
             .catch((error) => toast.error("Ticket Did Not Close"));
     };
+
+    // Delete Ticket
+    deleteTicket = (itemId: string) => {
+        http.post("", ticketsQuery.deleteTicket(itemId))
+            .then(() => {
+                store.dispatch(ticketsActions.DELETE_TICKET(itemId));
+                toast.success("Ticket Has Been Deleted");
+                const x: string = "foo";
+                window.history.go(-1);
+            })
+            .catch((error) => {
+                toast.error("Failed Deleting Ticket");
+            });
+    };
 }
 
 export default new VisionDashboardApiServices();

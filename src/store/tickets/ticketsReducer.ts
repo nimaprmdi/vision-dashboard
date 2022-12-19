@@ -37,9 +37,19 @@ const ticketsSlice = createSlice({
             const ticketIndex = state.tickets.findIndex((ticket) => ticket.itemId === action.payload);
             state.tickets[ticketIndex] = { ...state.tickets[ticketIndex], isClose: true };
         },
+
+        DELETE_TICKET: (state, action: { type: string; payload: string }) => {
+            state.tickets = state.tickets.filter((ticket) => ticket.itemId !== action.payload);
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS, PEND_TICKET } =
-    ticketsSlice.actions;
+export const {
+    FETCH_DATA,
+    FETCH_DATA_SUCCESSFUL,
+    FETCH_DATA_FAILED,
+    GET_ALL_CLOSED_TICKETS,
+    PEND_TICKET,
+    DELETE_TICKET,
+} = ticketsSlice.actions;
 export default ticketsSlice.reducer;

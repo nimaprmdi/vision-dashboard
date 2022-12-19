@@ -11,7 +11,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { ITicket } from "../../models/tickets";
-import { closeTicket } from "../../store/tickets/ticketsActions";
+import { closeTicket, deleteTicketAct } from "../../store/tickets/ticketsActions"; // Tickets Actions
 
 const SingleChat = () => {
     const { id } = useParams<{ id: string }>();
@@ -23,7 +23,7 @@ const SingleChat = () => {
     const commandButtons: ICommandButtons[] = [
         { title: "Close", color: "success", handler: closeTicket(id!, true) },
         { title: "Open", color: "primary", handler: closeTicket(id!, false) },
-        { title: "Delete", color: "error", handler: () => console.log("s") },
+        { title: "Delete", color: "error", handler: () => deleteTicketAct(id!) },
         { title: "Reviwing", color: "warning", handler: () => console.log("s") },
     ];
 

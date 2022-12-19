@@ -61,11 +61,14 @@ const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
         });
 };
 
-const closeTicket = (itemId: string, itemStatus: boolean) => (dispatch: Dispatch, getState: () => RootState) => {
+const closeTicket = (itemId: string, itemStatus: boolean) => () => {
     apiService.updateIsClose(itemId, itemStatus);
-    toast.info("Ticket Already Is Closed");
 };
 
-export { closeTicket };
+const deleteTicketAct = (itemId: string) => {
+    apiService.deleteTicket(itemId);
+};
+
+export { closeTicket, deleteTicketAct };
 
 export default fetchTickets;
