@@ -31,10 +31,10 @@ const Actions = ({ title, buttons, parentProps, childProps, parentSx, childSx }:
             <Box {...childProps} sx={{ ...childSx }}>
                 {buttons.map((button, index: number) => (
                     <Button
-                        key={`ticketcommandbutton-${index}`}
-                        startIcon={<ViewInArIcon />}
+                        key={`ticket-commandbutton-${index}`}
                         variant="contained"
                         color={button.color}
+                        startIcon={<ViewInArIcon />}
                         onClick={() => dispatch(button.handler as any)}
                     >
                         {button.title}

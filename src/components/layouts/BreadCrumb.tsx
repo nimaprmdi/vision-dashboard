@@ -10,7 +10,13 @@ const BreadCrumb = (): JSX.Element => {
         <Stack mb={2} bgcolor="error" sx={{ px: { xs: 3, md: 0 } }}>
             <Breadcrumbs color="gray.light" separator="/" aria-label="breadcrumb">
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <MUILink variant="h5" underline="none" color="gray.light" textTransform="capitalize">
+                    <MUILink
+                        component="div"
+                        variant="h5"
+                        underline="none"
+                        color="gray.light"
+                        textTransform="capitalize"
+                    >
                         Home
                     </MUILink>
                 </Link>

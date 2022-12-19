@@ -3,6 +3,7 @@ import moment from "moment";
 import { Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "../rootReducer";
 import { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS } from "./ticketsReducer";
+import { toast } from "react-toastify";
 
 const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().tickets;
@@ -58,5 +59,22 @@ const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
             dispatch(FETCH_DATA_FAILED(errorMsg));
         });
 };
+
+const pendTicket = (itemId: string) => (dispatch: Dispatch, getState: () => RootState) => {
+    const data = JSON.stringify({
+        query: ``,
+    });
+
+    http.default
+        .post("", data)
+        .then((response) => {
+            toast.success("Ticket Updated");
+        })
+        .catch((error) => {
+            toast.error("Error Updating Ticket");
+        });
+};
+
+export { pendTicket };
 
 export default fetchTickets;

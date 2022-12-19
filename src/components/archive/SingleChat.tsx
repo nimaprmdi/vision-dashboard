@@ -19,9 +19,9 @@ const SingleChat = () => {
     const [ticket, setTicket] = useState<ITicket>();
 
     const commandButtons: ICommandButtons[] = [
-        { title: "Mark as solved", color: "primary", handler: () => console.log("s") },
-        { title: "Mark as pending", color: "error", handler: () => console.log("s") },
-        { title: "Mark as reviewing", color: "warning", handler: () => console.log("s") },
+        { title: "Close", color: "primary", handler: () => console.log("s") },
+        { title: "Delete", color: "error", handler: () => console.log("s") },
+        { title: "Reviwing", color: "warning", handler: () => console.log("s") },
     ];
 
     useEffect(() => {
@@ -71,7 +71,26 @@ const SingleChat = () => {
 
                     {/* <CommandButtons sx={{ justifyContent: "center", mt: 2 }} buttons={commandButtons} /> */}
 
-                    <Actions buttons={commandButtons} />
+                    <Actions
+                        title=" "
+                        buttons={commandButtons}
+                        parentSx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            flexWrap: "wrap",
+                            justifyContent: { xs: "center", md: "center" },
+                            py: 4,
+                            px: 3,
+                        }}
+                        childSx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            flexWrap: "wrap",
+                            justifyContent: { xs: "center", md: "center" },
+                        }}
+                    />
                 </Box>
             </Grid>
         </Grid>

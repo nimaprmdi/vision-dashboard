@@ -1,5 +1,4 @@
 import { ITicketResponse } from "../../models/tickets";
-import { jsonToGraphQLQuery } from "json-to-graphql-query";
 
 class TicketsQuery {
     updateResponse = (itemId: string, data: ITicketResponse[]) => {
@@ -12,6 +11,26 @@ class TicketsQuery {
             variables: {
                 data: data,
             },
+        });
+    };
+
+    updateIsClose = (itemId: string) => {
+        return JSON.stringify({
+            query: `mutation {
+                        updateTicket(data: { isClose : true } , where: {itemId: "${itemId}"}) {
+                            id
+                        }
+                    }
+            `,
+        });
+    };
+
+    updateTicketIsClose = (itemId: string) => {
+        return JSON.stringify({
+            query: `mutation MyMutation {
+                        updateTicket(data: {isClose: false}, where: {itemId: "${itemId}"})
+                    }
+            `,
         });
     };
 }

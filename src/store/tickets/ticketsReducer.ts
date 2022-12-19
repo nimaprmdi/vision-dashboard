@@ -32,8 +32,14 @@ const ticketsSlice = createSlice({
         GET_ALL_CLOSED_TICKETS: (state) => {
             state.totalClosedTickets = state.tickets.filter((ticket) => ticket.isClose).length;
         },
+
+        PEND_TICKET: (state, action: { type: string; payload: string }) => {
+            const ticketIndex = state.tickets.findIndex((ticket) => ticket.itemId === action.payload);
+            state.tickets[ticketIndex] = { ...state.tickets[ticketIndex], isClose: true };
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS } = ticketsSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS, PEND_TICKET } =
+    ticketsSlice.actions;
 export default ticketsSlice.reducer;

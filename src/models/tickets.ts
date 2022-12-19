@@ -17,7 +17,7 @@ interface ITicket {
     date: string;
     description: string;
     hasReply: string;
-    isClose: string;
+    isClose: boolean;
     isPending: string;
     subject: string;
     userId: string;

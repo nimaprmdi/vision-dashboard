@@ -3,6 +3,7 @@ import requestsQuery from "./query/Requests";
 import ticketsQuery from "./query/Tickets";
 import * as requestsActions from "../store/requests/requestsReducer";
 import fetchTickets from "../store/tickets/ticketsActions";
+import fetchRequests from "../store/requests/requestsActions";
 import configureStore from "../store/configureStore";
 import { toast } from "react-toastify";
 import { IAccount } from "../models/account";
@@ -11,7 +12,8 @@ import { ITicketResponse } from "../models/tickets";
 const store = configureStore;
 
 class VisionDashboardApiServices {
-    private publishRequest = (itemId: string) => {
+    //@todo clean up -> send to query files
+    private publishRequestQuery = (itemId: string) => {
         return JSON.stringify({
             query: `
                 mutation MyMutation {
@@ -20,8 +22,8 @@ class VisionDashboardApiServices {
             `,
         });
     };
-
-    private publsishTicket = (itemId: string) => {
+    //@todo clean up -> send to query files
+    private publsishTicketQuery = (itemId: string) => {
         return JSON.stringify({
             query: `
                 mutation MyMutation {
@@ -30,6 +32,34 @@ class VisionDashboardApiServices {
             `,
         });
     };
+
+    private publishRequest = async (itemId: string, successMsg: string, failedMsg: string) => {
+        return await http
+            .post("", this.publishRequestQuery(itemId))
+            .then(() => {
+                toast.success(successMsg);
+                store.dispatch(fetchRequests() as any);
+            })
+            .catch((error) => {
+                toast.error(failedMsg);
+                console.log(error);
+            });
+    };
+
+    private publishTicket = async (itemId: string, successMsg: string, failedMsg: string) => {
+        return await http
+            .post("", this.publsishTicketQuery(itemId))
+            .then(() => {
+                toast.success(successMsg);
+                store.dispatch(fetchTickets() as any);
+            })
+            .catch((error) => {
+                toast.error(failedMsg);
+                console.log(error);
+            });
+    };
+
+    /*******************************************************************/
 
     // Fetch All Users
     fetchUsers = () => {
@@ -63,12 +93,7 @@ class VisionDashboardApiServices {
                 store.dispatch(requestsActions.PEND_REQUEST(itemId));
                 store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
 
-                toast.success("Request Updated");
-
-                http.post("", this.publishRequest(itemId)).catch((error) => {
-                    toast.error("Failed Publishing request");
-                    console.log(error);
-                });
+                this.publishRequest(itemId, "Request Published", "failed publishing request");
             })
             .catch((error) => toast.error(error.message));
     };
@@ -79,11 +104,8 @@ class VisionDashboardApiServices {
             .then(() => {
                 store.dispatch(requestsActions.SOLVE_REQUEST(itemId));
                 store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
-                toast.success("Request Updated");
 
-                http.post("", this.publishRequest(itemId)).catch((error) => {
-                    toast.error("Failed Publishing request");
-                });
+                this.publishRequest(itemId, "Request Published", "failed publishing request");
             })
             .catch((error) => toast.error(error.message));
     };
@@ -94,33 +116,31 @@ class VisionDashboardApiServices {
             .then(() => {
                 store.dispatch(requestsActions.REVIEW_REQUEST(itemId));
                 store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
-                toast.success("Request Updated");
-
-                http.post("", this.publishRequest(itemId)).catch((error) => {
-                    toast.error("Failed Publishing request");
-                });
+                this.publishRequest(itemId, "Request Published", "failed publishing request");
             })
             .catch((error) => toast.error(error.message));
     };
 
-    // Updating Request
-    updateResponse = (itemId: string, data: ITicketResponse[]) => {
+    // Update Ticket Response and send
+    updateTicketResponse = (itemId: string, data: ITicketResponse[]) => {
         http.post("", ticketsQuery.updateResponse(itemId, data))
             .then(() => {
                 toast.success("Answer Submitted");
-                http.post("", this.publsishTicket(itemId))
-                    .then(() => {
-                        toast.success("Ticket Published Successfuly");
-                        store.dispatch(fetchTickets() as any);
-                    })
-                    .catch((error) => {
-                        toast.error("Error Publishing Ticket");
-                        console.log(error);
-                    });
+                this.publishTicket(itemId, "Ticket Published", "Ticket Publish Failed");
             })
             .catch(() => {
                 toast.error("There Was an error for submitting answer");
             });
+    };
+
+    // Update Ticket isClose
+    updateIsClose = (itemId: string) => {
+        http.post("", ticketsQuery.updateIsClose(itemId))
+            .then(() => {
+                toast.success("Ticket Updated");
+                this.publishTicket(itemId, "Ticket Published", "Ticket Publish Failed");
+            })
+            .catch((error) => toast.error("Ticket Did Not Close"));
     };
 }
 

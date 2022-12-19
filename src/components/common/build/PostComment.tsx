@@ -1,5 +1,5 @@
 import apiServices from "../../../services/VisionDashboardApiServices";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Typography, Button, TextField, FormControl } from "@mui/material";
 import { ITicketResponse } from "../../../models/tickets";
 import { IPostTicketCommentData } from "../../../models/tickets";
@@ -18,7 +18,7 @@ const PostComment = ({ itemId, responses, isAdmin }: IPostCommentProps) => {
     };
 
     const onSubmit = () => {
-        itemId && apiServices.updateResponse(itemId, [...responses, data]);
+        itemId && apiServices.updateTicketResponse(itemId, [...responses, data]);
         setData({ title: "", description: "", isAdmin: false });
     };
 
