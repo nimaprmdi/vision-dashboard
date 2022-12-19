@@ -60,8 +60,6 @@ class VisionDashboardApiServices {
             });
     };
 
-    /*******************************************************************/
-
     // Fetch All Users
     fetchUsers = () => {
         store.dispatch(requestsActions.FETCH_DATA());
@@ -144,7 +142,7 @@ class VisionDashboardApiServices {
                     store.dispatch(ticketsActions.PEND_TICKET(itemId));
                 });
             })
-            .catch((error) => toast.error("Ticket Did Not Close"));
+            .catch(() => toast.error("Ticket Did Not Close"));
     };
 
     // Delete Ticket
@@ -156,7 +154,7 @@ class VisionDashboardApiServices {
                 const x: string = "foo";
                 window.history.go(-1);
             })
-            .catch((error) => {
+            .catch(() => {
                 toast.error("Failed Deleting Ticket");
             });
     };

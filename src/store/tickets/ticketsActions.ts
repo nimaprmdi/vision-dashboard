@@ -61,11 +61,17 @@ const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
         });
 };
 
-const closeTicket = (itemId: string, itemStatus: boolean) => () => {
-    apiService.updateIsClose(itemId, itemStatus);
+const closeTicket = (itemId: string, itemStatus: boolean) => (dispatch: Dispatch, getState: () => RootState) => {
+    const ticket = getState().tickets.tickets.find((ticket) => ticket.itemId === itemId);
+
+    if (ticket!.isClose === itemStatus) {
+        toast.info(`Ticket Already Is ${itemStatus ? "Closed" : "Open"}`);
+    } else {
+        apiService.updateIsClose(itemId, itemStatus);
+    }
 };
 
-const deleteTicketAct = (itemId: string) => {
+const deleteTicketAct = (itemId: string) => () => {
     apiService.deleteTicket(itemId);
 };
 

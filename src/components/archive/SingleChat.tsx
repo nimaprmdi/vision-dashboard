@@ -24,7 +24,6 @@ const SingleChat = () => {
         { title: "Close", color: "success", handler: closeTicket(id!, true) },
         { title: "Open", color: "primary", handler: closeTicket(id!, false) },
         { title: "Delete", color: "error", handler: () => deleteTicketAct(id!) },
-        { title: "Reviwing", color: "warning", handler: () => console.log("s") },
     ];
 
     useEffect(() => {
@@ -35,10 +34,8 @@ const SingleChat = () => {
             currentTicket ? setTicket(currentTicket) : navigate("/404");
         } else if (!ticketsState.isLoading && id && currentTicket === undefined) {
             navigate("/404");
-        } else {
-            if (!id) {
-                navigate("/404");
-            }
+        } else if (!id) {
+            navigate("/404");
         }
     }, [ticketsState]);
 
