@@ -30,9 +30,12 @@ const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        // @todo: Merge Requestss
         dispatch(fetchRequests() as any);
         dispatch(fetchAccounts() as any);
         dispatch(fetchTickets() as any);
+
+        console.log("App Mounted");
     }, []);
 
     return (
@@ -44,8 +47,8 @@ const App: React.FC = (): JSX.Element => {
 
                     <Route path="/request/:id" element={<SingleDetails />} />
                     <Route path="/ticket/:id" element={<SingleChat />} />
+                    <Route path="/user/:id" element={<SingleProfile />} />
 
-                    <Route path="/single-profile" element={<SingleProfile />} />
                     <Route path="/add-request" element={<AddRequest />} />
                     <Route path="/server-error" element={<ServerError />} />
                     <Route path="*" element={<Notfound />} />

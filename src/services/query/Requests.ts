@@ -2,7 +2,7 @@ import { IAccount } from "../../models/account";
 
 class RequestsQuery {
     // Fetch All Users
-    fetchUsers = () => {
+    readonly fetchUsers = () => {
         return JSON.stringify({
             query: `{
                 requests {
@@ -40,11 +40,11 @@ class RequestsQuery {
     };
 
     // Create User
-    createUser = (inputData: IAccount) => {
+    readonly createUser = (inputData: IAccount) => {
         return JSON.stringify({
             query: `
                 mutation createUser(
-                    $itemid: String!
+                    $itemId: String!
                     $name: String!
                     $lastName: String!
                     $email: String!
@@ -64,7 +64,7 @@ class RequestsQuery {
                     ) {
                     createRequest(
                         data:{
-                            itemid: $itemid
+                            itemId: $itemId
                             name: $name
                             lastName: $lastName
                             email: $email
@@ -89,7 +89,7 @@ class RequestsQuery {
                 }
             `,
             variables: {
-                itemid: inputData.itemid,
+                itemId: inputData.itemId,
                 name: inputData.name,
                 lastName: inputData.lastName,
                 email: inputData.email,
@@ -109,7 +109,7 @@ class RequestsQuery {
         });
     };
 
-    pendRequestQuery = (itemId: string) => {
+    readonly pendRequestQuery = (itemId: string) => {
         return JSON.stringify({
             query: `
                 mutation {
@@ -121,7 +121,7 @@ class RequestsQuery {
         });
     };
 
-    solveRequestQuery = (itemId: string) => {
+    readonly solveRequestQuery = (itemId: string) => {
         return JSON.stringify({
             query: `
                 mutation MyMutation {
@@ -133,7 +133,7 @@ class RequestsQuery {
         });
     };
 
-    reviewRequestQuery = (itemId: string) => {
+    readonly reviewRequestQuery = (itemId: string) => {
         return JSON.stringify({
             query: `
             mutation MyMutation {
@@ -142,6 +142,16 @@ class RequestsQuery {
                 }
             }
         `,
+        });
+    };
+
+    readonly publishRequestQuery = (itemId: string) => {
+        return JSON.stringify({
+            query: `
+                mutation MyMutation {
+                    publishRequest(where: {itemId: "${itemId}"}) { id }
+                }          
+            `,
         });
     };
 }

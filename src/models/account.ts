@@ -1,6 +1,6 @@
 // Single Account Model
 interface IAccount {
-    itemid: string;
+    itemId: string;
     name: string;
     lastName: string;
     email: string;

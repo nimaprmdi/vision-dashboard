@@ -11,39 +11,36 @@ const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
 
     if (diffInMinutes < 10) return;
 
-    apiService.fetchUsers();
+    apiService.fetchRequests();
 };
 
 const createUser = (inputData: IAccount) => (dispatch: Dispatch, getState: () => RootState) => {
     apiService.createUser(inputData);
 };
 
-const pendRequest =
-    (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
-        if (itemStatus !== "pending") {
-            apiService.pendRequest(itemId);
-        } else {
-            toast.info("Request Already Is Pending");
-        }
-    };
+const pendRequest = (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
+    if (itemStatus !== "pending") {
+        apiService.pendRequest(itemId);
+    } else {
+        toast.info("Request Already Is Pending");
+    }
+};
 
-const solveRequest =
-    (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
-        if (itemStatus !== "solved") {
-            apiService.solveRequest(itemId);
-        } else {
-            toast.info("Request Already Is Solved");
-        }
-    };
+const solveRequest = (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
+    if (itemStatus !== "solved") {
+        apiService.solveRequest(itemId);
+    } else {
+        toast.info("Request Already Is Solved");
+    }
+};
 
-const reviewRequest =
-    (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
-        if (itemStatus !== "reviewing") {
-            apiService.reviewRequest(itemId);
-        } else {
-            toast.info("Request Already Is Reviewing");
-        }
-    };
+const reviewRequest = (itemId: string, itemStatus: "pending" | "solved" | "reviewing" | undefined) => (dispatch: Dispatch) => {
+    if (itemStatus !== "reviewing") {
+        apiService.reviewRequest(itemId);
+    } else {
+        toast.info("Request Already Is Reviewing");
+    }
+};
 
 export { createUser, pendRequest, solveRequest, reviewRequest };
 export default fetchRequests;

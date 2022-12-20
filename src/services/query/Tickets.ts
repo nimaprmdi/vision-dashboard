@@ -34,5 +34,15 @@ class TicketsQuery {
             }`,
         });
     };
+
+    readonly publsishTicketQuery = (itemId: string) => {
+        return JSON.stringify({
+            query: `
+                mutation MyMutation {
+                    publishTicket(where: {itemId: "${itemId}"}) { id }
+                } 
+            `,
+        });
+    };
 }
 export default new TicketsQuery();

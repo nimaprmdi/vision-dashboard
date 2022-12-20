@@ -1,11 +1,16 @@
 import http from "./httpServices";
-import requestsQuery from "./query/Requests";
 import ticketsQuery from "./query/Tickets";
+import requestsQuery from "./query/Requests";
+import accountsQuery from "./query/Accounts";
+
 import * as requestsActions from "../store/requests/requestsReducer";
 import * as ticketsActions from "../store/tickets/ticketsReducer";
+import * as accountsActions from "../store/account/accountsReducer";
+
 import fetchTickets from "../store/tickets/ticketsActions";
 import fetchRequests from "../store/requests/requestsActions";
 import configureStore from "../store/configureStore";
+
 import { toast } from "react-toastify";
 import { IAccount } from "../models/account";
 import { ITicketResponse } from "../models/tickets";
@@ -13,30 +18,9 @@ import { ITicketResponse } from "../models/tickets";
 const store = configureStore;
 
 class VisionDashboardApiServices {
-    //@todo clean up -> send to query files
-    private publishRequestQuery = (itemId: string) => {
-        return JSON.stringify({
-            query: `
-                mutation MyMutation {
-                    publishRequest(where: {itemId: "${itemId}"}) { id }
-                }          
-            `,
-        });
-    };
-    //@todo clean up -> send to query files
-    private publsishTicketQuery = (itemId: string) => {
-        return JSON.stringify({
-            query: `
-                mutation MyMutation {
-                    publishTicket(where: {itemId: "${itemId}"}) { id }
-                } 
-            `,
-        });
-    };
-
     private publishRequest = async (itemId: string, successMsg: string, failedMsg: string) => {
         return await http
-            .post("", this.publishRequestQuery(itemId))
+            .post("", requestsQuery.publishRequestQuery(itemId))
             .then(() => {
                 toast.success(successMsg);
                 store.dispatch(fetchRequests() as any);
@@ -49,7 +33,7 @@ class VisionDashboardApiServices {
 
     private publishTicket = async (itemId: string, successMsg: string, failedMsg: string) => {
         return await http
-            .post("", this.publsishTicketQuery(itemId))
+            .post("", ticketsQuery.publsishTicketQuery(itemId))
             .then(() => {
                 toast.success(successMsg);
                 store.dispatch(fetchTickets() as any);
@@ -61,7 +45,7 @@ class VisionDashboardApiServices {
     };
 
     // Fetch All Users
-    fetchUsers = () => {
+    fetchRequests = () => {
         store.dispatch(requestsActions.FETCH_DATA());
 
         http.post("", requestsQuery.fetchUsers())
@@ -73,6 +57,23 @@ class VisionDashboardApiServices {
             .catch((error) => {
                 const errorMsg = error.message;
                 store.dispatch(requestsActions.FETCH_DATA_FAILED(errorMsg));
+            });
+    };
+
+    // Fetch All Accounts
+    fetchAccounts = () => {
+        store.dispatch(accountsActions.FETCH_DATA());
+
+        http.post("", accountsQuery.fetchAccountsQuery())
+            .then((response) => {
+                const accounts = response.data;
+
+                store.dispatch(accountsActions.FETCH_DATA_SUCCESSFUL(accounts.data.accounts));
+                store.dispatch(accountsActions.GET_TOTAL_ACCOUNTS());
+            })
+            .catch((error) => {
+                const errorMsg = error.message;
+                store.dispatch(accountsActions.FETCH_DATA_FAILED(errorMsg));
             });
     };
 
@@ -151,12 +152,58 @@ class VisionDashboardApiServices {
             .then(() => {
                 store.dispatch(ticketsActions.DELETE_TICKET(itemId));
                 toast.success("Ticket Has Been Deleted");
-                const x: string = "foo";
                 window.history.go(-1);
             })
             .catch(() => {
                 toast.error("Failed Deleting Ticket");
             });
+    };
+
+    // Update Profile Image
+    updateProfileImage = (itemId: string, formData: FormData, setImageUpload: (value: React.SetStateAction<boolean>) => void) => {
+        // Upload Assets
+        http.post("/upload", formData)
+            .then((response) => {
+                const imageId: string = response.data.id;
+
+                const jsonData = JSON.stringify({
+                    query: `mutation {
+                                publishAsset(where: {id: "${imageId}" }) {
+                                    id
+                                }
+                            }`,
+                });
+
+                // Publish Asset
+                http.post("", jsonData)
+                    .then(() => {
+                        const updateProfielImage: string = JSON.stringify({
+                            query: `
+                                mutation {
+                                    updateAccount(data: {profileImage: {connect: {id: "${imageId}"}}}, where: {itemId: "${itemId}"}) {
+                                        id
+                                    }
+                                }
+                            `,
+                        });
+
+                        // Update Profile
+                        http.post("", updateProfielImage)
+                            .then(() => {
+                                setImageUpload(false);
+
+                                store.dispatch(this.fetchAccounts() as any);
+                            })
+                            .catch(() => {
+                                setImageUpload(false);
+                            });
+                    })
+                    .catch((error) => {
+                        console.log("PublishAsset Failed");
+                        // @todo: Dispatch Error Here
+                    });
+            })
+            .catch((error) => console.log("Creat Asset error", error));
     };
 }
 

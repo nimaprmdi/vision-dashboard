@@ -1,6 +1,7 @@
-import { Typography, TableRow, TableCell, Avatar, Chip, Link, Box } from "@mui/material";
+import { Typography, TableRow, TableCell, Avatar, Chip, Link as MUILink, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
+import { Link } from "react-router-dom";
 
 const TableRowAccounts = () => {
     const accountsState = useSelector((state: RootState) => state.accounts);
@@ -9,7 +10,7 @@ const TableRowAccounts = () => {
         <>
             {accountsState.accounts.map((account) => (
                 <TableRow
-                    key={account.itemid}
+                    key={`account-item-${account.itemId}`}
                     className="c-table__row"
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
@@ -20,7 +21,10 @@ const TableRowAccounts = () => {
                     >
                         <Avatar alt="image" sx={{ bgcolor: account.color.hex || "gray.light" }}>
                             {account.profileImage ? (
-                                <img src={account.profileImage.url} />
+                                <img
+                                    src={account.profileImage.url}
+                                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                                />
                             ) : (
                                 <Typography variant="h4" textTransform="capitalize" color="white">
                                     {account.name.charAt(0)}
@@ -56,8 +60,10 @@ const TableRowAccounts = () => {
                     </TableCell>
 
                     <TableCell>
-                        <Link href="#" underline="none" color="gray.light" variant="h6">
-                            Edit
+                        <Link to={`/user/${account.itemId}`}>
+                            <MUILink component="div" href="#" underline="none" color="gray.light" variant="h6">
+                                Edit
+                            </MUILink>
                         </Link>
                     </TableCell>
                 </TableRow>

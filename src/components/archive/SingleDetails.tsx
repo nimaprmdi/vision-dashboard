@@ -210,7 +210,7 @@ const SingleDetails = () => {
             </Grid>
 
             <Grid item xs={12}>
-                {/* <input type="file" onChange={(e) => handleInputChange(e)} /> */}
+                <input type="file" onChange={(e) => handleInputChange(e)} />
 
                 <Actions
                     title="Requests Actions"
