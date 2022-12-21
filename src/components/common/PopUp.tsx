@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 interface PopUpProps {
-    title: string;
+    title?: string;
     description?: string;
     link?: string;
+    children?: JSX.Element | JSX.Element[];
 }
 
-const PopUp = ({ title, description, link = "/" }: PopUpProps) => {
+const PopUp = ({ title, description, link = "/", children }: PopUpProps) => {
     const [isOpen, setIsOpen] = useState(true);
     const navigate = useNavigate();
 
@@ -24,14 +25,7 @@ const PopUp = ({ title, description, link = "/" }: PopUpProps) => {
                 </Typography>
 
                 <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                    <Typography
-                        sx={{ maxWidth: "440px" }}
-                        mt={2}
-                        variant="h3"
-                        className="u-text-small"
-                        color="gray.light"
-                        align="center"
-                    >
+                    <Typography sx={{ maxWidth: "440px" }} mt={2} variant="h3" className="u-text-small" color="gray.light" align="center">
                         {description}
                     </Typography>
                 </Box>
@@ -41,6 +35,8 @@ const PopUp = ({ title, description, link = "/" }: PopUpProps) => {
                 <Button variant="contained" color="primary" onClick={() => handleClose()}>
                     CLOSE
                 </Button>
+
+                {children}
             </Box>
         </Box>
     ) : (

@@ -12,11 +12,23 @@ import { RootState } from "../../store/rootReducer";
 import { IAccount } from "../../models/account";
 import Skull from "../common/Skull";
 
+interface IUserData {
+    name: string;
+    lastName: string;
+    bio: string;
+    mobile: string;
+    email: string;
+    location: string;
+    password: string;
+    color: string;
+}
+
 const SingleProfile = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const accountsState = useSelector((state: RootState) => state.accounts);
     const [user, setUser] = useState<IAccount>();
+    const [userFormData, setUserFormData] = useState<IUserData>();
 
     useEffect(() => {
         let currentUser: IAccount | undefined;
@@ -30,10 +42,6 @@ const SingleProfile = () => {
             navigate("/404");
         }
     }, [accountsState]);
-
-    useEffect(() => {
-        console.log("user", user);
-    }, [user]);
 
     return (
         <Box px={2}>

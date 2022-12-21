@@ -5,27 +5,21 @@ import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import { useState } from "react";
 import { IAccount } from "../../../models/account";
-import { Box, Avatar, Typography, Button, Badge, FormLabel } from "@mui/material";
+import { Box, Avatar, Typography, Button, Badge, FormLabel, FormControl, TextField } from "@mui/material";
+import PopUp from "../PopUp";
 
 interface ProfileHeaderProps {
     data: IAccount;
 }
 
 const ProfileHeader = ({ data }: ProfileHeaderProps) => {
-    console.log(data.profileImage);
-
-    // @todo : sending image
-    const [image, setImage] = useState<File>();
     const [imageUpload, setImageUpload] = useState<boolean>(false);
-    const [assetId, setAssetId] = useState<string>();
+    const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
 
     const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.currentTarget && e.currentTarget.files && setImage(e.currentTarget.files[0]);
-        setAssetId("");
-        const formData = new FormData();
-        setImageUpload(true);
-
         if (e.currentTarget && e.currentTarget.files) {
+            const formData = new FormData();
+            setImageUpload(true);
             formData.append("fileUpload", e.currentTarget.files[0]);
             apiServices.updateProfileImage(data.itemId, formData, setImageUpload);
         }
@@ -44,6 +38,33 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
                 p: 2,
             }}
         >
+            <PopUp>
+                {/* <FormControl sx={{ width: "100%" }}>
+                    <TextField
+                        id="comment-title"
+                        name="title"
+                        value={data.title}
+                        sx={{ width: "100%" }}
+                        required
+                        label="Enter Title"
+                        type="text"
+                        onChange={(e) => console.log("s")}
+                    />
+
+                    <TextField
+                        id="comment-description"
+                        name="description"
+                        value={data.description}
+                        sx={{ width: "100%", mt: 2 }}
+                        required
+                        label="Enter Description"
+                        size="small"
+                        multiline={true}
+                        rows={6}
+                        onChange={(e) => console.log("s")}
+                    />
+                </FormControl> */}
+            </PopUp>
             <Box
                 sx={{
                     display: "flex",

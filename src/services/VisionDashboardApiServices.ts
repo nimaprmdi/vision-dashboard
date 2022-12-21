@@ -18,6 +18,8 @@ import { ITicketResponse } from "../models/tickets";
 const store = configureStore;
 
 class VisionDashboardApiServices {
+    // @todo: Clean Up Every Method for their model => Requests, Tickets, Accounts
+
     private publishRequest = async (itemId: string, successMsg: string, failedMsg: string) => {
         return await http
             .post("", requestsQuery.publishRequestQuery(itemId))
@@ -61,7 +63,7 @@ class VisionDashboardApiServices {
     };
 
     // Fetch All Accounts
-    fetchAccounts = () => {
+    readonly fetchAccounts = () => {
         store.dispatch(accountsActions.FETCH_DATA());
 
         http.post("", accountsQuery.fetchAccountsQuery())
@@ -78,7 +80,7 @@ class VisionDashboardApiServices {
     };
 
     // Create User
-    createUser = (inputData: IAccount) => {
+    readonly createUser = (inputData: IAccount) => {
         http.post("/upload", inputData.profileImage)
             .then((response) => {
                 console.log(response);
@@ -87,7 +89,7 @@ class VisionDashboardApiServices {
     };
 
     // Pend A Request
-    pendRequest = (itemId: string) => {
+    readonly pendRequest = (itemId: string) => {
         http.post("", requestsQuery.pendRequestQuery(itemId))
             .then(() => {
                 store.dispatch(requestsActions.PEND_REQUEST(itemId));
@@ -99,7 +101,7 @@ class VisionDashboardApiServices {
     };
 
     // Solve Request
-    solveRequest = (itemId: string) => {
+    readonly solveRequest = (itemId: string) => {
         http.post("", requestsQuery.solveRequestQuery(itemId))
             .then(() => {
                 this.publishRequest(itemId, "Request Published", "failed publishing request").then((response) => {
@@ -111,7 +113,7 @@ class VisionDashboardApiServices {
     };
 
     // Review Request
-    reviewRequest = (itemId: string) => {
+    readonly reviewRequest = (itemId: string) => {
         http.post("", requestsQuery.reviewRequestQuery(itemId))
             .then(() => {
                 this.publishRequest(itemId, "Request Published", "failed publishing request").then((response) => {
@@ -123,7 +125,7 @@ class VisionDashboardApiServices {
     };
 
     // Update Ticket Response and send
-    updateTicketResponse = (itemId: string, data: ITicketResponse[]) => {
+    readonly updateTicketResponse = (itemId: string, data: ITicketResponse[]) => {
         http.post("", ticketsQuery.updateResponse(itemId, data))
             .then(() => {
                 toast.success("Answer Submitted");
@@ -135,7 +137,7 @@ class VisionDashboardApiServices {
     };
 
     // Update Ticket isClose
-    updateIsClose = (itemId: string, isClose: boolean) => {
+    readonly updateIsClose = (itemId: string, isClose: boolean) => {
         http.post("", ticketsQuery.updateIsClose(itemId, isClose))
             .then(() => {
                 toast.success("Ticket Updated");
@@ -147,7 +149,7 @@ class VisionDashboardApiServices {
     };
 
     // Delete Ticket
-    deleteTicket = (itemId: string) => {
+    readonly deleteTicket = (itemId: string) => {
         http.post("", ticketsQuery.deleteTicket(itemId))
             .then(() => {
                 store.dispatch(ticketsActions.DELETE_TICKET(itemId));
@@ -159,8 +161,15 @@ class VisionDashboardApiServices {
             });
     };
 
+    readonly publishAccount = async (itemId: string) => {
+        return http.post("", accountsQuery.publishAccountQuery(itemId)).catch((error) => {
+            toast.error(error.message);
+            console.log("Publish Account Error");
+        });
+    };
+
     // Update Profile Image
-    updateProfileImage = (itemId: string, formData: FormData, setImageUpload: (value: React.SetStateAction<boolean>) => void) => {
+    readonly updateProfileImage = (itemId: string, formData: FormData, setImageUpload: (value: React.SetStateAction<boolean>) => void) => {
         // Upload Assets
         http.post("/upload", formData)
             .then((response) => {
@@ -189,10 +198,10 @@ class VisionDashboardApiServices {
 
                         // Update Profile
                         http.post("", updateProfielImage)
-                            .then(() => {
-                                setImageUpload(false);
-
+                            .then(async () => {
+                                await this.publishAccount(itemId);
                                 store.dispatch(this.fetchAccounts() as any);
+                                setImageUpload(false);
                             })
                             .catch(() => {
                                 setImageUpload(false);
