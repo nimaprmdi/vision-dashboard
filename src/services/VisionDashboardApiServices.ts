@@ -19,7 +19,6 @@ const store = configureStore;
 
 class VisionDashboardApiServices {
     // @todo: Clean Up Every Method for their model => Requests, Tickets, Accounts
-
     private publishRequest = async (itemId: string, successMsg: string, failedMsg: string) => {
         return await http
             .post("", requestsQuery.publishRequestQuery(itemId))
@@ -47,7 +46,7 @@ class VisionDashboardApiServices {
     };
 
     // Fetch All Users
-    fetchRequests = () => {
+    readonly fetchRequests = () => {
         store.dispatch(requestsActions.FETCH_DATA());
 
         http.post("", requestsQuery.fetchUsers())

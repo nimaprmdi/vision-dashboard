@@ -1,25 +1,16 @@
 import { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 interface PopUpProps {
     title?: string;
     description?: string;
-    link?: string;
     children?: JSX.Element | JSX.Element[];
+    handler: (isOpen: boolean) => void;
 }
 
-const PopUp = ({ title, description, link = "/", children }: PopUpProps) => {
-    const [isOpen, setIsOpen] = useState(true);
-    const navigate = useNavigate();
-
-    const handleClose = () => {
-        setIsOpen(false);
-        navigate(link);
-    };
-
-    return isOpen ? (
+const PopUp = ({ title, description, children, handler }: PopUpProps) => {
+    return (
         <Box className="c-popup" sx={{ px: { xs: 2, md: 0 } }}>
-            <Box className="c-popup__container">
+            <Box className="c-popup__container" sx={{ maxHeight: "90vh", overflow: "auto" }}>
                 <Typography variant="h3" className="u-text-h5" color="white" align="center">
                     {title}
                 </Typography>
@@ -30,17 +21,15 @@ const PopUp = ({ title, description, link = "/", children }: PopUpProps) => {
                     </Typography>
                 </Box>
 
+                {children}
+
                 <Box my={3} className="u-divider" />
 
-                <Button variant="contained" color="primary" onClick={() => handleClose()}>
+                <Button variant="contained" color="primary" onClick={() => handler(false)}>
                     CLOSE
                 </Button>
-
-                {children}
             </Box>
         </Box>
-    ) : (
-        <></>
     );
 };
 

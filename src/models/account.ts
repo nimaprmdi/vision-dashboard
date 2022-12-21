@@ -42,6 +42,23 @@ interface IAccountFetchFailed {
     payload: string;
 }
 
+interface IEditAccount {
+    name?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+    // isAdmin: boolean;
+    bio?: string;
+    location?: string;
+    color?: {
+        hex: string;
+    };
+    profileImage?: {
+        url: string;
+    };
+}
+
 type DispatchType = (args: IAccountFetchSuccessful) => IAccountFetchSuccessful;
 
-export type { IAccount, IAccountInitialState, IAccountFetchSuccessful, IAccountFetchFailed, DispatchType };
+export type { IAccount, IAccountInitialState, IAccountFetchSuccessful, IAccountFetchFailed, DispatchType, IEditAccount };

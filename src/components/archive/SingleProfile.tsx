@@ -44,7 +44,7 @@ const SingleProfile = () => {
     }, [accountsState]);
 
     return (
-        <Box px={2}>
+        <Box px={{ xs: 2, md: 0 }}>
             {!accountsState.isLoading && user ? <ProfileHeader data={user} /> : <Skull sx={{ height: "112px" }} />}
 
             <Grid container spacing={2} mt={1}>

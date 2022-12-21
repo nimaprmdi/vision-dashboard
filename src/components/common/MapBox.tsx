@@ -6,9 +6,10 @@ import "mapbox-gl/dist/mapbox-gl.css";
 interface MapBoxProps {
     isChanged?: boolean;
     location: { longitude: number; latitude: number };
+    darggable?: boolean;
 }
 
-const MapBox = ({ isChanged, location }: MapBoxProps) => {
+const MapBox = ({ isChanged, location, darggable = false }: MapBoxProps) => {
     mapboxgl.accessToken = "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
 
     const mapContainer = useRef<any>(null);
@@ -29,7 +30,7 @@ const MapBox = ({ isChanged, location }: MapBoxProps) => {
 
         new mapboxgl.Marker({
             // color: "#FFFFFF",
-            draggable: false,
+            draggable: darggable,
         })
             .setLngLat([lng, lat])
             .addTo(map.current);

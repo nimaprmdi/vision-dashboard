@@ -1,12 +1,13 @@
+import { useState } from "react";
+import PopUp from "../PopUp";
 import EditIcon from "@mui/icons-material/Edit";
 import GroupIcon from "@mui/icons-material/Group";
 import apiServices from "../../../services/VisionDashboardApiServices";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
-import { useState } from "react";
-import { IAccount } from "../../../models/account";
-import { Box, Avatar, Typography, Button, Badge, FormLabel, FormControl, TextField } from "@mui/material";
-import PopUp from "../PopUp";
+import EditUser from "../../form/EditUser";
+import { IAccount, IEditAccount } from "../../../models/account";
+import { Box, Avatar, Typography, Button, Badge, FormLabel } from "@mui/material";
 
 interface ProfileHeaderProps {
     data: IAccount;
@@ -14,7 +15,8 @@ interface ProfileHeaderProps {
 
 const ProfileHeader = ({ data }: ProfileHeaderProps) => {
     const [imageUpload, setImageUpload] = useState<boolean>(false);
-    const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+    const [editData, setEditData] = useState<IEditAccount>();
+    const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
     const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget && e.currentTarget.files) {
@@ -38,33 +40,12 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
                 p: 2,
             }}
         >
-            <PopUp>
-                {/* <FormControl sx={{ width: "100%" }}>
-                    <TextField
-                        id="comment-title"
-                        name="title"
-                        value={data.title}
-                        sx={{ width: "100%" }}
-                        required
-                        label="Enter Title"
-                        type="text"
-                        onChange={(e) => console.log("s")}
-                    />
+            {isPopupOpen && (
+                <PopUp title="Edit Profile" handler={() => setIsPopupOpen(false)}>
+                    <EditUser editData={editData} />
+                </PopUp>
+            )}
 
-                    <TextField
-                        id="comment-description"
-                        name="description"
-                        value={data.description}
-                        sx={{ width: "100%", mt: 2 }}
-                        required
-                        label="Enter Description"
-                        size="small"
-                        multiline={true}
-                        rows={6}
-                        onChange={(e) => console.log("s")}
-                    />
-                </FormControl> */}
-            </PopUp>
             <Box
                 sx={{
                     display: "flex",
@@ -135,7 +116,7 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
                 </Box>
             </Box>
 
-            <Button variant="contained" color="primary" startIcon={<ViewInArIcon />} sx={{ px: 6 }}>
+            <Button variant="contained" color="primary" startIcon={<ViewInArIcon />} sx={{ px: 6 }} onClick={() => setIsPopupOpen(true)}>
                 Edit
             </Button>
         </Box>

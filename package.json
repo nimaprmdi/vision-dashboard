@@ -26,6 +26,7 @@
         "inuitcss": "^6.0.0",
         "mapbox-gl": "^2.11.0",
         "moment": "^2.29.4",
+        "mui-color-input": "^1.0.3",
         "node-sass": "^8.0.0",
         "react": "^18.2.0",
         "react-apexcharts": "^1.4.0",
