@@ -66,13 +66,18 @@ const EditUser = () => {
         const errors = editData && validate(editData, schema);
     };
 
-    // @defaults
     const handleColorChange = (colorHex: string) => {
         setEditData({ ...editData, color: colorHex });
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.target.files && setEditData({ ...editData, profileImage: e.target.files[0] });
+    };
+
+    const handleMapChange = (e: IAccountLocation) => {
+        setEditData((prevState) => {
+            return { ...prevState, location: e };
+        });
     };
 
     return (
@@ -192,11 +197,7 @@ const EditUser = () => {
                 </Typo>
 
                 <Box sx={{ height: "300px", width: "100%" }}>
-                    <MapBox
-                        location={{ longitude: -74.0632, latitude: 40.7346 }}
-                        darggable
-                        handler={(e: IAccountLocation) => setEditData({ ...editData, location: e })}
-                    />
+                    <MapBox location={{ longitude: -74.0632, latitude: 40.7346 }} darggable handler={(e) => handleMapChange(e)} />
                 </Box>
             </Box>
 
