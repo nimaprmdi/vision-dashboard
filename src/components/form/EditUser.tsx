@@ -1,40 +1,33 @@
 import React, { useState, useRef, memo } from "react";
 import Joi from "joi";
 import MapBox from "../common/MapBox";
-import { IEditAccount } from "../../models/account";
+import { IAccountLocation, IEditAccount } from "../../models/account";
 import { MuiColorInput, MuiColorInputValue, MuiColorInputColors, MuiColorInputFormat } from "mui-color-input";
 import { FormControl, TextField, Box, Button, Typography as Typo } from "@mui/material";
 import { validate, validateProperty } from "./validate";
 
-interface IEditUserErrors {
-    name?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
-    confrimPassword?: string;
-    bio?: string;
-    color?: string;
-    profileImage?: string;
-    location?: string;
-}
-
-const EditUser = memo(() => {
+const EditUser = () => {
     const [color, setColor] = useState<MuiColorInputValue>("#ffffff");
     const [editData, setEditData] = useState<IEditAccount>();
     const inputField = useRef() as React.MutableRefObject<HTMLInputElement>;
     const format: MuiColorInputFormat = "hex8";
 
-    const [errors, setErrors] = useState<IEditUserErrors>();
+    const [errors, setErrors] = useState<IEditAccount>();
 
     const schema = Joi.object({
         name: Joi.string().min(3).label("Name"),
         lastName: Joi.string().min(4).label("Last name"),
         email: Joi.string()
             .email({ tlds: { allow: false } })
-
             .label("Email"),
-        password: Joi.string().min(4).label("Password"),
-        confirmPassword: Joi.string().min(4).label("Confirm Password"),
+        password: Joi.string()
+            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
+            .message("Password Does Not Match pattern")
+            .label("Password"),
+        confirmPassword: Joi.string()
+            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
+            .message("Password Does Not Match pattern")
+            .label("Password"),
         bio: Joi.string().min(3).label("Bio"),
         color: Joi.string()
             .regex(/^#[A-Fa-f0-9]{6}/)
@@ -46,28 +39,40 @@ const EditUser = memo(() => {
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setEditData({ ...editData, [e.currentTarget.name]: e.currentTarget.value });
+        setEditData((prevState) => {
+            return { ...prevState, [e.target.name]: e.target.value };
+        });
 
-        const input = e.currentTarget;
-        const errorMsg = validateProperty(input, schema);
+        const errorMsg = validateProperty(e.target, schema);
+        setErrors({ ...errors, [e.target.name]: errorMsg });
 
-        setErrors({ ...errors, [e.currentTarget.name]: errorMsg });
-        console.log(errors);
+        if (e.target.name === "confirmPassword") {
+            editData?.password !== e.target.value &&
+                setErrors((prevState) => {
+                    return { ...prevState, confirmPassword: "Password Does Not Match" };
+                });
+        } else if (e.target.name === "password") {
+            setEditData({ ...editData, password: e.target.value, confirmPassword: "" });
+        } else {
+            setErrors((prevState) => {
+                return { ...prevState, confirmPassword: "" };
+            });
+        }
+
+        console.log(editData);
     };
 
     const handleSubmit = () => {
         const errors = editData && validate(editData, schema);
-
-        console.log(errors);
     };
 
     // @defaults
-    const handleColorChange = (newValue: string, colors: MuiColorInputColors) => {
-        setColor(newValue);
+    const handleColorChange = (colorHex: string) => {
+        setEditData({ ...editData, color: colorHex });
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.currentTarget.value);
+        e.target.files && setEditData({ ...editData, profileImage: e.target.files[0] });
     };
 
     return (
@@ -92,6 +97,8 @@ const EditUser = memo(() => {
                 label="Enter Last Name"
                 type="text"
                 onChange={(e) => handleInputChange(e)}
+                error={errors?.lastName ? true : false}
+                helperText={errors?.lastName || ""}
             />
 
             <TextField
@@ -102,6 +109,8 @@ const EditUser = memo(() => {
                 label="Enter Email"
                 type="text"
                 onChange={(e) => handleInputChange(e)}
+                error={errors?.email ? true : false}
+                helperText={errors?.email || ""}
             />
 
             <TextField
@@ -112,16 +121,20 @@ const EditUser = memo(() => {
                 label="Change Password"
                 type="text"
                 onChange={(e) => handleInputChange(e)}
+                error={errors?.password ? true : false}
+                helperText={errors?.password || ""}
             />
 
             <TextField
                 id="comment-confirm-password"
-                name="confirm-password"
+                name="confirmPassword"
                 value={editData?.confirmPassword || ""}
                 sx={{ width: { xs: "100%", md: "49%" }, mt: 2 }}
                 label="Confirm Password"
                 type="text"
                 onChange={(e) => handleInputChange(e)}
+                error={errors?.confirmPassword ? true : false}
+                helperText={errors?.confirmPassword || ""}
             />
 
             <TextField
@@ -134,9 +147,19 @@ const EditUser = memo(() => {
                 multiline={true}
                 rows={6}
                 onChange={(e) => handleInputChange(e)}
+                error={errors?.bio ? true : false}
+                helperText={errors?.bio || ""}
             />
 
-            <MuiColorInput name="color" sx={{ mt: 2, width: { xs: "100%", md: "49%" } }} value={color} onChange={handleColorChange} format={format} />
+            <MuiColorInput
+                name="color"
+                sx={{ mt: 2, width: { xs: "100%", md: "49%" } }}
+                value={color}
+                onChange={handleColorChange}
+                format={format}
+                error={errors?.color ? true : false}
+                helperText={errors?.color || ""}
+            />
 
             <Box
                 className="u-box-light-tertiary"
@@ -169,7 +192,11 @@ const EditUser = memo(() => {
                 </Typo>
 
                 <Box sx={{ height: "300px", width: "100%" }}>
-                    <MapBox location={{ longitude: -74.0632, latitude: 40.7346 }} darggable />
+                    <MapBox
+                        location={{ longitude: -74.0632, latitude: 40.7346 }}
+                        darggable
+                        handler={(e: IAccountLocation) => setEditData({ ...editData, location: e })}
+                    />
                 </Box>
             </Box>
 
@@ -178,6 +205,6 @@ const EditUser = memo(() => {
             </Button>
         </FormControl>
     );
-});
+};
 
 export default EditUser;

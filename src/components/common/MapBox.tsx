@@ -8,9 +8,10 @@ interface MapBoxProps {
     isChanged?: boolean;
     location: IAccountLocation;
     darggable?: boolean;
+    handler?: (geoLocation: IAccountLocation) => void;
 }
 
-const MapBox = ({ isChanged, location, darggable = false }: MapBoxProps) => {
+const MapBox = ({ isChanged, location, darggable = false, handler }: MapBoxProps) => {
     mapboxgl.accessToken = "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
 
     const mapContainer = useRef<any>(null);
@@ -29,12 +30,18 @@ const MapBox = ({ isChanged, location, darggable = false }: MapBoxProps) => {
             zoom: zoom,
         });
 
-        new mapboxgl.Marker({
+        const marker = new mapboxgl.Marker({
             // color: "#FFFFFF",
             draggable: darggable,
         })
             .setLngLat([lng, lat])
             .addTo(map.current);
+
+        marker.on("dragend", function (e) {
+            var lngLat = marker.getLngLat();
+
+            handler && handler({ latitude: lngLat["lat"], longitude: lngLat["lng"] });
+        });
     }, [lng, lng]);
 
     useEffect(() => {

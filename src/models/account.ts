@@ -48,20 +48,16 @@ interface IAccountFetchFailed {
 }
 
 interface IEditAccount {
-    name?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
-    // isAdmin: boolean;
-    bio?: string;
+    name?: string | undefined | null;
+    lastName?: string | undefined | null;
+    email?: string | undefined | null;
+    password?: string | undefined | null;
+    confirmPassword?: string | undefined | null;
+    isAdmin?: boolean;
+    bio?: string | undefined | null;
     location?: IAccountLocation;
-    color?: {
-        hex: string;
-    };
-    profileImage?: {
-        url: string;
-    };
+    color?: string | undefined | null;
+    profileImage?: File;
 }
 
 type DispatchType = (args: IAccountFetchSuccessful) => IAccountFetchSuccessful;

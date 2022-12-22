@@ -23,6 +23,7 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
         if (e.currentTarget && e.currentTarget.files) {
             const formData = new FormData();
             setImageUpload(true);
+
             formData.append("fileUpload", e.currentTarget.files[0]);
             apiServices.updateProfileImage(data.itemId, formData, setImageUpload);
         }
