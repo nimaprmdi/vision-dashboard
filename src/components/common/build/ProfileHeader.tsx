@@ -19,6 +19,7 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
     const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        // Upload File
         if (e.currentTarget && e.currentTarget.files) {
             const formData = new FormData();
             setImageUpload(true);
@@ -42,7 +43,7 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
         >
             {isPopupOpen && (
                 <PopUp title="Edit Profile" handler={() => setIsPopupOpen(false)}>
-                    <EditUser editData={editData} />
+                    <EditUser />
                 </PopUp>
             )}
 

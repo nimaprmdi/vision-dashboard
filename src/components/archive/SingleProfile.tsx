@@ -5,12 +5,12 @@ import ProfileWelcome from "../common/build/ProfileWelcome";
 import ProfileSummary from "../common/build/ProfileSummary";
 import Details from "../common/build/Details";
 import Actions from "../common/build/Actions";
+import Skull from "../common/Skull";
 import { Box, Grid } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { IAccount } from "../../models/account";
-import Skull from "../common/Skull";
 
 interface IUserData {
     name: string;

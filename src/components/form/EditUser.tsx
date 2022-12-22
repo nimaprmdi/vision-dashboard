@@ -1,19 +1,68 @@
 import React, { useState, useRef, memo } from "react";
+import Joi from "joi";
+import MapBox from "../common/MapBox";
 import { IEditAccount } from "../../models/account";
 import { MuiColorInput, MuiColorInputValue, MuiColorInputColors, MuiColorInputFormat } from "mui-color-input";
 import { FormControl, TextField, Box, Button, Typography as Typo } from "@mui/material";
-import MapBox from "../common/MapBox";
+import { validate, validateProperty } from "./validate";
 
-interface EditUserProps {
-    editData: IEditAccount | undefined;
+interface IEditUserErrors {
+    name?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    confrimPassword?: string;
+    bio?: string;
+    color?: string;
+    profileImage?: string;
+    location?: string;
 }
 
-const EditUser = memo(({ editData }: EditUserProps) => {
+const EditUser = memo(() => {
     const [color, setColor] = useState<MuiColorInputValue>("#ffffff");
+    const [editData, setEditData] = useState<IEditAccount>();
     const inputField = useRef() as React.MutableRefObject<HTMLInputElement>;
     const format: MuiColorInputFormat = "hex8";
 
-    const handleChange = (newValue: string, colors: MuiColorInputColors) => {
+    const [errors, setErrors] = useState<IEditUserErrors>();
+
+    const schema = Joi.object({
+        name: Joi.string().min(3).label("Name"),
+        lastName: Joi.string().min(4).label("Last name"),
+        email: Joi.string()
+            .email({ tlds: { allow: false } })
+
+            .label("Email"),
+        password: Joi.string().min(4).label("Password"),
+        confirmPassword: Joi.string().min(4).label("Confirm Password"),
+        bio: Joi.string().min(3).label("Bio"),
+        color: Joi.string()
+            .regex(/^#[A-Fa-f0-9]{6}/)
+            .label("Color"),
+        location: Joi.object({
+            a: Joi.number().min(1).max(10).integer(),
+            b: Joi.number().min(1).max(10).integer(),
+        }).label("Location"),
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setEditData({ ...editData, [e.currentTarget.name]: e.currentTarget.value });
+
+        const input = e.currentTarget;
+        const errorMsg = validateProperty(input, schema);
+
+        setErrors({ ...errors, [e.currentTarget.name]: errorMsg });
+        console.log(errors);
+    };
+
+    const handleSubmit = () => {
+        const errors = editData && validate(editData, schema);
+
+        console.log(errors);
+    };
+
+    // @defaults
+    const handleColorChange = (newValue: string, colors: MuiColorInputColors) => {
         setColor(newValue);
     };
 
@@ -26,66 +75,68 @@ const EditUser = memo(({ editData }: EditUserProps) => {
             <TextField
                 id="comment-name"
                 name="name"
-                value={editData?.name}
+                value={editData?.name || ""}
                 sx={{ width: { xs: "100%", md: "49%" }, mt: 2 }}
                 label="Enter name"
                 type="text"
-                onChange={(e) => console.log("s")}
+                onChange={(e) => handleInputChange(e)}
+                error={errors?.name ? true : false}
+                helperText={errors?.name || ""}
             />
 
             <TextField
                 id="comment-lastname"
                 name="lastName"
-                value={editData?.lastName}
+                value={editData?.lastName || ""}
                 sx={{ width: { xs: "100%", md: "49%" }, mt: 2 }}
                 label="Enter Last Name"
                 type="text"
-                onChange={(e) => console.log("s")}
+                onChange={(e) => handleInputChange(e)}
             />
 
             <TextField
                 id="comment-email"
                 name="email"
-                value={editData?.email}
+                value={editData?.email || ""}
                 sx={{ width: "100%", mt: 2 }}
                 label="Enter Email"
                 type="text"
-                onChange={(e) => console.log("s")}
+                onChange={(e) => handleInputChange(e)}
             />
 
             <TextField
                 id="comment-password"
                 name="password"
-                value={editData?.password}
+                value={editData?.password || ""}
                 sx={{ width: { xs: "100%", md: "49%" }, mt: 2 }}
                 label="Change Password"
                 type="text"
-                onChange={(e) => console.log("s")}
+                onChange={(e) => handleInputChange(e)}
             />
 
             <TextField
                 id="comment-confirm-password"
                 name="confirm-password"
-                value={editData?.confirmPassword}
+                value={editData?.confirmPassword || ""}
                 sx={{ width: { xs: "100%", md: "49%" }, mt: 2 }}
                 label="Confirm Password"
                 type="text"
-                onChange={(e) => console.log("s")}
+                onChange={(e) => handleInputChange(e)}
             />
 
             <TextField
                 id="comment-bio"
                 name="bio"
-                value={editData?.bio}
+                value={editData?.bio || ""}
                 sx={{ width: "100%", mt: 2 }}
                 label="Bio"
                 type="text"
                 multiline={true}
                 rows={6}
-                onChange={(e) => console.log("s")}
+                onChange={(e) => handleInputChange(e)}
             />
 
-            <MuiColorInput sx={{ mt: 2, width: { xs: "100%", md: "49%" } }} value={color} onChange={handleChange} format={format} />
+            <MuiColorInput name="color" sx={{ mt: 2, width: { xs: "100%", md: "49%" } }} value={color} onChange={handleColorChange} format={format} />
 
             <Box
                 className="u-box-light-tertiary"
@@ -97,7 +148,15 @@ const EditUser = memo(({ editData }: EditUserProps) => {
 
                 <Button component="label" variant="contained" color="primary">
                     Upload
-                    <input hidden ref={inputField} id="file-upload-2" accept="image/jpeg" type="file" onChange={(e) => handleFileChange(e)} />
+                    <input
+                        name="profileImage"
+                        hidden
+                        ref={inputField}
+                        id="file-upload-2"
+                        accept="image/jpeg"
+                        type="file"
+                        onChange={(e) => handleFileChange(e)}
+                    />
                 </Button>
             </Box>
 
@@ -113,6 +172,10 @@ const EditUser = memo(({ editData }: EditUserProps) => {
                     <MapBox location={{ longitude: -74.0632, latitude: 40.7346 }} darggable />
                 </Box>
             </Box>
+
+            <Button variant="contained" color="success" sx={{ width: "100%", mt: 2 }} onClick={handleSubmit}>
+                Update Profile
+            </Button>
         </FormControl>
     );
 });

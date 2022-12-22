@@ -2,10 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import { Box } from "@mui/material";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { IAccountLocation } from "../../models/account";
 
 interface MapBoxProps {
     isChanged?: boolean;
-    location: { longitude: number; latitude: number };
+    location: IAccountLocation;
     darggable?: boolean;
 }
 
@@ -39,7 +40,9 @@ const MapBox = ({ isChanged, location, darggable = false }: MapBoxProps) => {
     useEffect(() => {
         setLng(location.longitude);
         setLat(location.latitude);
+    }, []);
 
+    useEffect(() => {
         if (map.current && isChanged) {
             map.current.resize();
         }

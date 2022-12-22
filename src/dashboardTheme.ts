@@ -71,8 +71,22 @@ export const dashboardTheme = createTheme({
                 },
             },
         },
+
+        MuiFormHelperText: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#c22c2c !important",
+                    color: "#fff !important",
+                    borderRadius: "8px !important",
+                    padding: "4px 4px !important",
+                    margin: "4px 0 0 0  !important",
+                },
+            },
+        },
+
         MuiOutlinedInput: {
             styleOverrides: {
+                root: {},
                 input: { color: "#fff" },
                 notchedOutline: {
                     border: "1px solid transparent",

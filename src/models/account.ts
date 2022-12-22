@@ -1,3 +1,8 @@
+interface IAccountLocation {
+    longitude: number;
+    latitude: number;
+}
+
 // Single Account Model
 interface IAccount {
     itemId: string;
@@ -8,7 +13,7 @@ interface IAccount {
     password: string;
     isAdmin: boolean;
     bio: string;
-    location: string;
+    location: IAccountLocation;
     itemRequests: JSON;
     answeredTickets: JSON;
     answeredRequests: JSON;
@@ -50,7 +55,7 @@ interface IEditAccount {
     confirmPassword?: string;
     // isAdmin: boolean;
     bio?: string;
-    location?: string;
+    location?: IAccountLocation;
     color?: {
         hex: string;
     };
@@ -61,4 +66,4 @@ interface IEditAccount {
 
 type DispatchType = (args: IAccountFetchSuccessful) => IAccountFetchSuccessful;
 
-export type { IAccount, IAccountInitialState, IAccountFetchSuccessful, IAccountFetchFailed, DispatchType, IEditAccount };
+export type { IAccount, IAccountInitialState, IAccountFetchSuccessful, IAccountFetchFailed, DispatchType, IEditAccount, IAccountLocation };

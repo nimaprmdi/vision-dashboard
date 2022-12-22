@@ -9,16 +9,8 @@ const TableRowRequests = (): JSX.Element => {
     return (
         <>
             {requestsState.requests.map((request) => (
-                <TableRow
-                    className="c-table__row"
-                    key={request.itemId}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                    <TableCell
-                        sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }}
-                        component="th"
-                        scope="row"
-                    >
+                <TableRow className="c-table__row" key={request.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
                         <Avatar alt="image" sx={{ bgcolor: request.account.color.hex || "gray.light" }}>
                             {request.account.profileImage ? (
                                 <img src={request.account.profileImage.url} />
@@ -57,8 +49,8 @@ const TableRowRequests = (): JSX.Element => {
                     </TableCell>
 
                     <TableCell>
-                        <Link to={`/request/${request.itemId}`}>
-                            <MUILink component="div" underline="none" color="gray.light" variant="h6">
+                        <Link className="u-link-primary" to={`/request/${request.itemId}`}>
+                            <MUILink className="u-link-primary" component="div" underline="none" color="gray.light" variant="h6">
                                 Edit
                             </MUILink>
                         </Link>
