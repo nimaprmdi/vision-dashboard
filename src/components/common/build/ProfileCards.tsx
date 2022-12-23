@@ -1,8 +1,16 @@
-import React from "react";
 import { Grid, Box, Typography, Avatar } from "@mui/material";
 import ElectricCarIcon from "@mui/icons-material/ElectricCar";
+import { IAccount } from "../../../models/account";
 
-const ProfileCards = () => {
+interface ProfileCardsProps {
+    user: IAccount;
+}
+
+const ProfileCards = ({ user }: ProfileCardsProps) => {
+    const solvedRequests = user.requests.filter((request) => request.itemStatus === "solved");
+    const solvedTickets = user.tickets.filter((ticket) => ticket.isClose === true);
+    console.log("solvedTickets", user.tickets);
+
     return (
         <Grid container spacing={2} sx={{ width: "100%" }}>
             <Grid item xs={12} sm={6}>
@@ -23,7 +31,7 @@ const ProfileCards = () => {
                         </Typography>
 
                         <Typography color="white" variant="h6" className="u-text-h4">
-                            16
+                            {user.requests.length}
                         </Typography>
                     </Box>
 
@@ -47,11 +55,11 @@ const ProfileCards = () => {
                 >
                     <Box>
                         <Typography color="white" variant="h6" className="u-text-tiny">
-                            Requests
+                            Solved Requests
                         </Typography>
 
                         <Typography color="white" variant="h6" className="u-text-h4">
-                            16
+                            {solvedRequests.length}
                         </Typography>
                     </Box>
 
@@ -75,11 +83,11 @@ const ProfileCards = () => {
                 >
                     <Box>
                         <Typography color="white" variant="h6" className="u-text-tiny">
-                            Requests
+                            Tickets
                         </Typography>
 
                         <Typography color="white" variant="h6" className="u-text-h4">
-                            16
+                            {user.tickets.length}
                         </Typography>
                     </Box>
 
@@ -103,11 +111,11 @@ const ProfileCards = () => {
                 >
                     <Box>
                         <Typography color="white" variant="h6" className="u-text-tiny">
-                            Requests
+                            Solved Tickets
                         </Typography>
 
                         <Typography color="white" variant="h6" className="u-text-h4">
-                            16
+                            {solvedTickets.length}
                         </Typography>
                     </Box>
 

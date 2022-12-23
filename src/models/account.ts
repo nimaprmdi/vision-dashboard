@@ -1,3 +1,6 @@
+import { IRequest } from "./request";
+import { ITicket } from "./tickets";
+
 interface IAccountLocation {
     longitude: number;
     latitude: number;
@@ -14,10 +17,12 @@ interface IAccount {
     isAdmin: boolean;
     bio: string;
     location: IAccountLocation;
-    itemRequests: JSON;
     answeredTickets: JSON;
     answeredRequests: JSON;
+    tickets: ITicket[];
     itemTickets: JSON;
+    requests: IRequest[];
+    itemRequests: JSON;
     createdAt: string;
     color: {
         hex: string;

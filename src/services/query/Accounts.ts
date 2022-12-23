@@ -11,8 +11,6 @@ class AccountsQuery {
                 userName
                 email
                 itemId
-                itemTickets
-                itemRequests
                 isAdmin
                 createdAt
                 bio
@@ -25,6 +23,37 @@ class AccountsQuery {
                 }
                 profileImage {
                   url
+                }
+                tickets {
+                  userId
+                  itemId
+                  isPending
+                  isClose
+                  id
+                  hasReply
+                  description
+                  date
+                  subject
+                  responses
+                }
+                requests {
+                  ... on Request {
+                    id
+                    itemId
+                    itemStatus
+                    lastName
+                    location
+                    mobile
+                    name
+                    phone
+                    service
+                    stafId
+                    date
+                    gender
+                    address
+                    description
+                    location
+                  }
                 }
               }
             }`,

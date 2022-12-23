@@ -1,8 +1,12 @@
 import React from "react";
-import { Box, Grid, Typography, CircularProgress, Avatar } from "@mui/material";
+import { Box, Grid, Typography, Avatar } from "@mui/material";
 import bgIMage from "./../../../assets/img/frankfurt.jpg";
 
-const ProfileWelcome = () => {
+interface ProfileWelcomeProps {
+    name?: string;
+}
+
+const ProfileWelcome = ({ name }: ProfileWelcomeProps) => {
     return (
         <Box
             className="u-box-light"
@@ -18,8 +22,8 @@ const ProfileWelcome = () => {
                 Welcome back!
             </Typography>
 
-            <Typography variant="h6" className="u-text-small" color="white" fontWeight={400} mt={0.5}>
-                Nice to see you, Mark Johnson!
+            <Typography variant="h6" className="u-text-small" textTransform="capitalize" color="white" fontWeight={400} mt={0.5}>
+                Nice to see you, {name} !
             </Typography>
         </Box>
     );

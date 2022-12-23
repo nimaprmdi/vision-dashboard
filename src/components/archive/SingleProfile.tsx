@@ -11,6 +11,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { IAccount } from "../../models/account";
+import { ICommandButtons } from "../../models/commandButtons";
+import PopUp from "../common/PopUp";
+import EditPermissions from "../form/EditPermissions";
 
 interface IUserData {
     name: string;
@@ -25,10 +28,17 @@ interface IUserData {
 
 const SingleProfile = () => {
     const { id } = useParams();
+    const [user, setUser] = useState<IAccount>();
+    const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+
     const navigate = useNavigate();
     const accountsState = useSelector((state: RootState) => state.accounts);
-    const [user, setUser] = useState<IAccount>();
-    const [userFormData, setUserFormData] = useState<IUserData>();
+
+    const commandButtons: ICommandButtons[] = [
+        { title: "Permission", color: "primary", handler: () => console.log("hello") },
+        { title: "Edit", color: "primary", handler: () => console.log("hello") },
+        { title: "Delete Account", color: "error", handler: () => console.log("hello") },
+    ];
 
     useEffect(() => {
         let currentUser: IAccount | undefined;
@@ -41,29 +51,53 @@ const SingleProfile = () => {
         } else if (!id) {
             navigate("/404");
         }
-
-        console.log(accountsState);
     }, [accountsState]);
 
     return (
         <Box px={{ xs: 2, md: 0 }}>
+            <PopUp handler={() => setIsPopupOpen(false)}>
+                <EditPermissions isAdmin={false} />
+            </PopUp>
+
             {!accountsState.isLoading && user ? <ProfileHeader data={user} /> : <Skull sx={{ height: "112px" }} />}
 
             <Grid container spacing={2} mt={1}>
                 <Grid order={1} item xs={12} sm={6} md={3}>
-                    <ProfileWelcome />
+                    {!accountsState.isLoading && user ? <ProfileWelcome name={`${user.name} ${user.lastName}`} /> : <Skull sx={{ height: "336px" }} />}
                 </Grid>
 
                 <Grid item container order={{ xs: 3, md: 2 }} xs={12} md={6}>
-                    <ProfileSummaryDetail />
+                    {!accountsState.isLoading && user ? <ProfileSummaryDetail user={user} /> : <Skull sx={{ height: "336px" }} />}
                 </Grid>
 
                 <Grid order={{ xs: 2, md: 3 }} item xs={12} sm={6} md={3}>
-                    {/* <Details /> */}
+                    {!accountsState.isLoading && user && user.bio && <Details description={user.bio} />}
                 </Grid>
 
                 <Grid item xs={12} order={4} mt={1}>
-                    {/* <Actions /> */}
+                    <Actions
+                        buttons={commandButtons}
+                        title="User Actions"
+                        parentProps={{
+                            className: "u-box-light",
+                        }}
+                        parentSx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            flexWrap: "wrap",
+                            justifyContent: { xs: "center", md: "space-between" },
+                            py: 4,
+                            px: 3,
+                        }}
+                        childSx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            flexWrap: "wrap",
+                            justifyContent: { xs: "center", md: "center" },
+                        }}
+                    />
                 </Grid>
             </Grid>
         </Box>

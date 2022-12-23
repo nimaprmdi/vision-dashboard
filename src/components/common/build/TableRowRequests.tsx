@@ -11,9 +11,9 @@ const TableRowRequests = (): JSX.Element => {
             {requestsState.requests.map((request) => (
                 <TableRow className="c-table__row" key={request.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
-                        <Avatar alt="image" sx={{ bgcolor: request.account.color.hex || "gray.light" }}>
-                            {request.account.profileImage ? (
-                                <img src={request.account.profileImage.url} />
+                        <Avatar alt="image" sx={{ bgcolor: (request.account && request.account.color.hex) || "gray.light" }}>
+                            {request.account && request.account.profileImage ? (
+                                <img src={request.account && request.account.profileImage.url} />
                             ) : (
                                 <Typography variant="h4" textTransform="capitalize" color="white">
                                     {request.name.charAt(0)}
@@ -23,11 +23,12 @@ const TableRowRequests = (): JSX.Element => {
 
                         <Box>
                             <Typography variant="h6" textTransform="capitalize" className="u-text-small" color="white">
-                                {`For ${request.name} ${request.lastName} By ( ${request.account.userName} )`}
+                                {`For ${request.name} ${request.lastName} By ( ${request.account && request.account.userName} )`}
                             </Typography>
 
                             <Typography variant="h6" className="u-text-small" color="gray.light">
                                 {request.mobile}
+                                {request.itemId} / {request.account && request.account.itemId}
                             </Typography>
                         </Box>
                     </TableCell>

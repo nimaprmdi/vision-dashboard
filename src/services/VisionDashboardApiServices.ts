@@ -46,6 +46,24 @@ class VisionDashboardApiServices {
             });
     };
 
+    // Fetch All Tickets
+    readonly fetchTickets = () => {
+        store.dispatch(ticketsActions.FETCH_DATA());
+
+        http.post("", ticketsQuery.fetchTicketsQuery())
+            .then((response) => {
+                const { data } = response.data;
+                console.log(data);
+
+                store.dispatch(ticketsActions.FETCH_DATA_SUCCESSFUL(data.tickets));
+                store.dispatch(ticketsActions.GET_ALL_CLOSED_TICKETS());
+            })
+            .catch((error) => {
+                const errorMsg = error.message;
+                store.dispatch(ticketsActions.FETCH_DATA_FAILED(errorMsg));
+            });
+    };
+
     // Fetch All Users
     readonly fetchRequests = () => {
         store.dispatch(requestsActions.FETCH_DATA());
@@ -138,7 +156,7 @@ class VisionDashboardApiServices {
 
     // Update Ticket Response and send
     readonly updateTicketResponse = (itemId: string, data: ITicketResponse[]) => {
-        http.post("", ticketsQuery.updateResponse(itemId, data))
+        http.post("", ticketsQuery.updateResponseQuery(itemId, data))
             .then(() => {
                 toast.success("Answer Submitted");
                 this.publishTicket(itemId, "Ticket Published", "Ticket Publish Failed");
@@ -150,7 +168,7 @@ class VisionDashboardApiServices {
 
     // Update Ticket isClose
     readonly updateIsClose = (itemId: string, isClose: boolean) => {
-        http.post("", ticketsQuery.updateIsClose(itemId, isClose))
+        http.post("", ticketsQuery.updateIsCloseQuery(itemId, isClose))
             .then(() => {
                 toast.success("Ticket Updated");
                 this.publishTicket(itemId, "Ticket Published", "Ticket Publish Failed").then(() => {
@@ -162,7 +180,7 @@ class VisionDashboardApiServices {
 
     // Delete Ticket
     readonly deleteTicket = (itemId: string) => {
-        http.post("", ticketsQuery.deleteTicket(itemId))
+        http.post("", ticketsQuery.deleteTicketQuery(itemId))
             .then(() => {
                 store.dispatch(ticketsActions.DELETE_TICKET(itemId));
                 toast.success("Ticket Has Been Deleted");

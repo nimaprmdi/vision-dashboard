@@ -14,7 +14,7 @@ const ticketsSlice = createSlice({
     initialState: initialState as ITicketsInitialState,
     reducers: {
         // Fetch
-        FETCH_DATA: (state, action) => {
+        FETCH_DATA: (state) => {
             state.isLoading = true;
         },
 
@@ -44,12 +44,5 @@ const ticketsSlice = createSlice({
     },
 });
 
-export const {
-    FETCH_DATA,
-    FETCH_DATA_SUCCESSFUL,
-    FETCH_DATA_FAILED,
-    GET_ALL_CLOSED_TICKETS,
-    PEND_TICKET,
-    DELETE_TICKET,
-} = ticketsSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS, PEND_TICKET, DELETE_TICKET } = ticketsSlice.actions;
 export default ticketsSlice.reducer;

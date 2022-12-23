@@ -1,10 +1,18 @@
 import React from "react";
-import { Box, Grid, Typography, CircularProgress, Avatar } from "@mui/material";
+import { Box, Grid, Typography, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import ProfileCards from "./ProfileCards";
+import { IAccount } from "../../../models/account";
 
-const ProfileSummaryDetail = () => {
+interface ProfileSummaryDetailsProps {
+    user: IAccount;
+}
+
+const ProfileSummaryDetail = ({ user }: ProfileSummaryDetailsProps) => {
     const [progress, setProgress] = useState(95);
+
+    const solvedRequests = user.requests.filter((request) => request.itemStatus === "solved");
+    const solvedTickets = user.tickets.filter((ticket) => ticket.isClose === true);
 
     return (
         <Box className="u-box-light" sx={{ width: "100%", height: "100%", px: 1, pt: { xs: 2, md: 0 } }}>
@@ -14,7 +22,7 @@ const ProfileSummaryDetail = () => {
                         User Information
                     </Typography>
                     <Typography variant="h6" className="u-text-small" color="white" fontWeight={400}>
-                        Hello, Here is your data based on your actions
+                        Here is your data based on your actions
                     </Typography>
                 </Grid>
 
@@ -32,19 +40,20 @@ const ProfileSummaryDetail = () => {
                                 justifyContent: "center",
                             }}
                         />
+
+                        <Box className="c-smartcard__progress-context">
+                            <Typography variant="h6" className="u-text-tiny" color="gray.light">
+                                Action Score
+                            </Typography>
+                            <Typography variant="h4" className="u-text-massive" color="white">
+                                {user.tickets.length + user.requests.length + solvedRequests.length + solvedTickets.length}
+                            </Typography>
+                        </Box>
                     </Box>
                 </Grid>
 
-                <Grid
-                    className="c-chat"
-                    item
-                    container
-                    xs={12}
-                    xl={8}
-                    order={{ xs: 1, xl: 2 }}
-                    sx={{ p: 0, mt: { xs: 2 } }}
-                >
-                    <ProfileCards />
+                <Grid className="c-chat" item container xs={12} xl={8} order={{ xs: 1, xl: 2 }} sx={{ p: 0, mt: { xs: 2 } }}>
+                    <ProfileCards user={user} />
                 </Grid>
             </Grid>
         </Box>

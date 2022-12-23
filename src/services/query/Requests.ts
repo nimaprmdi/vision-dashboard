@@ -22,6 +22,7 @@ class RequestsQuery {
                     description
                     location
                     account {
+                        itemId
                         name
                         lastName
                         userName
@@ -97,10 +98,10 @@ class RequestsQuery {
                 isAdmin: inputData.isAdmin,
                 bio: inputData.bio,
                 location: inputData.location,
-                itemRequests: inputData.itemRequests,
                 answeredTickets: inputData.answeredTickets,
                 answeredRequests: inputData.answeredRequests,
                 itemTickets: inputData.itemTickets,
+                itemRequests: inputData.itemRequests,
                 createdAt: inputData.createdAt,
                 color: inputData.color,
                 profileImage: inputData.profileImage,

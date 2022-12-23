@@ -1,7 +1,41 @@
 import { ITicketResponse } from "../../models/tickets";
 
 class TicketsQuery {
-    readonly updateResponse = (itemId: string, data: ITicketResponse[]) => {
+    readonly fetchTicketsQuery = () => {
+        return JSON.stringify({
+            query: `{
+              tickets {
+                userId
+                itemId
+                isPending
+                isClose
+                id
+                hasReply
+                description
+                date
+                subject
+                responses
+                accounts {
+                  ... on Account {
+                    id
+                    email
+                    name
+                    lastName
+                    isAdmin
+                    color {
+                      hex
+                    }
+                    profileImage {
+                      url
+                    }
+                  }
+                }
+              }
+            }`,
+        });
+    };
+
+    readonly updateResponseQuery = (itemId: string, data: ITicketResponse[]) => {
         return JSON.stringify({
             query: `mutation updateTicket($data: Json) {
                         updateTicket(data: { responses : $data } , where: {itemId: "${itemId}"}) {
@@ -14,7 +48,7 @@ class TicketsQuery {
         });
     };
 
-    readonly updateIsClose = (itemId: string, isClose: boolean) => {
+    readonly updateIsCloseQuery = (itemId: string, isClose: boolean) => {
         return JSON.stringify({
             query: `mutation {
                         updateTicket(data: { isClose : ${isClose} } , where: {itemId: "${itemId}"}) {
@@ -25,7 +59,7 @@ class TicketsQuery {
         });
     };
 
-    readonly deleteTicket = (itemdId: string) => {
+    readonly deleteTicketQuery = (itemdId: string) => {
         return JSON.stringify({
             query: `mutation {
                 deleteTicket(where: {itemId: "${itemdId}"}) {
