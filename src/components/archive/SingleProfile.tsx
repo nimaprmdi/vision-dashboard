@@ -41,6 +41,8 @@ const SingleProfile = () => {
         } else if (!id) {
             navigate("/404");
         }
+
+        console.log(accountsState);
     }, [accountsState]);
 
     return (

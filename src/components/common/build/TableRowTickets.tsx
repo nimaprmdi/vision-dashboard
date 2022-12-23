@@ -9,16 +9,8 @@ const TableRowTickets = () => {
     return (
         <>
             {ticketsState.tickets.map((ticket) => (
-                <TableRow
-                    className="c-table__row"
-                    key={ticket.itemId}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                    <TableCell
-                        sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }}
-                        component="th"
-                        scope="row"
-                    >
+                <TableRow className="c-table__row" key={ticket.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
                         <Avatar alt="image" sx={{ bgcolor: ticket.accounts.color.hex || "gray.light" }}>
                             {ticket.accounts.profileImage ? (
                                 <img src={ticket.accounts.profileImage.url} />
@@ -49,11 +41,7 @@ const TableRowTickets = () => {
                         </Typography>
                     </TableCell>
                     <TableCell sx={{ color: "white" }} align="left">
-                        {ticket.isClose ? (
-                            <Chip label="Solved" color="success" />
-                        ) : (
-                            <Chip label="Pending" color="primary" variant="outlined" />
-                        )}
+                        {ticket.isClose ? <Chip label="Solved" color="success" /> : <Chip label="Pending" color="primary" variant="outlined" />}
                     </TableCell>
 
                     <TableCell sx={{ color: "white" }} align="left">
@@ -61,8 +49,8 @@ const TableRowTickets = () => {
                     </TableCell>
 
                     <TableCell>
-                        <Link to={`/ticket/${ticket.itemId}`}>
-                            <MUILink component="div" underline="none" color="gray.light" variant="h6">
+                        <Link className="u-link-primary" to={`/ticket/${ticket.itemId}`}>
+                            <MUILink className="u-link-primary" component="div" underline="none" color="gray.light" variant="h6">
                                 Edit
                             </MUILink>
                         </Link>

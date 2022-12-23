@@ -24,8 +24,8 @@ const EditUser = ({ data }: IEditUserProps) => {
         bio: "",
         color: "",
         location: {
-            latitude: 40,
-            longitude: 70,
+            latitude: data.location.latitude,
+            longitude: data.location.longitude,
         },
     });
     const [errors, setErrors] = useState<IEditAccount>();
@@ -91,8 +91,6 @@ const EditUser = ({ data }: IEditUserProps) => {
                 return { ...allErrors };
             });
         }
-
-        console.log(editData);
     };
 
     const handleSubmit = () => {
@@ -123,12 +121,19 @@ const EditUser = ({ data }: IEditUserProps) => {
             isAdmin: data.isAdmin,
             bio: data.bio,
             color: data.color.hex,
+            password: data.password,
             location: {
                 longitude: data.location.longitude,
                 latitude: data.location.latitude,
             },
         });
+
+        setColor(data.color.hex);
+
+        console.log("data Location", data.location);
     }, [data]);
+
+    const x = editData.location;
 
     return (
         <FormControl sx={{ width: "100%", display: "flex", justifyContent: "space-between", flexDirection: "row", flexWrap: "wrap" }}>
@@ -247,7 +252,7 @@ const EditUser = ({ data }: IEditUserProps) => {
                 </Typo>
 
                 <Box sx={{ height: "300px", width: "100%" }}>
-                    <MapBox location={editData.location || { longitude: 70, latitude: 40 }} darggable handler={(e) => handleMapChange(e)} />
+                    <MapBox location={editData.location!} handler={(e) => handleMapChange(e)} darggable />
                 </Box>
             </Box>
 

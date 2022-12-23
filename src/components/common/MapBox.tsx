@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
-import { Box } from "@mui/material";
 import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import { Box } from "@mui/material";
 import { IAccountLocation } from "../../models/account";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 interface MapBoxProps {
     isChanged?: boolean;
@@ -16,9 +16,16 @@ const MapBox = ({ isChanged, location, darggable = false, handler }: MapBoxProps
 
     const mapContainer = useRef<any>(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [lng, setLng] = useState(-74.0632);
-    const [lat, setLat] = useState(40.7346);
+    const [lng, setLng] = useState(location.longitude);
+    const [lat, setLat] = useState(location.latitude);
     const [zoom, setZoom] = useState(12);
+
+    useEffect(() => {
+        setLng(location.longitude);
+        setLat(location.latitude);
+
+        console.log("Location", location);
+    }, [location]);
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -26,7 +33,7 @@ const MapBox = ({ isChanged, location, darggable = false, handler }: MapBoxProps
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: "mapbox://styles/mapbox/streets-v11",
-            center: [lng, lat],
+            center: [Number(lng.toFixed(2)), Number(lat.toFixed(2))],
             zoom: zoom,
         });
 
@@ -42,12 +49,7 @@ const MapBox = ({ isChanged, location, darggable = false, handler }: MapBoxProps
 
             handler && handler({ latitude: lngLat["lat"], longitude: lngLat["lng"] });
         });
-    }, [lng, lng]);
-
-    useEffect(() => {
-        setLng(location.longitude);
-        setLat(location.latitude);
-    }, []);
+    }, [lng, lng, location]);
 
     useEffect(() => {
         if (map.current && isChanged) {

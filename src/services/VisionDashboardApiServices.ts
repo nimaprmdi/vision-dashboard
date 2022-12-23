@@ -46,6 +46,18 @@ class VisionDashboardApiServices {
             });
     };
 
+    private publishAccount = (itemId: string) => {
+        http.post("", accountsQuery.publishAccountQuery(itemId))
+            .then(() => {
+                toast.success("Account Published");
+                store.dispatch(this.fetchAccounts() as any);
+            })
+            .catch((error) => {
+                toast.error(error.message);
+                console.log("Publish Account Error");
+            });
+    };
+
     // Fetch All Users
     readonly fetchRequests = () => {
         store.dispatch(requestsActions.FETCH_DATA());
@@ -161,13 +173,6 @@ class VisionDashboardApiServices {
             });
     };
 
-    readonly publishAccount = async (itemId: string) => {
-        return http.post("", accountsQuery.publishAccountQuery(itemId)).catch((error) => {
-            toast.error(error.message);
-            console.log("Publish Account Error");
-        });
-    };
-
     // Update Profile Image
     readonly updateProfileImage = (itemId: string, formData: FormData, setImageUpload: (value: React.SetStateAction<boolean>) => void) => {
         // Upload Assets
@@ -194,23 +199,21 @@ class VisionDashboardApiServices {
                         // @todo: Dispatch Error Here
                     });
             })
-            .catch((error) => console.log("Creat Asset error", error));
+            .catch((error) => console.log("Create Asset error", error));
     };
 
-    readonly updateAccount = async (itemId: string, data: IEditAccount) => {
-        return (
-            data &&
-            (await http
+    readonly updateAccount = (itemId: string, data: IEditAccount) => {
+        data &&
+            http
                 .post("", accountsQuery.updateAccountQuery(itemId, data))
                 .then((response) => {
                     console.log(response);
                     this.publishAccount(itemId);
-                    // this.fetchAccounts() as any;
+                    toast.success("Information Submitted Successful");
                 })
                 .catch((error) => {
                     console.log(error);
-                }))
-        );
+                });
     };
 }
 
