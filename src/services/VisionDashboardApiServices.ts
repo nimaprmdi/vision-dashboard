@@ -2,6 +2,7 @@ import http from "./httpServices";
 import ticketsQuery from "./query/Tickets";
 import requestsQuery from "./query/Requests";
 import accountsQuery from "./query/Accounts";
+import assetsQuery from "./query/Assets";
 
 import * as requestsActions from "../store/requests/requestsReducer";
 import * as ticketsActions from "../store/tickets/ticketsReducer";
@@ -11,9 +12,9 @@ import fetchTickets from "../store/tickets/ticketsActions";
 import fetchRequests from "../store/requests/requestsActions";
 import configureStore from "../store/configureStore";
 
-import { toast } from "react-toastify";
-import { IAccount } from "../models/account";
+import { IAccount, IEditAccount } from "../models/account";
 import { ITicketResponse } from "../models/tickets";
+import { toast } from "react-toastify";
 
 const store = configureStore;
 
@@ -51,8 +52,8 @@ class VisionDashboardApiServices {
 
         http.post("", requestsQuery.fetchUsers())
             .then((response) => {
-                const requests = response.data;
-                store.dispatch(requestsActions.FETCH_DATA_SUCCESSFUL(requests.data.requests));
+                const { data } = response.data;
+                store.dispatch(requestsActions.FETCH_DATA_SUCCESSFUL(data.requests));
                 store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
             })
             .catch((error) => {
@@ -67,9 +68,9 @@ class VisionDashboardApiServices {
 
         http.post("", accountsQuery.fetchAccountsQuery())
             .then((response) => {
-                const accounts = response.data;
+                const { data } = response.data;
 
-                store.dispatch(accountsActions.FETCH_DATA_SUCCESSFUL(accounts.data.accounts));
+                store.dispatch(accountsActions.FETCH_DATA_SUCCESSFUL(data.accounts));
                 store.dispatch(accountsActions.GET_TOTAL_ACCOUNTS());
             })
             .catch((error) => {
@@ -174,29 +175,11 @@ class VisionDashboardApiServices {
             .then((response) => {
                 const imageId: string = response.data.id;
 
-                const jsonData = JSON.stringify({
-                    query: `mutation {
-                                publishAsset(where: {id: "${imageId}" }) {
-                                    id
-                                }
-                            }`,
-                });
-
                 // Publish Asset
-                http.post("", jsonData)
+                http.post("", assetsQuery.publishAssetQuery(imageId))
                     .then(() => {
-                        const updateProfielImage: string = JSON.stringify({
-                            query: `
-                                mutation {
-                                    updateAccount(data: {profileImage: {connect: {id: "${imageId}"}}}, where: {itemId: "${itemId}"}) {
-                                        id
-                                    }
-                                }
-                            `,
-                        });
-
                         // Update Profile
-                        http.post("", updateProfielImage)
+                        http.post("", accountsQuery.updateAccountImageQuery(imageId, itemId))
                             .then(async () => {
                                 await this.publishAccount(itemId);
                                 store.dispatch(this.fetchAccounts() as any);
@@ -212,6 +195,22 @@ class VisionDashboardApiServices {
                     });
             })
             .catch((error) => console.log("Creat Asset error", error));
+    };
+
+    readonly updateAccount = async (itemId: string, data: IEditAccount) => {
+        return (
+            data &&
+            (await http
+                .post("", accountsQuery.updateAccountQuery(itemId, data))
+                .then((response) => {
+                    console.log(response);
+                    this.publishAccount(itemId);
+                    // this.fetchAccounts() as any;
+                })
+                .catch((error) => {
+                    console.log(error);
+                }))
+        );
     };
 }
 

@@ -1,18 +1,38 @@
-import React, { useState, useRef, memo } from "react";
 import Joi from "joi";
 import MapBox from "../common/MapBox";
-import { IAccountLocation, IEditAccount } from "../../models/account";
-import { MuiColorInput, MuiColorInputValue, MuiColorInputColors, MuiColorInputFormat } from "mui-color-input";
+import React, { useState, useRef, useEffect } from "react";
+import apiServices from "../../services/VisionDashboardApiServices";
+import { IAccountLocation, IEditAccount, IAccount } from "../../models/account";
+import { MuiColorInput, MuiColorInputValue, MuiColorInputFormat } from "mui-color-input";
 import { FormControl, TextField, Box, Button, Typography as Typo } from "@mui/material";
 import { validate, validateProperty } from "./validate";
 
-const EditUser = () => {
-    const [color, setColor] = useState<MuiColorInputValue>("#ffffff");
-    const [editData, setEditData] = useState<IEditAccount>();
-    const inputField = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const format: MuiColorInputFormat = "hex8";
+interface IEditUserProps {
+    data: IAccount;
+}
 
+const EditUser = ({ data }: IEditUserProps) => {
+    // State
+    const [color, setColor] = useState<MuiColorInputValue>("#ffffff");
+    const [editData, setEditData] = useState<IEditAccount>({
+        name: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        isAdmin: false,
+        bio: "",
+        color: "",
+        location: {
+            latitude: 40,
+            longitude: 70,
+        },
+    });
     const [errors, setErrors] = useState<IEditAccount>();
+
+    // Utils
+    const inputField = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const format: MuiColorInputFormat = "hex";
 
     const schema = Joi.object({
         name: Joi.string().min(3).label("Name"),
@@ -28,7 +48,7 @@ const EditUser = () => {
             .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
             .message("Password Does Not Match pattern")
             .label("Password"),
-        bio: Joi.string().min(3).label("Bio"),
+        bio: Joi.string().label("Bio"),
         color: Joi.string()
             .regex(/^#[A-Fa-f0-9]{6}/)
             .label("Color"),
@@ -38,13 +58,23 @@ const EditUser = () => {
         }).label("Location"),
     });
 
+    // Functions
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setEditData((prevState) => {
             return { ...prevState, [e.target.name]: e.target.value };
         });
 
         const errorMsg = validateProperty(e.target, schema);
-        setErrors({ ...errors, [e.target.name]: errorMsg });
+
+        if (errorMsg) {
+            setErrors({ ...errors, [e.target.name]: errorMsg });
+        } else {
+            setErrors(() => {
+                const allErrors: any = { ...errors };
+                delete allErrors[e.target.name];
+                return { ...allErrors };
+            });
+        }
 
         if (e.target.name === "confirmPassword") {
             editData?.password !== e.target.value &&
@@ -52,10 +82,13 @@ const EditUser = () => {
                     return { ...prevState, confirmPassword: "Password Does Not Match" };
                 });
         } else if (e.target.name === "password") {
-            setEditData({ ...editData, password: e.target.value, confirmPassword: "" });
+            setEditData({ ...editData, password: e.target.value, confirmPassword: null });
         } else {
             setErrors((prevState) => {
-                return { ...prevState, confirmPassword: "" };
+                const allErrors = { ...prevState };
+                delete allErrors["confirmPassword"];
+
+                return { ...allErrors };
             });
         }
 
@@ -64,9 +97,11 @@ const EditUser = () => {
 
     const handleSubmit = () => {
         const errors = editData && validate(editData, schema);
+        apiServices.updateAccount(data.itemId, editData!);
     };
 
     const handleColorChange = (colorHex: string) => {
+        setColor(colorHex);
         setEditData({ ...editData, color: colorHex });
     };
 
@@ -79,6 +114,21 @@ const EditUser = () => {
             return { ...prevState, location: e };
         });
     };
+
+    useEffect(() => {
+        setEditData({
+            name: data.name,
+            lastName: data.lastName,
+            email: data.email,
+            isAdmin: data.isAdmin,
+            bio: data.bio,
+            color: data.color.hex,
+            location: {
+                longitude: data.location.longitude,
+                latitude: data.location.latitude,
+            },
+        });
+    }, [data]);
 
     return (
         <FormControl sx={{ width: "100%", display: "flex", justifyContent: "space-between", flexDirection: "row", flexWrap: "wrap" }}>
@@ -197,11 +247,17 @@ const EditUser = () => {
                 </Typo>
 
                 <Box sx={{ height: "300px", width: "100%" }}>
-                    <MapBox location={{ longitude: -74.0632, latitude: 40.7346 }} darggable handler={(e) => handleMapChange(e)} />
+                    <MapBox location={editData.location || { longitude: 70, latitude: 40 }} darggable handler={(e) => handleMapChange(e)} />
                 </Box>
             </Box>
 
-            <Button variant="contained" color="success" sx={{ width: "100%", mt: 2 }} onClick={handleSubmit}>
+            <Button
+                disabled={errors && Object.keys(errors).length ? true : false}
+                variant="contained"
+                color="primary"
+                sx={{ width: "100%", mt: 2 }}
+                onClick={handleSubmit}
+            >
                 Update Profile
             </Button>
         </FormControl>

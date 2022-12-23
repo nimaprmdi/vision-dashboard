@@ -42,9 +42,9 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
                 p: 2,
             }}
         >
-            {isPopupOpen && (
+            {data && isPopupOpen && (
                 <PopUp title="Edit Profile" handler={() => setIsPopupOpen(false)}>
-                    <EditUser />
+                    <EditUser data={data} />
                 </PopUp>
             )}
 

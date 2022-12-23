@@ -35,7 +35,6 @@ class RequestsQuery {
                     }
                 }
             }`,
-            variables: {},
         });
     };
 
