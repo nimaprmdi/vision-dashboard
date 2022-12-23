@@ -46,18 +46,6 @@ class VisionDashboardApiServices {
             });
     };
 
-    private publishAccount = (itemId: string) => {
-        http.post("", accountsQuery.publishAccountQuery(itemId))
-            .then(() => {
-                toast.success("Account Published");
-                store.dispatch(this.fetchAccounts() as any);
-            })
-            .catch((error) => {
-                toast.error(error.message);
-                console.log("Publish Account Error");
-            });
-    };
-
     // Fetch All Users
     readonly fetchRequests = () => {
         store.dispatch(requestsActions.FETCH_DATA());
@@ -88,6 +76,18 @@ class VisionDashboardApiServices {
             .catch((error) => {
                 const errorMsg = error.message;
                 store.dispatch(accountsActions.FETCH_DATA_FAILED(errorMsg));
+            });
+    };
+
+    private publishAccount = (itemId: string) => {
+        http.post("", accountsQuery.publishAccountQuery(itemId))
+            .then(() => {
+                toast.success("Account Published");
+                this.fetchAccounts() as any;
+            })
+            .catch((error) => {
+                toast.error(error.message);
+                console.log("Publish Account Error");
             });
     };
 

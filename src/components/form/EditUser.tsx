@@ -95,7 +95,12 @@ const EditUser = ({ data }: IEditUserProps) => {
 
     const handleSubmit = () => {
         const errors = editData && validate(editData, schema);
-        apiServices.updateAccount(data.itemId, editData!);
+
+        if (editData.password !== editData.confirmPassword) {
+            setErrors({ confirmPassword: "Password is not matched" });
+        } else {
+            apiServices.updateAccount(data.itemId, editData!);
+        }
     };
 
     const handleColorChange = (colorHex: string) => {
@@ -122,6 +127,7 @@ const EditUser = ({ data }: IEditUserProps) => {
             bio: data.bio,
             color: data.color.hex,
             password: data.password,
+            confirmPassword: data.password,
             location: {
                 longitude: data.location.longitude,
                 latitude: data.location.latitude,
