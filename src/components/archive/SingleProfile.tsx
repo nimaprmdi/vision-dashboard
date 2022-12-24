@@ -12,13 +12,15 @@ import apiServices from "../../services/VisionDashboardApiServices";
 import EditUser from "../form/EditUser";
 import { Box, Grid, Button, Typography as Typo } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { IAccount } from "../../models/account";
 import { ICommandButtons } from "../../models/commandButtons";
+import { deleteAccount } from "../../store/account/accountsActions";
 
 const SingleProfile = () => {
     const { id } = useParams();
+    const dispatch = useDispatch();
     const [user, setUser] = useState<IAccount>();
     const [imageUploading, setImageUploading] = useState<boolean>(false);
     // Popup Openers
@@ -83,7 +85,7 @@ const SingleProfile = () => {
                     <Typo mt={2} variant="h6" color="white">
                         This action is permanent
                     </Typo>
-                    <Button sx={{ mt: 2 }} color="error" variant="contained">
+                    <Button sx={{ mt: 2 }} color="error" variant="contained" onClick={() => dispatch(deleteAccount(user.itemId) as any)}>
                         Delete User Account
                     </Button>
                 </PopUp>

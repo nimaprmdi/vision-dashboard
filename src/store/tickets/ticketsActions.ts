@@ -27,6 +27,4 @@ const deleteTicketAct = (itemId: string) => () => {
     apiService.deleteTicket(itemId);
 };
 
-export { closeTicket, deleteTicketAct };
-
-export default fetchTickets;
+export { fetchTickets, closeTicket, deleteTicketAct };

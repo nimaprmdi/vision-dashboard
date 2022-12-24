@@ -49,7 +49,7 @@ const SingleChat = () => {
                 ) : ticket ? (
                     <PostComment
                         itemId={ticket ? ticket.itemId : ""}
-                        isAdmin={ticket && ticket.accounts.isAdmin}
+                        isAdmin={ticket && ticket.accounts && ticket.accounts.isAdmin}
                         responses={ticket ? ticket.responses : [{ title: "", description: "", isAdmin: false }]}
                     />
                 ) : (
@@ -63,8 +63,7 @@ const SingleChat = () => {
                     </Typography>
 
                     <Typography variant="h6" className="u-text-small" color="gray.light" fontWeight={700} mt={2}>
-                        here you can submit your reply and it will be send to the server so Admin or User can see your
-                        respons
+                        here you can submit your reply and it will be send to the server so Admin or User can see your respons
                     </Typography>
 
                     <Box className="u-divider" mt={6} />

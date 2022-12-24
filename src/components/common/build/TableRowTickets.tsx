@@ -11,12 +11,12 @@ const TableRowTickets = () => {
             {ticketsState.tickets.map((ticket) => (
                 <TableRow className="c-table__row" key={ticket.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
-                        <Avatar alt="image" sx={{ bgcolor: ticket.accounts.color.hex || "gray.light" }}>
-                            {ticket.accounts.profileImage ? (
+                        <Avatar alt="image" sx={{ bgcolor: ticket.accounts ? ticket.accounts.color.hex : "gray.light" }}>
+                            {ticket.accounts && ticket.accounts.profileImage ? (
                                 <img src={ticket.accounts.profileImage.url} />
                             ) : (
                                 <Typography variant="h4" textTransform="capitalize" color="white">
-                                    {ticket.accounts.name.charAt(0)}
+                                    {ticket.accounts ? ticket.accounts.name.charAt(0) : "👻"}
                                 </Typography>
                             )}
                         </Avatar>
@@ -33,11 +33,11 @@ const TableRowTickets = () => {
                     </TableCell>
                     <TableCell sx={{ color: "white" }} align="left">
                         <Typography textTransform="capitalize" variant="h6" className="u-text-small" color="white">
-                            {`${ticket.accounts.name} ${ticket.accounts.lastName}`}
+                            {`${ticket.accounts && ticket.accounts.name} ${ticket.accounts && ticket.accounts.lastName}`}
                         </Typography>
 
                         <Typography variant="h6" className="u-text-small" color="gray.light">
-                            {ticket.accounts.email}
+                            {ticket.accounts ? ticket.accounts.email : "No Data Found"}
                         </Typography>
                     </TableCell>
                     <TableCell sx={{ color: "white" }} align="left">

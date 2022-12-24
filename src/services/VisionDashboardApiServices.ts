@@ -8,8 +8,8 @@ import * as requestsActions from "../store/requests/requestsReducer";
 import * as ticketsActions from "../store/tickets/ticketsReducer";
 import * as accountsActions from "../store/account/accountsReducer";
 
-import fetchTickets from "../store/tickets/ticketsActions";
-import fetchRequests from "../store/requests/requestsActions";
+import { fetchTickets } from "../store/tickets/ticketsActions";
+import { fetchRequests } from "../store/requests/requestsActions";
 import configureStore from "../store/configureStore";
 
 import { IAccount, IEditAccount } from "../models/account";
@@ -21,6 +21,8 @@ const store = configureStore;
 class VisionDashboardApiServices {
     // @todo: Clean Up Every Method for their model => Requests, Tickets, Accounts
     // @todo : Fix Async and await http methods
+    // remove dispacyches from this file (should be actions)
+
     private publishRequest = async (itemId: string, successMsg: string, failedMsg: string) => {
         return await http
             .post("", requestsQuery.publishRequestQuery(itemId))
@@ -248,6 +250,19 @@ class VisionDashboardApiServices {
             })
             .catch((error) => {
                 console.log(error);
+            });
+    };
+
+    readonly deleteAccount = async (itemId: string) => {
+        await http
+            .post("", accountsQuery.deleteAccountQuery(itemId))
+            .then((response) => {
+                toast.success("Account Deleted");
+                window.history.go(-1);
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error("Delete Account Failed");
             });
     };
 }

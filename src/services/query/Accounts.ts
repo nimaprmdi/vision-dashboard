@@ -136,5 +136,16 @@ class AccountsQuery {
               }`,
         });
     };
+
+    readonly deleteAccountQuery = (itemId: string) => {
+        return JSON.stringify({
+            query: `
+              mutation MyMutation2 {
+                deleteAccount(where: {itemId: "${itemId}"}) {
+                  itemId
+                }
+              }`,
+        });
+    };
 }
 export default new AccountsQuery();

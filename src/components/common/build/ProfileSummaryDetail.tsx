@@ -43,7 +43,7 @@ const ProfileSummaryDetail = ({ user }: ProfileSummaryDetailsProps) => {
 
                         <Box className="c-smartcard__progress-context">
                             <Typography variant="h6" className="u-text-tiny" color="gray.light">
-                                Action Score
+                                Score
                             </Typography>
                             <Typography variant="h4" className="u-text-massive" color="white">
                                 {user.tickets.length + user.requests.length + solvedRequests.length + solvedTickets.length}

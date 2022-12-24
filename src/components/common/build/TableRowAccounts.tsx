@@ -11,7 +11,7 @@ const TableRowAccounts = () => {
             {accountsState.accounts.map((account) => (
                 <TableRow key={`account-item-${account.itemId}`} className="c-table__row" sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
-                        <Avatar alt="image" sx={{ bgcolor: account.color.hex || "gray.light" }}>
+                        <Avatar alt="image" sx={{ bgcolor: account.color ? account.color.hex : "gray.light" }}>
                             {account.profileImage ? (
                                 <img src={account.profileImage.url} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                             ) : (

@@ -42,5 +42,4 @@ const reviewRequest = (itemId: string, itemStatus: "pending" | "solved" | "revie
     }
 };
 
-export { createUser, pendRequest, solveRequest, reviewRequest };
-export default fetchRequests;
+export { fetchRequests, createUser, pendRequest, solveRequest, reviewRequest };

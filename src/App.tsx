@@ -18,9 +18,9 @@ import AddRequest from "./components/Requests/AddRequest";
 import Notfound from "./components/404/Notfound";
 import ServerError from "./components/404/ServerError";
 // Fetch Data
-import fetchRequests from "./store/requests/requestsActions";
-import fetchAccounts from "./store/account/accountsActions";
-import fetchTickets from "./store/tickets/ticketsActions";
+import { fetchRequests } from "./store/requests/requestsActions";
+import { fetchAccounts } from "./store/account/accountsActions";
+import { fetchTickets } from "./store/tickets/ticketsActions";
 // Utils
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";

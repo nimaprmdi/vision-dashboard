@@ -142,7 +142,7 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
             email: data.email,
             isAdmin: data.isAdmin,
             bio: data.bio,
-            color: data.color.hex,
+            color: data.color && data.color.hex,
             password: data.password,
             confirmPassword: data.password,
             location: {
@@ -151,7 +151,7 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
             },
         });
 
-        setColor(data.color.hex);
+        data.color && setColor(data.color.hex);
 
         console.log("data Location", data.location);
     }, [data]);

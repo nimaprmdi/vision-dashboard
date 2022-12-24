@@ -71,14 +71,31 @@ const SingleDetails = () => {
         <Grid container spacing={2} sx={{ px: { xs: 2, md: 0 } }}>
             <Grid item container xs={12} md={7} spacing={1}>
                 <Grid item xs={12} xl={6}>
-                    {requestState.isLoading ? (
-                        <Skull sx={{ height: "210px" }} />
+                    {!requestState.isLoading && request ? (
+                        request.account ? (
+                            <ProfileSummary
+                                name={request.account.name || ""}
+                                lastName={request.account.lastName || ""}
+                                isAdmin={request.account.isAdmin || false}
+                            />
+                        ) : (
+                            <Box
+                                sx={{
+                                    width: "100%",
+                                    height: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                                className="u-box-light"
+                            >
+                                <Typography variant="h6" color="white">
+                                    User Not Found (Deleted)
+                                </Typography>
+                            </Box>
+                        )
                     ) : (
-                        <ProfileSummary
-                            name={(request && request.account.name) || ""}
-                            lastName={(request && request.account.lastName) || ""}
-                            isAdmin={(request && request.account.isAdmin) || false}
-                        />
+                        <Skull sx={{ height: "210px" }} />
                     )}
                 </Grid>
                 <Grid item xs={12} xl={6}>

@@ -68,7 +68,7 @@ const ProfileHeader = ({ data, handleChangeImage, imageUploading, setIsEditAccou
                             width: "80px",
                             height: "80px",
                             borderRadius: "10px",
-                            bgcolor: data.color.hex || "gray.light",
+                            bgcolor: data.color ? data.color.hex : "gray.light",
                         }}
                     >
                         {imageUploading ? (
