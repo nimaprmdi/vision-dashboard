@@ -16,7 +16,7 @@ const TableRowRequests = (): JSX.Element => {
                                 <img src={request.account && request.account.profileImage.url} />
                             ) : (
                                 <Typography variant="h4" textTransform="capitalize" color="white">
-                                    {request.name.charAt(0)}
+                                    {request.name ? request.name.charAt(0) : "👻"}
                                 </Typography>
                             )}
                         </Avatar>
