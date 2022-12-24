@@ -10,30 +10,21 @@ import PopUp from "../common/PopUp";
 import EditPermissions from "../form/EditPermissions";
 import apiServices from "../../services/VisionDashboardApiServices";
 import EditUser from "../form/EditUser";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Button, Typography as Typo } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { IAccount } from "../../models/account";
 import { ICommandButtons } from "../../models/commandButtons";
 
-interface IUserData {
-    name: string;
-    lastName: string;
-    bio: string;
-    mobile: string;
-    email: string;
-    location: string;
-    password: string;
-    color: string;
-}
-
 const SingleProfile = () => {
     const { id } = useParams();
     const [user, setUser] = useState<IAccount>();
     const [imageUploading, setImageUploading] = useState<boolean>(false);
+    // Popup Openers
     const [isEditPermissionPopOpen, setIsEditPermissionPopOpen] = useState<boolean>(false);
     const [isEditAccountPopupOpen, setIsEditAccountPopupOpen] = useState<boolean>(false);
+    const [isDeletePopOpen, setIsDeletePopOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
     const accountsState = useSelector((state: RootState) => state.accounts);
@@ -41,17 +32,19 @@ const SingleProfile = () => {
     const commandButtons: ICommandButtons[] = [
         { title: "Permission", color: "primary", handler: () => setIsEditPermissionPopOpen(true) },
         { title: "Edit", color: "primary", handler: () => setIsEditAccountPopupOpen(true) },
-        { title: "Delete Account", color: "error", handler: () => console.log("hello") },
+        { title: "Delete Account", color: "error", handler: () => setIsDeletePopOpen(true) },
     ];
 
-    const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         // Upload File
-        if (e.currentTarget && e.currentTarget.files) {
+        if (e.target && e.target.files) {
+            console.log("Clicked in singleprofile");
+
             const formData = new FormData();
             setImageUploading(true);
 
-            formData.append("fileUpload", e.currentTarget.files[0]);
-            user && apiServices.updateProfileImage(user.itemId, formData, setImageUploading);
+            formData.append("fileUpload", e.target.files[0]);
+            await apiServices.updateProfileImage(user!.itemId, formData, setImageUploading);
         }
     };
 
@@ -78,7 +71,21 @@ const SingleProfile = () => {
 
             {user && isEditAccountPopupOpen && (
                 <PopUp handler={() => setIsEditAccountPopupOpen(false)} title="Edit Profile">
-                    <EditUser data={user} />
+                    <EditUser data={user} handleImageChange={handleImageChange} />
+                </PopUp>
+            )}
+
+            {user && isDeletePopOpen && (
+                <PopUp handler={() => setIsDeletePopOpen(false)}>
+                    <Typo variant="h4" color="white">
+                        Are You Sure?
+                    </Typo>
+                    <Typo mt={2} variant="h6" color="white">
+                        This action is permanent
+                    </Typo>
+                    <Button sx={{ mt: 2 }} color="error" variant="contained">
+                        Delete User Account
+                    </Button>
                 </PopUp>
             )}
 
@@ -86,7 +93,7 @@ const SingleProfile = () => {
                 <ProfileHeader
                     data={user}
                     imageUploading={imageUploading}
-                    handleChangeInput={handleInputChange}
+                    handleChangeImage={handleImageChange}
                     setIsEditAccountPopupOpen={setIsEditAccountPopupOpen}
                 />
             ) : (
@@ -107,29 +114,33 @@ const SingleProfile = () => {
                 </Grid>
 
                 <Grid item xs={12} order={4} mt={1}>
-                    <Actions
-                        buttons={commandButtons}
-                        title="User Actions"
-                        parentProps={{
-                            className: "u-box-light",
-                        }}
-                        parentSx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            flexWrap: "wrap",
-                            justifyContent: { xs: "center", md: "space-between" },
-                            py: 4,
-                            px: 3,
-                        }}
-                        childSx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            flexWrap: "wrap",
-                            justifyContent: { xs: "center", md: "center" },
-                        }}
-                    />
+                    {!accountsState.isLoading && user ? (
+                        <Actions
+                            buttons={commandButtons}
+                            title="User Actions"
+                            parentProps={{
+                                className: "u-box-light",
+                            }}
+                            parentSx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                flexWrap: "wrap",
+                                justifyContent: { xs: "center", md: "space-between" },
+                                py: 4,
+                                px: 3,
+                            }}
+                            childSx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                flexWrap: "wrap",
+                                justifyContent: { xs: "center", md: "center" },
+                            }}
+                        />
+                    ) : (
+                        <Skull sx={{ height: "116px" }} />
+                    )}
                 </Grid>
             </Grid>
         </Box>

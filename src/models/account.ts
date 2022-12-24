@@ -42,12 +42,12 @@ interface IAccountInitialState {
 }
 
 // Fetch Successful - Action Model
-interface IAccountFetchSuccessful {
+interface IAccountReducerIAccount {
     type: string;
     payload: IAccount[];
 }
 
-interface IAccountFetchFailed {
+interface IAccountReducerString {
     type: string;
     payload: string;
 }
@@ -62,9 +62,9 @@ interface IEditAccount {
     bio?: string | undefined | null;
     location?: IAccountLocation;
     color?: string | undefined | null;
-    profileImage?: File;
+    profileImage?: React.ChangeEvent<HTMLInputElement>;
 }
 
-type DispatchType = (args: IAccountFetchSuccessful) => IAccountFetchSuccessful;
+type DispatchType = (args: IAccountReducerIAccount) => IAccountReducerIAccount;
 
-export type { IAccount, IAccountInitialState, IAccountFetchSuccessful, IAccountFetchFailed, DispatchType, IEditAccount, IAccountLocation };
+export type { IAccount, IAccountInitialState, IAccountReducerIAccount, IAccountReducerString, DispatchType, IEditAccount, IAccountLocation };

@@ -6,6 +6,7 @@ interface IServerErrors {
 interface Entities {
     isOpen: boolean;
     httpErrors: IServerErrors;
+    isHttpCalling: boolean;
 }
 
 export type { Entities, IServerErrors };

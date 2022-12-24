@@ -8,11 +8,11 @@ import { Box, Avatar, Typography, Button, Badge, FormLabel } from "@mui/material
 interface ProfileHeaderProps {
     data: IAccount;
     imageUploading: boolean;
-    handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
     setIsEditAccountPopupOpen: (e: boolean) => void;
 }
 
-const ProfileHeader = ({ data, handleChangeInput: handler, imageUploading, setIsEditAccountPopupOpen }: ProfileHeaderProps) => {
+const ProfileHeader = ({ data, handleChangeImage, imageUploading, setIsEditAccountPopupOpen }: ProfileHeaderProps) => {
     return (
         <Box
             className="u-box-light"
@@ -58,7 +58,7 @@ const ProfileHeader = ({ data, handleChangeInput: handler, imageUploading, setIs
                                 <EditIcon sx={{ fontSize: "18px" }} onClick={() => console.log("hello")} />
                             </FormLabel>
 
-                            <input style={{ visibility: "hidden" }} id="file-upload" accept="image/jpeg" type="file" onChange={(e) => handler(e)} />
+                            <input style={{ visibility: "hidden" }} id="file-upload" accept="image/jpeg" type="file" onChange={(e) => handleChangeImage(e)} />
                         </>
                     }
                 >

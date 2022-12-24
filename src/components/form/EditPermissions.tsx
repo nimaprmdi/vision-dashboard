@@ -2,6 +2,8 @@ import React from "react";
 import apiServices from "../../services/VisionDashboardApiServices";
 import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from "@mui/material";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/rootReducer";
 
 interface EditPermissionProps {
     isAdmin: boolean;
@@ -9,6 +11,9 @@ interface EditPermissionProps {
 }
 
 const EditPermissions = ({ itemId, isAdmin }: EditPermissionProps) => {
+    // #httpIsCalling
+    const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
+
     const [selectedPermission, setSelectedPermission] = React.useState<string>(isAdmin ? "admin" : "user");
 
     console.log(selectedPermission);
@@ -37,7 +42,7 @@ const EditPermissions = ({ itemId, isAdmin }: EditPermissionProps) => {
                 <FormControlLabel checked={isRadioChecked("admin")} value={"admin"} control={<Radio sx={{ color: "white" }} />} label="Admin" />
             </RadioGroup>
 
-            <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={handleSubmit}>
+            <Button disabled={isHttpCalling} variant="contained" color="primary" sx={{ mt: 2 }} onClick={handleSubmit}>
                 Submit
             </Button>
         </FormControl>

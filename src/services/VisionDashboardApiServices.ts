@@ -195,9 +195,10 @@ class VisionDashboardApiServices {
     };
 
     // Update Profile Image
-    readonly updateProfileImage = (itemId: string, formData: FormData, setImageUpload: (value: React.SetStateAction<boolean>) => void) => {
+    readonly updateProfileImage = async (itemId: string, formData: FormData, setImageUpload: (value: React.SetStateAction<boolean>) => void) => {
         // Upload Assets
-        http.post("/upload", formData)
+        await http
+            .post("/upload", formData)
             .then((response) => {
                 const imageId: string = response.data.id;
 

@@ -2,6 +2,7 @@ import axsio from "axios";
 import configureStore from "../store/configureStore";
 import { toast } from "react-toastify";
 import { ADD_SERVER_ERROR } from "../store/entities/entitiesReducer";
+import { CHANGE_HTTP_CALL_STATUS } from "../store/entities/entitiesReducer";
 
 const store = configureStore;
 
@@ -9,10 +10,32 @@ const axiosApiInstance = axsio.create({
     baseURL: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
 });
 
-axiosApiInstance.interceptors.response.use(
-    (response) => response,
+axiosApiInstance.interceptors.request.use(
+    (response) => {
+        store.dispatch(CHANGE_HTTP_CALL_STATUS(true));
+        return response;
+    },
     (error) => {
-        console.log(error);
+        setTimeout(() => {
+            store.dispatch(CHANGE_HTTP_CALL_STATUS(false));
+        }, 1000);
+        return Promise.reject(error);
+    }
+);
+
+axiosApiInstance.interceptors.response.use(
+    (response) => {
+        setTimeout(() => {
+            store.dispatch(CHANGE_HTTP_CALL_STATUS(false));
+        }, 1000);
+
+        return response;
+    },
+    (error) => {
+        setTimeout(() => {
+            store.dispatch(CHANGE_HTTP_CALL_STATUS(false));
+        }, 1000);
+
         store.dispatch(ADD_SERVER_ERROR({ status: error.response.status, message: error.response.message }));
 
         const redirect404: string = process.env.REACT_APP_NOT_FOUND_REDIRECT as string;

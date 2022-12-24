@@ -61,6 +61,15 @@ export const dashboardTheme = createTheme({
     },
 
     components: {
+        MuiButtonBase: {
+            styleOverrides: {
+                root: {
+                    ":disabled": {
+                        backgroundColor: "#a0aec0 !important",
+                    },
+                },
+            },
+        },
         MuiButton: {
             styleOverrides: {
                 root: {

@@ -6,12 +6,16 @@ import { IAccountLocation, IEditAccount, IAccount } from "../../models/account";
 import { MuiColorInput, MuiColorInputValue, MuiColorInputFormat } from "mui-color-input";
 import { FormControl, TextField, Box, Button, Typography as Typo } from "@mui/material";
 import { validate, validateProperty } from "./validate";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/rootReducer";
 
 interface IEditUserProps {
     data: IAccount;
+    handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 }
 
-const EditUser = ({ data }: IEditUserProps) => {
+const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
     // State
     const [color, setColor] = useState<MuiColorInputValue>("#ffffff");
     const [editData, setEditData] = useState<IEditAccount>({
@@ -24,11 +28,14 @@ const EditUser = ({ data }: IEditUserProps) => {
         bio: "",
         color: "",
         location: {
-            latitude: data.location ? data.location.latitude : 70,
-            longitude: data.location ? data.location.longitude : 40,
+            latitude: data.location ? data.location.latitude : 50.05,
+            longitude: data.location ? data.location.longitude : 10.8,
         },
     });
     const [errors, setErrors] = useState<IEditAccount>();
+
+    // #httpIsCalling
+    const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
 
     // Utils
     const inputField = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -93,13 +100,17 @@ const EditUser = ({ data }: IEditUserProps) => {
         }
     };
 
-    const handleSubmit = () => {
-        const errors = editData && validate(editData, schema);
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        e && setEditData({ ...editData, profileImage: e });
+    };
 
-        if (editData.password !== editData.confirmPassword) {
-            setErrors({ confirmPassword: "Password is not matched" });
+    const handleImageUpload = () => {
+        editData.profileImage && handleImageChange(editData.profileImage);
+
+        if (editData.profileImage && editData.profileImage.target.files && editData.profileImage?.target.files[0]) {
+            console.log(editData.profileImage?.target.files);
         } else {
-            apiServices.updateAccount(data.itemId, editData!);
+            toast.info("No Image Selected");
         }
     };
 
@@ -108,11 +119,17 @@ const EditUser = ({ data }: IEditUserProps) => {
         setEditData({ ...editData, color: colorHex });
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.target.files && setEditData({ ...editData, profileImage: e.target.files[0] });
+    const handleSubmit = async () => {
+        if (editData.password !== editData.confirmPassword) {
+            setErrors({ confirmPassword: "Password is not matched" });
+        } else {
+            apiServices.updateAccount(data.itemId, editData!);
+        }
     };
 
     const handleMapChange = (e: IAccountLocation) => {
+        console.log(e);
+
         setEditData((prevState) => {
             return { ...prevState, location: e };
         });
@@ -185,7 +202,7 @@ const EditUser = ({ data }: IEditUserProps) => {
                 value={editData?.password || ""}
                 sx={{ width: { xs: "100%", md: "49%" }, mt: 2 }}
                 label="Change Password"
-                type="text"
+                type="password"
                 onChange={(e) => handleInputChange(e)}
                 error={errors?.password ? true : false}
                 helperText={errors?.password || ""}
@@ -197,7 +214,7 @@ const EditUser = ({ data }: IEditUserProps) => {
                 value={editData?.confirmPassword || ""}
                 sx={{ width: { xs: "100%", md: "49%" }, mt: 2 }}
                 label="Confirm Password"
-                type="text"
+                type="password"
                 onChange={(e) => handleInputChange(e)}
                 error={errors?.confirmPassword ? true : false}
                 helperText={errors?.confirmPassword || ""}
@@ -219,7 +236,7 @@ const EditUser = ({ data }: IEditUserProps) => {
 
             <MuiColorInput
                 name="color"
-                sx={{ mt: 2, width: { xs: "100%", md: "49%" } }}
+                sx={{ mt: 2, width: { xs: "100%", md: "30%" } }}
                 value={color}
                 onChange={handleColorChange}
                 format={format}
@@ -229,43 +246,51 @@ const EditUser = ({ data }: IEditUserProps) => {
 
             <Box
                 className="u-box-light-tertiary"
-                sx={{ height: "56px", width: { xs: "100%", md: "49%" }, mt: 2, display: "flex", justifyContent: "space-between", px: 2 }}
+                sx={{ height: "56px", width: { xs: "100%", md: "68%" }, mt: 2, display: "flex", justifyContent: "space-between", px: 2 }}
             >
                 <Typo variant="h6" color="white">
-                    Upload File
+                    {editData.profileImage ? (
+                        <span>{`${editData.profileImage.target.files && editData.profileImage.target.files[0].name.slice(0, 25)}...`}</span>
+                    ) : (
+                        "Upload File"
+                    )}
                 </Typo>
 
-                <Button component="label" variant="contained" color="primary">
-                    Upload
-                    <input
-                        name="profileImage"
-                        hidden
-                        ref={inputField}
-                        id="file-upload-2"
-                        accept="image/jpeg"
-                        type="file"
-                        onChange={(e) => handleFileChange(e)}
-                    />
-                </Button>
+                <Box display="flex" gap={2}>
+                    <Button component="label" variant="contained" color="primary">
+                        Select File
+                        <input
+                            name="profileImage"
+                            hidden
+                            ref={inputField}
+                            id="file-upload-2"
+                            accept="image/jpeg"
+                            type="file"
+                            onChange={(e) => handleFileChange(e)}
+                        />
+                    </Button>
+
+                    <Button component="label" variant="contained" color="primary" onClick={() => handleImageUpload()}>
+                        Upload
+                    </Button>
+                </Box>
             </Box>
 
-            {data.location && (
-                <Box
-                    className="u-box-light-tertiary"
-                    sx={{ height: "400px", width: "100%", mt: 2, p: 2, display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}
-                >
-                    <Typo variant="h6" color="white" textAlign="left">
-                        Update Location
-                    </Typo>
+            <Box
+                className="u-box-light-tertiary"
+                sx={{ height: "400px", width: "100%", mt: 2, p: 2, display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}
+            >
+                <Typo variant="h6" color="white" textAlign="left">
+                    Update Location
+                </Typo>
 
-                    <Box sx={{ height: "300px", width: "100%" }}>
-                        <MapBox location={editData.location!} handler={(e) => handleMapChange(e)} darggable />
-                    </Box>
+                <Box sx={{ height: "300px", width: "100%" }}>
+                    <MapBox location={editData.location || { latitude: 50.05, longitude: 10.8 }} handler={(e) => handleMapChange(e)} darggable />
                 </Box>
-            )}
+            </Box>
 
             <Button
-                disabled={errors && Object.keys(errors).length ? true : false}
+                disabled={isHttpCalling || (errors && Object.keys(errors).length ? true : false)}
                 variant="contained"
                 color="primary"
                 sx={{ width: "100%", mt: 2 }}

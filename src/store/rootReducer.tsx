@@ -5,8 +5,8 @@ import requestsReducer from "./requests/requestsReducer";
 import ticketsReducer from "./tickets/ticketsReducer";
 
 const rootReducer = combineReducers({
-    accounts: accountReducer,
     entities: entitiesReducer,
+    accounts: accountReducer,
     requests: requestsReducer,
     tickets: ticketsReducer,
 });

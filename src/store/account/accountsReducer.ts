@@ -18,13 +18,13 @@ const accountSlice = createSlice({
             state.isLoading = true;
         },
 
-        FETCH_DATA_SUCCESSFUL: (state, action: models.IAccountFetchSuccessful) => {
+        FETCH_DATA_SUCCESSFUL: (state, action: models.IAccountReducerIAccount) => {
             state.isLoading = false;
             state.accounts = action.payload;
             state.lastFetch = Date.now();
         },
 
-        FETCH_DATA_FAILED: (state, action: models.IAccountFetchFailed) => {
+        FETCH_DATA_FAILED: (state, action: models.IAccountReducerString) => {
             state.isLoading = false;
             state.accounts = [];
             state.error = action.payload;
@@ -33,6 +33,11 @@ const accountSlice = createSlice({
         // Functionalities
         GET_TOTAL_ACCOUNTS: (state) => {
             state.totalAccounts = state.accounts.length;
+        },
+
+        DELETE_ACCOUNT: (state, action: models.IAccountReducerString) => {
+            const accountItems = state.accounts.filter((account) => account.itemId !== action.payload);
+            state.accounts = accountItems;
         },
     },
 });
