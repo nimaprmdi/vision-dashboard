@@ -9,7 +9,6 @@ interface ProfileCardsProps {
 const ProfileCards = ({ user }: ProfileCardsProps) => {
     const solvedRequests = user.requests.filter((request) => request.itemStatus === "solved");
     const solvedTickets = user.tickets.filter((ticket) => ticket.isClose === true);
-    console.log("solvedTickets", user.tickets);
 
     return (
         <Grid container spacing={2} sx={{ width: "100%" }}>

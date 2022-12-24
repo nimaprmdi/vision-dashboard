@@ -6,14 +6,16 @@ import ProfileSummary from "../common/build/ProfileSummary";
 import Details from "../common/build/Details";
 import Actions from "../common/build/Actions";
 import Skull from "../common/Skull";
+import PopUp from "../common/PopUp";
+import EditPermissions from "../form/EditPermissions";
+import apiServices from "../../services/VisionDashboardApiServices";
+import EditUser from "../form/EditUser";
 import { Box, Grid } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { IAccount } from "../../models/account";
 import { ICommandButtons } from "../../models/commandButtons";
-import PopUp from "../common/PopUp";
-import EditPermissions from "../form/EditPermissions";
 
 interface IUserData {
     name: string;
@@ -29,16 +31,29 @@ interface IUserData {
 const SingleProfile = () => {
     const { id } = useParams();
     const [user, setUser] = useState<IAccount>();
-    const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+    const [imageUploading, setImageUploading] = useState<boolean>(false);
+    const [isEditPermissionPopOpen, setIsEditPermissionPopOpen] = useState<boolean>(false);
+    const [isEditAccountPopupOpen, setIsEditAccountPopupOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
     const accountsState = useSelector((state: RootState) => state.accounts);
 
     const commandButtons: ICommandButtons[] = [
-        { title: "Permission", color: "primary", handler: () => console.log("hello") },
-        { title: "Edit", color: "primary", handler: () => console.log("hello") },
+        { title: "Permission", color: "primary", handler: () => setIsEditPermissionPopOpen(true) },
+        { title: "Edit", color: "primary", handler: () => setIsEditAccountPopupOpen(true) },
         { title: "Delete Account", color: "error", handler: () => console.log("hello") },
     ];
+
+    const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        // Upload File
+        if (e.currentTarget && e.currentTarget.files) {
+            const formData = new FormData();
+            setImageUploading(true);
+
+            formData.append("fileUpload", e.currentTarget.files[0]);
+            user && apiServices.updateProfileImage(user.itemId, formData, setImageUploading);
+        }
+    };
 
     useEffect(() => {
         let currentUser: IAccount | undefined;
@@ -55,11 +70,28 @@ const SingleProfile = () => {
 
     return (
         <Box px={{ xs: 2, md: 0 }}>
-            <PopUp handler={() => setIsPopupOpen(false)}>
-                <EditPermissions isAdmin={false} />
-            </PopUp>
+            {user && isEditPermissionPopOpen && (
+                <PopUp handler={() => setIsEditPermissionPopOpen(false)}>
+                    <EditPermissions isAdmin={user.isAdmin} itemId={user.itemId} />
+                </PopUp>
+            )}
 
-            {!accountsState.isLoading && user ? <ProfileHeader data={user} /> : <Skull sx={{ height: "112px" }} />}
+            {user && isEditAccountPopupOpen && (
+                <PopUp handler={() => setIsEditAccountPopupOpen(false)} title="Edit Profile">
+                    <EditUser data={user} />
+                </PopUp>
+            )}
+
+            {!accountsState.isLoading && user ? (
+                <ProfileHeader
+                    data={user}
+                    imageUploading={imageUploading}
+                    handleChangeInput={handleInputChange}
+                    setIsEditAccountPopupOpen={setIsEditAccountPopupOpen}
+                />
+            ) : (
+                <Skull sx={{ height: "112px" }} />
+            )}
 
             <Grid container spacing={2} mt={1}>
                 <Grid order={1} item xs={12} sm={6} md={3}>
@@ -71,7 +103,7 @@ const SingleProfile = () => {
                 </Grid>
 
                 <Grid order={{ xs: 2, md: 3 }} item xs={12} sm={6} md={3}>
-                    {!accountsState.isLoading && user && user.bio && <Details description={user.bio} />}
+                    {!accountsState.isLoading && user ? user.bio && <Details description={user.bio} /> : <Skull sx={{ height: "336px" }} />}
                 </Grid>
 
                 <Grid item xs={12} order={4} mt={1}>

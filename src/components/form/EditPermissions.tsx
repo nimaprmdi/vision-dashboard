@@ -1,68 +1,45 @@
-import React, { useState } from "react";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { validateProperty, validate } from "./validate";
-import Joi from "joi";
+import React from "react";
+import apiServices from "../../services/VisionDashboardApiServices";
+import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from "@mui/material";
+import { toast } from "react-toastify";
 
 interface EditPermissionProps {
     isAdmin: boolean;
+    itemId: string;
 }
 
-const EditPermissions = ({ isAdmin }: EditPermissionProps) => {
-    const [isEditAdmin, setIsEditAdmin] = useState<boolean>(isAdmin);
+const EditPermissions = ({ itemId, isAdmin }: EditPermissionProps) => {
+    const [selectedPermission, setSelectedPermission] = React.useState<string>(isAdmin ? "admin" : "user");
 
-    const handleChange = (event: any) => {
-        setIsEditAdmin(event.target.value);
-    };
+    console.log(selectedPermission);
 
-    const schema = Joi.object({
-        name: Joi.string().min(3).label("Name"),
-        lastName: Joi.string().min(4).label("Last name"),
-        email: Joi.string()
-            .email({ tlds: { allow: false } })
-            .label("Email"),
-        password: Joi.string()
-            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
-            .message("Password Does Not Match pattern")
-            .label("Password"),
-        confirmPassword: Joi.string()
-            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
-            .message("Password Does Not Match pattern")
-            .label("Password"),
-        bio: Joi.string().label("Bio"),
-        color: Joi.string()
-            .regex(/^#[A-Fa-f0-9]{6}/)
-            .label("Color"),
-        location: Joi.object({
-            a: Joi.number().min(1).max(10).integer(),
-            b: Joi.number().min(1).max(10).integer(),
-        }).label("Location"),
-    });
+    const isRadioChecked = (value: string): boolean => selectedPermission === value;
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const errorMsg = validateProperty(e.target, schema);
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        setSelectedPermission(event.currentTarget.value);
     };
 
     const handleSubmit = () => {
-        // const errors = editData && validate(editData, schema);
-        // apiServices.updateAccount(data.itemId, editData!);
+        const permission = selectedPermission === "user" ? false : true;
+        permission !== isAdmin ? apiServices.updateAccountPermission(itemId, permission) : toast.error(`Account already is ${selectedPermission}`);
     };
 
     return (
         <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-helper-label">Permission</InputLabel>
-            <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={isAdmin}
-                label="Permission"
+            <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
                 onChange={(e) => handleChange(e)}
+                defaultValue={isAdmin.valueOf.toString()}
+                name="radio-buttons-group"
+                sx={{ color: "white", display: "flex", flexDirection: "row" }}
             >
-                <MenuItem value="">
-                    <em>None</em>
-                </MenuItem>
-                <MenuItem value={0}>Admin</MenuItem>
-                <MenuItem value={1}>User</MenuItem>
-            </Select>
+                <FormControlLabel checked={isRadioChecked("user")} value={"user"} control={<Radio sx={{ color: "white" }} />} label="User" />
+                <FormControlLabel checked={isRadioChecked("admin")} value={"admin"} control={<Radio sx={{ color: "white" }} />} label="Admin" />
+            </RadioGroup>
+
+            <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={handleSubmit}>
+                Submit
+            </Button>
         </FormControl>
     );
 };

@@ -1,34 +1,18 @@
-import { useState } from "react";
-import PopUp from "../PopUp";
 import EditIcon from "@mui/icons-material/Edit";
 import GroupIcon from "@mui/icons-material/Group";
-import apiServices from "../../../services/VisionDashboardApiServices";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
-import EditUser from "../../form/EditUser";
-import { IAccount, IEditAccount } from "../../../models/account";
+import { IAccount } from "../../../models/account";
 import { Box, Avatar, Typography, Button, Badge, FormLabel } from "@mui/material";
 
 interface ProfileHeaderProps {
     data: IAccount;
+    imageUploading: boolean;
+    handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    setIsEditAccountPopupOpen: (e: boolean) => void;
 }
 
-const ProfileHeader = ({ data }: ProfileHeaderProps) => {
-    const [imageUpload, setImageUpload] = useState<boolean>(false);
-    const [editData, setEditData] = useState<IEditAccount>();
-    const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
-
-    const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        // Upload File
-        if (e.currentTarget && e.currentTarget.files) {
-            const formData = new FormData();
-            setImageUpload(true);
-
-            formData.append("fileUpload", e.currentTarget.files[0]);
-            apiServices.updateProfileImage(data.itemId, formData, setImageUpload);
-        }
-    };
-
+const ProfileHeader = ({ data, handleChangeInput: handler, imageUploading, setIsEditAccountPopupOpen }: ProfileHeaderProps) => {
     return (
         <Box
             className="u-box-light"
@@ -42,12 +26,6 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
                 p: 2,
             }}
         >
-            {data && isPopupOpen && (
-                <PopUp title="Edit Profile" handler={() => setIsPopupOpen(false)}>
-                    <EditUser data={data} />
-                </PopUp>
-            )}
-
             <Box
                 sx={{
                     display: "flex",
@@ -80,7 +58,7 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
                                 <EditIcon sx={{ fontSize: "18px" }} onClick={() => console.log("hello")} />
                             </FormLabel>
 
-                            <input style={{ visibility: "hidden" }} id="file-upload" accept="image/jpeg" type="file" onChange={(e) => handleInputChange(e)} />
+                            <input style={{ visibility: "hidden" }} id="file-upload" accept="image/jpeg" type="file" onChange={(e) => handler(e)} />
                         </>
                     }
                 >
@@ -93,7 +71,7 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
                             bgcolor: data.color.hex || "gray.light",
                         }}
                     >
-                        {imageUpload ? (
+                        {imageUploading ? (
                             <HourglassEmptyIcon className="u-rotate" sx={{ fontSize: "48px" }} />
                         ) : data.profileImage ? (
                             <img
@@ -109,16 +87,16 @@ const ProfileHeader = ({ data }: ProfileHeaderProps) => {
 
                 <Box>
                     <Typography textTransform="capitalize" variant="h5" color="white">
-                        {data.name || " "}
+                        {data.name || " "} {data.lastName || " "}
                     </Typography>
 
                     <Typography textTransform="capitalize" variant="h5" color="gray.light">
-                        {data.lastName || " "}
+                        {data.isAdmin ? "Admin" : "User"}
                     </Typography>
                 </Box>
             </Box>
 
-            <Button variant="contained" color="primary" startIcon={<ViewInArIcon />} sx={{ px: 6 }} onClick={() => setIsPopupOpen(true)}>
+            <Button variant="contained" color="primary" startIcon={<ViewInArIcon />} sx={{ px: 6 }} onClick={() => setIsEditAccountPopupOpen(true)}>
                 Edit
             </Button>
         </Box>

@@ -31,7 +31,7 @@ const SingleDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // @todo : sending image
+    // @todo : sending image -- looks done
     const [data, setData] = useState<File>();
     const [assetId, setAssetId] = useState<string>();
 
@@ -67,51 +67,6 @@ const SingleDetails = () => {
         }
     }, [request]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.currentTarget && e.currentTarget.files && setData(e.currentTarget.files[0]);
-
-        const formData = new FormData();
-
-        if (e.currentTarget && e.currentTarget.files) {
-            formData.append("fileUpload", e.currentTarget.files[0]);
-            fetch(`https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master/upload`, {
-                method: "POST",
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((result) => {
-                    setAssetId("");
-                    setAssetId(result.id);
-
-                    return result;
-                })
-                .then((result) => {
-                    console.log("result", result);
-
-                    const imageId: string = result.id;
-
-                    const data = JSON.stringify({
-                        query: `mutation MyMutation {
-                            publishAsset(where: {id: "${imageId.toString()}" }) {
-                              id
-                            }
-                        }`,
-                    });
-
-                    axios
-                        .post(
-                            "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
-                            data
-                        )
-                        .then((response) => console.log("publish response ", response))
-                        .catch((error) => console.log("publish error", error));
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
-        }
-    };
-
     return (
         <Grid container spacing={2} sx={{ px: { xs: 2, md: 0 } }}>
             <Grid item container xs={12} md={7} spacing={1}>
@@ -145,26 +100,13 @@ const SingleDetails = () => {
                         <Details description={(request && request.description) || ""}>
                             {requestChart &&
                                 requestChart?.map((request, index: number) => (
-                                    <Box
-                                        className="c-details__item"
-                                        key={`details-item${request.title}-${index}`}
-                                        sx={{ display: "flex", gap: 1, mb: 1 }}
-                                    >
+                                    <Box className="c-details__item" key={`details-item${request.title}-${index}`} sx={{ display: "flex", gap: 1, mb: 1 }}>
                                         <Typography variant="h6" className="u-text-small" color="gray.light">
                                             {request.title}
                                         </Typography>
 
-                                        <Typography
-                                            textTransform="capitalize"
-                                            variant="h6"
-                                            className="u-text-small"
-                                            color="white"
-                                        >
-                                            {typeof request.payload !== "boolean"
-                                                ? request.payload
-                                                : request.payload
-                                                ? "Male"
-                                                : "Female"}
+                                        <Typography textTransform="capitalize" variant="h6" className="u-text-small" color="white">
+                                            {typeof request.payload !== "boolean" ? request.payload : request.payload ? "Male" : "Female"}
                                         </Typography>
                                     </Box>
                                 ))}
@@ -210,8 +152,6 @@ const SingleDetails = () => {
             </Grid>
 
             <Grid item xs={12}>
-                <input type="file" onChange={(e) => handleInputChange(e)} />
-
                 <Actions
                     title="Requests Actions"
                     buttons={commandButtons}

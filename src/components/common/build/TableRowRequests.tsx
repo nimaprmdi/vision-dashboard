@@ -28,7 +28,7 @@ const TableRowRequests = (): JSX.Element => {
 
                             <Typography variant="h6" className="u-text-small" color="gray.light">
                                 {request.mobile}
-                                {request.itemId} / {request.account && request.account.itemId}
+                                {/* {request.itemId} / {request.account && request.account.itemId} */}
                             </Typography>
                         </Box>
                     </TableCell>

@@ -24,8 +24,8 @@ const EditUser = ({ data }: IEditUserProps) => {
         bio: "",
         color: "",
         location: {
-            latitude: data.location.latitude,
-            longitude: data.location.longitude,
+            latitude: data.location ? data.location.latitude : 70,
+            longitude: data.location ? data.location.longitude : 40,
         },
     });
     const [errors, setErrors] = useState<IEditAccount>();
@@ -129,8 +129,8 @@ const EditUser = ({ data }: IEditUserProps) => {
             password: data.password,
             confirmPassword: data.password,
             location: {
-                longitude: data.location.longitude,
-                latitude: data.location.latitude,
+                longitude: data.location ? data.location.longitude : 70,
+                latitude: data.location ? data.location.latitude : 40,
             },
         });
 
@@ -249,18 +249,20 @@ const EditUser = ({ data }: IEditUserProps) => {
                 </Button>
             </Box>
 
-            <Box
-                className="u-box-light-tertiary"
-                sx={{ height: "400px", width: "100%", mt: 2, p: 2, display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}
-            >
-                <Typo variant="h6" color="white" textAlign="left">
-                    Update Location
-                </Typo>
+            {data.location && (
+                <Box
+                    className="u-box-light-tertiary"
+                    sx={{ height: "400px", width: "100%", mt: 2, p: 2, display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}
+                >
+                    <Typo variant="h6" color="white" textAlign="left">
+                        Update Location
+                    </Typo>
 
-                <Box sx={{ height: "300px", width: "100%" }}>
-                    <MapBox location={editData.location!} handler={(e) => handleMapChange(e)} darggable />
+                    <Box sx={{ height: "300px", width: "100%" }}>
+                        <MapBox location={editData.location!} handler={(e) => handleMapChange(e)} darggable />
+                    </Box>
                 </Box>
-            </Box>
+            )}
 
             <Button
                 disabled={errors && Object.keys(errors).length ? true : false}

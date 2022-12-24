@@ -125,5 +125,16 @@ class AccountsQuery {
             },
         });
     };
+
+    readonly updateAccountPermission = (itemId: string, permission: boolean) => {
+        return JSON.stringify({
+            query: `
+              mutation updateAccount {
+                updateAccount(where: {itemId: "${itemId}"}, data: {isAdmin: ${permission}}) { 
+                  itemId
+                }
+              }`,
+        });
+    };
 }
 export default new AccountsQuery();

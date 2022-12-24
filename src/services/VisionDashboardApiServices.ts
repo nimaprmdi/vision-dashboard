@@ -20,6 +20,7 @@ const store = configureStore;
 
 class VisionDashboardApiServices {
     // @todo: Clean Up Every Method for their model => Requests, Tickets, Accounts
+    // @todo : Fix Async and await http methods
     private publishRequest = async (itemId: string, successMsg: string, failedMsg: string) => {
         return await http
             .post("", requestsQuery.publishRequestQuery(itemId))
@@ -81,10 +82,11 @@ class VisionDashboardApiServices {
     };
 
     // Fetch All Accounts
-    readonly fetchAccounts = () => {
+    readonly fetchAccounts = async () => {
         store.dispatch(accountsActions.FETCH_DATA());
 
-        http.post("", accountsQuery.fetchAccountsQuery())
+        await http
+            .post("", accountsQuery.fetchAccountsQuery())
             .then((response) => {
                 const { data } = response.data;
 
@@ -97,8 +99,9 @@ class VisionDashboardApiServices {
             });
     };
 
-    private publishAccount = (itemId: string) => {
-        http.post("", accountsQuery.publishAccountQuery(itemId))
+    private publishAccount = async (itemId: string) => {
+        await http
+            .post("", accountsQuery.publishAccountQuery(itemId))
             .then(() => {
                 toast.success("Account Published");
                 this.fetchAccounts() as any;
@@ -232,6 +235,19 @@ class VisionDashboardApiServices {
                 .catch((error) => {
                     console.log(error);
                 });
+    };
+
+    readonly updateAccountPermission = async (itemId: string, permission: boolean) => {
+        await http
+            .post("", accountsQuery.updateAccountPermission(itemId, permission))
+            .then(async (response) => {
+                console.log(response.data);
+                await this.publishAccount(itemId);
+                this.fetchAccounts() as any;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 }
 
