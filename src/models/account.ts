@@ -1,6 +1,24 @@
 import { IRequest } from "./request";
 import { ITicket } from "./tickets";
 
+interface IAddAccount {
+    name: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string | null;
+    hasRemember: false;
+}
+
+interface IAddAccountError {
+    name?: string | undefined | null;
+    lastName?: string | undefined | null;
+    email?: string | undefined | null;
+    password?: string | undefined | null;
+    confirmPassword?: string | undefined | null;
+    hasRemember?: string | undefined | null;
+}
+
 interface IAccountLocation {
     longitude: number;
     latitude: number;
@@ -67,4 +85,14 @@ interface IEditAccount {
 
 type DispatchType = (args: IAccountReducerIAccount) => IAccountReducerIAccount;
 
-export type { IAccount, IAccountInitialState, IAccountReducerIAccount, IAccountReducerString, DispatchType, IEditAccount, IAccountLocation };
+export type {
+    IAccount,
+    IAccountInitialState,
+    IAccountReducerIAccount,
+    IAccountReducerString,
+    DispatchType,
+    IEditAccount,
+    IAccountLocation,
+    IAddAccount,
+    IAddAccountError,
+};

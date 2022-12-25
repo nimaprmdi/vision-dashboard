@@ -263,7 +263,7 @@ const AddRequestForm = () => {
                     sx={{ width: "100%", mt: 1 }}
                     onClick={handleSubmit}
                 >
-                    Sign Up
+                    Create a request
                 </Button>
             </Box>
         </form>

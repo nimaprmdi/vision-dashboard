@@ -1,7 +1,12 @@
-import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Link, FormLabel } from "@mui/material";
+import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Link as MUILink, FormLabel } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { IAddAccount, IAddAccountError } from "../../../models/account";
+import { validateProperty } from "../../form/validate";
+import Joi from "joi";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -44,6 +49,72 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 const RegisterForm = () => {
+    const [errors, setErrors] = useState<IAddAccountError>();
+    const [data, setData] = useState<IAddAccount>({
+        name: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        hasRemember: false,
+    });
+
+    const schema = Joi.object({
+        name: Joi.string().min(3).label("Name").messages({
+            "string.base": `"Name" should text`,
+            "string.empty": `"Name" cannot be empty`,
+            "string.min": `"Name" minimum should be {#limit} chars`,
+            "any.required": `"Name" is a required field`,
+        }),
+        lastName: Joi.string().min(4).label("Last name").messages({
+            "string.base": `"Last name" should text`,
+            "string.empty": `"Last name" cannot be empty`,
+            "string.min": `"Last name" minimum should be {#limit}`,
+            "any.required": `"Last name" is a required field`,
+        }),
+        email: Joi.string()
+            .email({ tlds: { allow: false } })
+            .label("Email"),
+        password: Joi.string()
+            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
+            .message("Password Does Not Match pattern")
+            .label("Password"),
+        confirmPassword: Joi.string()
+            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
+            .message("Password Does Not Match pattern")
+            .label("Password"),
+        hasRemember: Joi.boolean().required().label("Remember"),
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const errorMsg = validateProperty(e.target, schema);
+
+        setErrors({ ...errors, [e.target.name]: errorMsg });
+        setData((prevState) => {
+            return { ...prevState, [e.target.name]: e.target.value };
+        });
+
+        if (e.target.name === "confirmPassword") {
+            data?.password !== e.target.value &&
+                setErrors((prevState) => {
+                    return { ...prevState, confirmPassword: "Password Does Not Match" };
+                });
+        } else if (e.target.name === "password") {
+            setData({ ...data, password: e.target.value, confirmPassword: null });
+        } else {
+            setErrors((prevState) => {
+                const allErrors = { ...prevState };
+                delete allErrors["confirmPassword"];
+
+                return { ...allErrors };
+            });
+        }
+    };
+
+    const handleSubmit = () => {
+        // @todo : validate function before sending also for other forms
+    };
+
     return (
         <Box
             sx={{
@@ -72,10 +143,9 @@ const RegisterForm = () => {
 
             <Box
                 sx={{
-                    minWidth: { xs: "100%", md: "350px" },
-                    maxWidth: "100%",
-                    background:
-                        "linear-gradient(123.64deg, rgba(255, 255, 255, 0) -22.71%, rgba(255, 255, 255, 0.039) 70.04%)",
+                    width: "100%",
+                    maxWidth: { xs: "100%", md: "500px" },
+                    background: "linear-gradient(123.64deg, rgba(255, 255, 255, 0) -22.71%, rgba(255, 255, 255, 0.039) 70.04%)",
                     backdropFilter: "blur(60px)",
                     border: "1px solid transparent",
                     borderImage: "linear-gradient(154deg, #ffffff0f 0%,  white 40%, #ffffff0f 100%) 1",
@@ -88,43 +158,104 @@ const RegisterForm = () => {
                 </Typography>
 
                 <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }} my={3}>
-                    <Link href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
+                    <MUILink href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
                         <FacebookIcon sx={{ color: "white", fontSize: "40px" }} />
-                    </Link>
+                    </MUILink>
 
-                    <Link href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
+                    <MUILink href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
                         <GoogleIcon sx={{ color: "white", fontSize: "40px" }} />
-                    </Link>
+                    </MUILink>
                 </Box>
 
                 <Typography variant="h5" className="u-text-small" color="white" align="center" my={2}>
                     or
                 </Typography>
 
-                <FormGroup>
-                    <Box>
+                <FormGroup sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
+                    <Box sx={{ width: { md: "48%" } }}>
+                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
+                            Name
+                        </FormLabel>
+                        <TextField
+                            error={errors?.name ? true : false}
+                            helperText={errors?.name || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="name"
+                            sx={{ width: "100%", mt: 1 }}
+                            required
+                            id="form-name"
+                            label="Your Name"
+                        />
+                    </Box>
+
+                    <Box sx={{ width: { md: "48%" } }}>
+                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
+                            Last name
+                        </FormLabel>
+                        <TextField
+                            error={errors?.lastName ? true : false}
+                            helperText={errors?.lastName || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="lastName"
+                            sx={{ width: "100%", mt: 1 }}
+                            required
+                            id="form-last-name"
+                            label="Your Last Name"
+                        />
+                    </Box>
+
+                    <Box sx={{ width: "100%" }} mt={3}>
                         <FormLabel className="u-text-small" sx={{ color: "white" }}>
                             Email
                         </FormLabel>
-                        <TextField sx={{ width: "100%", mt: 1 }} required id="form-name" label="Your Full Name" />
+                        <TextField
+                            error={errors?.email ? true : false}
+                            helperText={errors?.email || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="email"
+                            sx={{ width: "100%", mt: 1 }}
+                            required
+                            id="form-email"
+                            label="Your Email Address"
+                        />
                     </Box>
 
-                    <Box mt={3}>
-                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
-                            Email
-                        </FormLabel>
-                        <TextField sx={{ width: "100%", mt: 1 }} required id="form-email" label="Your Email Address" />
-                    </Box>
-
-                    <Box mt={3}>
+                    <Box sx={{ width: { md: "48%" } }} mt={3}>
                         <FormLabel className="u-text-small" sx={{ color: "white" }}>
                             Password
                         </FormLabel>
-                        <TextField sx={{ width: "100%", mt: 1 }} required id="form-password" label="Your Password" />
+                        <TextField
+                            error={errors?.password ? true : false}
+                            helperText={errors?.password || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="password"
+                            sx={{ width: "100%", mt: 1 }}
+                            required
+                            id="form-password"
+                            label="Your Password"
+                            type="password"
+                        />
+                    </Box>
+
+                    <Box sx={{ width: { md: "48%" } }} mt={3}>
+                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
+                            Confirm Password
+                        </FormLabel>
+                        <TextField
+                            error={errors?.confirmPassword ? true : false}
+                            helperText={errors?.confirmPassword || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="confirmPassword"
+                            sx={{ width: "100%", mt: 1 }}
+                            required
+                            id="form-confirm-password"
+                            label="Your Password"
+                            type="password"
+                        />
                     </Box>
 
                     <Stack mt={3} direction="row" spacing={1} alignItems="center">
-                        <AntSwitch defaultChecked inputProps={{ "aria-label": "ant design" }} />
+                        <AntSwitch onChange={(e) => handleInputChange(e)} name="hasRemember" inputProps={{ "aria-label": "ant design" }} />
                         <Typography color="white">Remember Me</Typography>
                     </Stack>
 
@@ -134,10 +265,12 @@ const RegisterForm = () => {
                 </FormGroup>
             </Box>
 
-            <Typography variant="h6" className="u-text-small" color="white" mt={2}>
+            <Typography variant="h6" className="u-text-small" color="white" mt={2} display="flex">
                 Already have an account?
-                <Link href="#" underline="none" color="white" ml={1}>
-                    Login
+                <Link className="u-link-primary" to="/login">
+                    <MUILink className="u-link-primary" component="div" underline="none" color="white" ml={1}>
+                        Login
+                    </MUILink>
                 </Link>
             </Typography>
         </Box>

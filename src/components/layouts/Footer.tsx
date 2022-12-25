@@ -1,4 +1,6 @@
-import { Typography, Box, Link } from "@mui/material";
+import { Typography, Box, Link as MUILink } from "@mui/material";
+import { Link } from "react-router-dom";
+import routes from "../../routes";
 
 const Footer = () => {
     return (
@@ -12,26 +14,28 @@ const Footer = () => {
                     gap: 3,
                 }}
             >
-                <Typography
-                    variant="h6"
-                    className="u-text-small"
-                    color="white"
-                    sx={{ fontWeight: 400, letterSpacing: 0.5 }}
-                    textTransform="capitalize"
-                >
+                <Typography variant="h6" className="u-text-small" color="white" sx={{ fontWeight: 400, letterSpacing: 0.5 }} textTransform="capitalize">
                     {new Date().getFullYear()} - Made by Nima Prmdi featuring with 🐈 (Open-Source GPL-V3)
                 </Typography>
 
                 <Box sx={{ display: "flex", gap: 2 }}>
-                    <Link href="#" underline="none" color="white">
-                        Marketplace
-                    </Link>
-                    <Link href="#" underline="none" color="white">
-                        Blogs
-                    </Link>
-                    <Link href="#" underline="none" color="white">
-                        License
-                    </Link>
+                    <>
+                        <Link className="u-link-primary" to="/login">
+                            <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
+                                Login
+                            </MUILink>
+                        </Link>
+
+                        {routes.map((route, index: number) => {
+                            return (
+                                <Link className="u-link-primary" key={`footer-route-${index}`} to={`${route.path}`}>
+                                    <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
+                                        {route.title}
+                                    </MUILink>
+                                </Link>
+                            );
+                        })}
+                    </>
                 </Box>
             </Box>
         </Box>

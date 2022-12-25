@@ -21,10 +21,6 @@ const AddRequest = () => {
                         <Typography mt={{ xs: 4, md: 2 }} variant="h5" color="white" fontWeight={700}>
                             Add Request
                         </Typography>
-
-                        {/* <Button variant="contained" color="primary">
-                            Add New Request
-                        </Button> */}
                     </Box>
 
                     <AddRequestForm />
@@ -32,7 +28,7 @@ const AddRequest = () => {
             </Grid>
 
             <Grid item xs={12} md={4.5}>
-                {/* <Details /> */}
+                <Details description="Here you can create a new request and try our oprators will respond you as soon as possible. You have to Submit all required inputs that have marked with star icon" />
             </Grid>
         </Grid>
     );

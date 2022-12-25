@@ -67,6 +67,7 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
 
     // Functions
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        // @todo : check logic it is changing state even it is wrong
         setEditData((prevState) => {
             return { ...prevState, [e.target.name]: e.target.value };
         });
@@ -119,6 +120,8 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
     };
 
     const handleSubmit = async () => {
+        // @todo : validate function before sending also for other forms
+
         if (editData.password !== editData.confirmPassword) {
             setErrors({ confirmPassword: "Password is not matched" });
         } else {
