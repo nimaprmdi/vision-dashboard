@@ -44,9 +44,10 @@ const reviewRequest = (itemId: string, itemStatus: "pending" | "solved" | "revie
     }
 };
 
-const createRequest = (userId: string, data: IRequest) => (dispatch: Dispatch) => {
-    apiService.createRequest(userId, data);
-    dispatch(actions.CREATE_REQUEST(data));
+const createRequest = (userId: string, data: IRequest) => async (dispatch: Dispatch) => {
+    return await apiService.createRequest(userId, data).then(() => {
+        dispatch(actions.CREATE_REQUEST(data));
+    });
 };
 
 export { fetchRequests, createUser, pendRequest, solveRequest, reviewRequest, createRequest };

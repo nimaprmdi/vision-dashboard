@@ -22,12 +22,13 @@ import { fetchRequests } from "./store/requests/requestsActions";
 import { fetchAccounts } from "./store/account/accountsActions";
 import { fetchTickets } from "./store/tickets/ticketsActions";
 // Utils
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./assets/css/styles.css";
 
 const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // @todo: Merge Requests

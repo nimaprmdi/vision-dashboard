@@ -24,15 +24,15 @@ class VisionDashboardApiServices {
     // @todo : Fix Async and await http methods
     // remove dispacyches from this file (should be actions)
 
-    private publishRequest = async (itemId: string, successMsg: string, failedMsg: string) => {
+    private publishRequest = async (itemId: string) => {
         return await http
             .post("", requestsQuery.publishRequestQuery(itemId))
             .then(() => {
-                toast.success(successMsg);
+                toast.success("Request Published Successfuly");
                 store.dispatch(fetchRequests() as any);
             })
             .catch((error) => {
-                toast.error(failedMsg);
+                toast.error("Publish Request Failed");
                 console.log(error);
             });
     };
@@ -131,7 +131,7 @@ class VisionDashboardApiServices {
                 store.dispatch(requestsActions.PEND_REQUEST(itemId));
                 store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
 
-                this.publishRequest(itemId, "Request Published", "failed publishing request");
+                this.publishRequest(itemId);
             })
             .catch((error) => toast.error(error.message));
     };
@@ -140,7 +140,7 @@ class VisionDashboardApiServices {
     readonly solveRequest = (itemId: string) => {
         http.post("", requestsQuery.solveRequestQuery(itemId))
             .then(() => {
-                this.publishRequest(itemId, "Request Published", "failed publishing request").then((response) => {
+                this.publishRequest(itemId).then(() => {
                     store.dispatch(requestsActions.SOLVE_REQUEST(itemId));
                     store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
                 });
@@ -152,7 +152,7 @@ class VisionDashboardApiServices {
     readonly reviewRequest = (itemId: string) => {
         http.post("", requestsQuery.reviewRequestQuery(itemId))
             .then(() => {
-                this.publishRequest(itemId, "Request Published", "failed publishing request").then((response) => {
+                this.publishRequest(itemId).then(() => {
                     store.dispatch(requestsActions.REVIEW_REQUEST(itemId));
                     store.dispatch(requestsActions.GET_ANSWERED_REQUESTS());
                 });
@@ -274,8 +274,12 @@ class VisionDashboardApiServices {
                 console.log(response);
                 // Store Dispatch @todo : check logic here (the redux problem)
                 const { data } = response;
+
                 toast.success("Submitted Successfully");
                 store.dispatch(requestsActions.CREATE_REQUEST(data));
+                this.publishRequest(data.data.createRequest.itemId).then(() => {
+                    window.location.href = "/";
+                });
             })
             .catch((error) => {
                 console.log("Error");

@@ -48,9 +48,9 @@ axiosApiInstance.interceptors.response.use(
 
             // @todo : Error Tracker here -> sentry.io
 
-            // if (window.location.pathname !== redirectServerError) {
-            //     window.location.href = redirectServerError;
-            // }
+            if (window.location.pathname !== redirectServerError) {
+                window.location.href = redirectServerError;
+            }
         } else {
             if (error.response.status === 400) {
                 toast.error("Bad Request - The request could not be understood by the server");
@@ -66,9 +66,9 @@ axiosApiInstance.interceptors.response.use(
                 toast.error(error.message);
             }
 
-            // if (window.location.pathname !== redirect404) {
-            //     window.location.href = redirect404;
-            // }
+            if (window.location.pathname !== redirect404) {
+                window.location.href = redirect404;
+            }
         }
 
         return Promise.reject(error);

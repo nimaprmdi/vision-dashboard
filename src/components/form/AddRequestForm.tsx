@@ -101,7 +101,26 @@ const AddRequestForm = () => {
     };
 
     const handleSubmit = () => {
+        // @todo : current User
         dispatch(createRequest("aksjdgjhasvduvbhja", data) as any);
+
+        setData({
+            itemId: "",
+            name: "",
+            lastName: "",
+            gender: true,
+            mobile: "",
+            phone: "",
+            address: "",
+            service: "nurse",
+            description: "",
+            date: "",
+            itemStatus: "pending",
+            location: {
+                latitude: 50.11003957248653,
+                longitude: 8.687357922951406,
+            },
+        });
     };
 
     useEffect(() => {

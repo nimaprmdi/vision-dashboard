@@ -23,8 +23,6 @@ const MapBox = ({ isChanged, location, darggable = false, handler }: MapBoxProps
     useEffect(() => {
         setLng(location.longitude);
         setLat(location.latitude);
-
-        console.log("Location", location);
     }, [location]);
 
     useEffect(() => {

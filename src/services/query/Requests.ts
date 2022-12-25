@@ -149,7 +149,7 @@ class RequestsQuery {
         return JSON.stringify({
             query: `
                 mutation MyMutation {
-                    publishRequest(where: {itemId: "${itemId}"}) { id }
+                    publishRequest(where: {itemId: "${itemId}"}) { itemId }
                 }          
             `,
         });
