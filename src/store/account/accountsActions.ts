@@ -1,10 +1,12 @@
 import moment from "moment";
 import apiServices from "../../services/VisionDashboardApiServices";
-import { RootState } from "../rootReducer";
 import { Dispatch } from "@reduxjs/toolkit";
-import { DELETE_ACCOUNT } from "./accountsReducer";
 import { fetchRequests } from "../requests/requestsActions";
+import { IAccount, IAddAccount } from "../../models/account";
 import { fetchTickets } from "../tickets/ticketsActions";
+//reducer
+import { RootState } from "../rootReducer";
+import { DELETE_ACCOUNT, CREATE_ACCOUNT } from "./accountsReducer";
 
 const fetchAccounts = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().accounts;
@@ -18,7 +20,17 @@ const deleteAccount = (itemId: string) => async (dispatch: Dispatch) => {
     dispatch(DELETE_ACCOUNT(itemId));
     // @todo: merge requests
     dispatch(fetchRequests() as any);
-    dispatch(fetchRequests() as any);
+    dispatch(fetchTickets() as any);
 };
 
-export { fetchAccounts, deleteAccount };
+const createAccount = (data: IAddAccount) => async (dispatch: Dispatch, getState: () => RootState) => {
+    await apiServices
+        .createAccount(data)
+        .then((response) => {
+            const data = response.data;
+            dispatch(CREATE_ACCOUNT(data));
+        })
+        .catch((error) => console.log(error));
+};
+
+export { fetchAccounts, deleteAccount, createAccount };

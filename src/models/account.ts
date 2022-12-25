@@ -2,12 +2,15 @@ import { IRequest } from "./request";
 import { ITicket } from "./tickets";
 
 interface IAddAccount {
+    itemId: string;
     name: string;
     lastName: string;
+    userName: string;
     email: string;
     password: string;
     confirmPassword: string | null;
     hasRemember: false;
+    isAdmin: boolean;
 }
 
 interface IAddAccountError {

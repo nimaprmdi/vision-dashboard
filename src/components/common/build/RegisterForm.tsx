@@ -2,11 +2,15 @@ import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Lin
 import { styled } from "@mui/material/styles";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IAddAccount, IAddAccountError } from "../../../models/account";
 import { validateProperty } from "../../form/validate";
 import Joi from "joi";
+import { v4 as uuidv4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/rootReducer";
+import { createAccount } from "../../../store/account/accountsActions";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -49,14 +53,19 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 const RegisterForm = () => {
+    const dispatch = useDispatch();
+    const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
     const [errors, setErrors] = useState<IAddAccountError>();
     const [data, setData] = useState<IAddAccount>({
+        itemId: "",
         name: "",
         lastName: "",
+        userName: "",
         email: "",
         password: "",
         confirmPassword: "",
         hasRemember: false,
+        isAdmin: false,
     });
 
     const schema = Joi.object({
@@ -84,15 +93,26 @@ const RegisterForm = () => {
             .message("Password Does Not Match pattern")
             .label("Password"),
         hasRemember: Joi.boolean().required().label("Remember"),
+        isAdmin: Joi.boolean().label("Admin"),
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const errorMsg = validateProperty(e.target, schema);
-
+        console.log(errors);
         setErrors({ ...errors, [e.target.name]: errorMsg });
         setData((prevState) => {
             return { ...prevState, [e.target.name]: e.target.value };
         });
+
+        if (errorMsg) {
+            setErrors({ ...errors, [e.target.name]: errorMsg });
+        } else {
+            setErrors(() => {
+                const allErrors: any = { ...errors };
+                delete allErrors[e.target.name];
+                return { ...allErrors };
+            });
+        }
 
         if (e.target.name === "confirmPassword") {
             data?.password !== e.target.value &&
@@ -113,7 +133,13 @@ const RegisterForm = () => {
 
     const handleSubmit = () => {
         // @todo : validate function before sending also for other forms
+        setData({ ...data, userName: `${data.itemId}-${data.name}-${data.lastName}` });
+        dispatch(createAccount(data) as any);
     };
+
+    useEffect(() => {
+        setData({ ...data, itemId: uuidv4() });
+    }, []);
 
     return (
         <Box
@@ -259,7 +285,13 @@ const RegisterForm = () => {
                         <Typography color="white">Remember Me</Typography>
                     </Stack>
 
-                    <Button variant="contained" color="primary" sx={{ width: "100%", mt: 3 }}>
+                    <Button
+                        onClick={handleSubmit}
+                        disabled={isHttpCalling || (errors && Object.keys(errors).length ? true : false)}
+                        variant="contained"
+                        color="primary"
+                        sx={{ width: "100%", mt: 3 }}
+                    >
                         Sign Up
                     </Button>
                 </FormGroup>

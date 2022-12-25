@@ -12,7 +12,7 @@ import { fetchTickets } from "../store/tickets/ticketsActions";
 import { fetchRequests } from "../store/requests/requestsActions";
 import configureStore from "../store/configureStore";
 
-import { IAccount, IEditAccount } from "../models/account";
+import { IAccount, IAddAccount, IEditAccount } from "../models/account";
 import { IRequest } from "../models/request";
 import { ITicketResponse } from "../models/tickets";
 import { toast } from "react-toastify";
@@ -284,6 +284,19 @@ class VisionDashboardApiServices {
             .catch((error) => {
                 console.log("Error");
                 toast.error("Create User Failed");
+            });
+    };
+
+    readonly createAccount = async (data: IAddAccount) => {
+        return await http
+            .post("", accountsQuery.createAccountQuery(data))
+            .then((response) => {
+                toast.success("Create Account Successful");
+                return response;
+            })
+            .catch((error) => {
+                toast.error("Create Account Failed");
+                return error;
             });
     };
 }

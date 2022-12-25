@@ -39,8 +39,12 @@ const accountSlice = createSlice({
             const accountItems = state.accounts.filter((account) => account.itemId !== action.payload);
             state.accounts = accountItems;
         },
+
+        CREATE_ACCOUNT: (state, action: { type: string; payload: models.IAccount }) => {
+            state.accounts.push(action.payload);
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_TOTAL_ACCOUNTS, DELETE_ACCOUNT } = accountSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_TOTAL_ACCOUNTS, DELETE_ACCOUNT, CREATE_ACCOUNT } = accountSlice.actions;
 export default accountSlice.reducer;
