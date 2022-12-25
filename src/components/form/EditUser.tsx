@@ -28,8 +28,8 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
         bio: "",
         color: "",
         location: {
-            latitude: data.location ? data.location.latitude : 50.05,
-            longitude: data.location ? data.location.longitude : 10.8,
+            latitude: data.location ? data.location.latitude : 50.11003957248653,
+            longitude: data.location ? data.location.longitude : 8.687357922951406,
         },
     });
     const [errors, setErrors] = useState<IEditAccount>();
@@ -108,7 +108,6 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
         editData.profileImage && handleImageChange(editData.profileImage);
 
         if (editData.profileImage && editData.profileImage.target.files && editData.profileImage?.target.files[0]) {
-            console.log(editData.profileImage?.target.files);
         } else {
             toast.info("No Image Selected");
         }
@@ -128,8 +127,6 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
     };
 
     const handleMapChange = (e: IAccountLocation) => {
-        console.log(e);
-
         setEditData((prevState) => {
             return { ...prevState, location: e };
         });
@@ -152,8 +149,6 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
         });
 
         data.color && setColor(data.color.hex);
-
-        console.log("data Location", data.location);
     }, [data]);
 
     const x = editData.location;
@@ -285,7 +280,11 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
                 </Typo>
 
                 <Box sx={{ height: "300px", width: "100%" }}>
-                    <MapBox location={editData.location || { latitude: 50.05, longitude: 10.8 }} handler={(e) => handleMapChange(e)} darggable />
+                    <MapBox
+                        location={editData.location || { latitude: 50.11003957248653, longitude: 8.687357922951406 }}
+                        handler={(e) => handleMapChange(e)}
+                        darggable
+                    />
                 </Box>
             </Box>
 

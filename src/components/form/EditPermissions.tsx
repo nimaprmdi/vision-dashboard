@@ -16,8 +16,6 @@ const EditPermissions = ({ itemId, isAdmin }: EditPermissionProps) => {
 
     const [selectedPermission, setSelectedPermission] = React.useState<string>(isAdmin ? "admin" : "user");
 
-    console.log(selectedPermission);
-
     const isRadioChecked = (value: string): boolean => selectedPermission === value;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {

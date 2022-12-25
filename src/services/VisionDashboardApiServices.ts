@@ -13,6 +13,7 @@ import { fetchRequests } from "../store/requests/requestsActions";
 import configureStore from "../store/configureStore";
 
 import { IAccount, IEditAccount } from "../models/account";
+import { IRequest } from "../models/request";
 import { ITicketResponse } from "../models/tickets";
 import { toast } from "react-toastify";
 
@@ -263,6 +264,22 @@ class VisionDashboardApiServices {
             .catch((error) => {
                 console.log(error);
                 toast.error("Delete Account Failed");
+            });
+    };
+
+    readonly createRequest = async (userId: string, data: IRequest) => {
+        await http
+            .post("", requestsQuery.createRequest(userId, data))
+            .then((response) => {
+                console.log(response);
+                // Store Dispatch @todo : check logic here (the redux problem)
+                const { data } = response;
+                toast.success("Submitted Successfully");
+                store.dispatch(requestsActions.CREATE_REQUEST(data));
+            })
+            .catch((error) => {
+                console.log("Error");
+                toast.error("Create User Failed");
             });
     };
 }

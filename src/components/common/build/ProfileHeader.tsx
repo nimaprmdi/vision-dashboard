@@ -55,7 +55,7 @@ const ProfileHeader = ({ data, handleChangeImage, imageUploading, setIsEditAccou
                                     ml: 2,
                                 }}
                             >
-                                <EditIcon sx={{ fontSize: "18px" }} onClick={() => console.log("hello")} />
+                                <EditIcon sx={{ fontSize: "18px" }} />
                             </FormLabel>
 
                             <input style={{ visibility: "hidden" }} id="file-upload" accept="image/jpeg" type="file" onChange={(e) => handleChangeImage(e)} />

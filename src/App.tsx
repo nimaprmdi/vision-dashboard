@@ -30,7 +30,7 @@ const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // @todo: Merge Requestss
+        // @todo: Merge Requests
         dispatch(fetchRequests() as any);
         dispatch(fetchAccounts() as any);
         dispatch(fetchTickets() as any);

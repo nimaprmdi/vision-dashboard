@@ -40,8 +40,6 @@ const SingleProfile = () => {
     const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         // Upload File
         if (e.target && e.target.files) {
-            console.log("Clicked in singleprofile");
-
             const formData = new FormData();
             setImageUploading(true);
 

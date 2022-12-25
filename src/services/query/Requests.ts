@@ -1,4 +1,5 @@
 import { IAccount } from "../../models/account";
+import { IRequest } from "../../models/request";
 
 class RequestsQuery {
     // Fetch All Users
@@ -15,7 +16,6 @@ class RequestsQuery {
                     name
                     phone
                     service
-                    stafId
                     date
                     gender
                     address
@@ -152,6 +152,55 @@ class RequestsQuery {
                     publishRequest(where: {itemId: "${itemId}"}) { id }
                 }          
             `,
+        });
+    };
+
+    readonly createRequest = (userId: string, data: IRequest) => {
+        return JSON.stringify({
+            query: `mutation createRequest(
+                $itemId: String!,
+                $name: String!,
+                $lastName: String!,
+                $gender: Boolean!,
+                $mobile: String!,
+                $phone: String,
+                $address: String!,
+                $description: String,
+                $service: String!,
+                $date: DateTime!,
+                $itemStatus: String!,
+                ) {
+                createRequest (
+                    data: {
+                        itemId: $itemId,
+                        name: $name,
+                        lastName: $lastName,
+                        gender: $gender,
+                        mobile: $mobile,
+                        phone: $phone,
+                        address: $address,
+                        description: $description,
+                        service: $service,
+                        date: $date,
+                        itemStatus: $itemStatus,
+                        account: {connect: {itemId: "aksjdgjhasvduvbhja"} 
+                    }
+            }) {
+              itemId
+            }}`,
+            variables: {
+                itemId: data.itemId,
+                name: data.name,
+                lastName: data.lastName,
+                gender: data.gender,
+                mobile: data.mobile,
+                phone: data.phone,
+                address: data.address,
+                description: data.description,
+                service: data.service,
+                date: data.date,
+                itemStatus: data.itemStatus,
+            },
         });
     };
 }

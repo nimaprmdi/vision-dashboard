@@ -47,7 +47,6 @@ class AccountsQuery {
                     name
                     phone
                     service
-                    stafId
                     date
                     gender
                     address

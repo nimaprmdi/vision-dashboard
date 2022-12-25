@@ -1,5 +1,5 @@
 import Details from "../common/build/Details";
-import AddRequestForm from "../common/build/AddRequestForm";
+import AddRequestForm from "../form/AddRequestForm";
 import { Box, Grid, Typography } from "@mui/material";
 
 const AddRequest = () => {

@@ -51,17 +51,15 @@ const requestsSlice = createSlice({
             const requestIndex = state.requests.findIndex((request) => request.itemId === action.payload);
             state.requests[requestIndex] = { ...state.requests[requestIndex], itemStatus: "reviewing" };
         },
+
+        CREATE_REQUEST: (state, action: { type: string; payload: models.IRequest }) => {
+            state.requests.push(action.payload);
+            // state.requests.push
+        },
     },
 });
 
-export const {
-    FETCH_DATA,
-    FETCH_DATA_SUCCESSFUL,
-    FETCH_DATA_FAILED,
-    GET_ANSWERED_REQUESTS,
-    PEND_REQUEST,
-    SOLVE_REQUEST,
-    REVIEW_REQUEST,
-} = requestsSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ANSWERED_REQUESTS, PEND_REQUEST, SOLVE_REQUEST, REVIEW_REQUEST, CREATE_REQUEST } =
+    requestsSlice.actions;
 
 export default requestsSlice.reducer;

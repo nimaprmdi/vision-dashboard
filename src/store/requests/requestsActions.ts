@@ -1,9 +1,11 @@
 import moment from "moment";
 import apiService from "../../services/VisionDashboardApiServices";
+import * as actions from "./requestsReducer";
 import { RootState } from "../rootReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import { IAccount } from "../../models/account";
 import { toast } from "react-toastify";
+import { IRequest } from "../../models/request";
 
 const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().requests;
@@ -42,4 +44,9 @@ const reviewRequest = (itemId: string, itemStatus: "pending" | "solved" | "revie
     }
 };
 
-export { fetchRequests, createUser, pendRequest, solveRequest, reviewRequest };
+const createRequest = (userId: string, data: IRequest) => (dispatch: Dispatch) => {
+    apiService.createRequest(userId, data);
+    dispatch(actions.CREATE_REQUEST(data));
+};
+
+export { fetchRequests, createUser, pendRequest, solveRequest, reviewRequest, createRequest };
