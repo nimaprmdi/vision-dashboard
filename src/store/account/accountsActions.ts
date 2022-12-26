@@ -2,7 +2,7 @@ import moment from "moment";
 import apiServices from "../../services/VisionDashboardApiServices";
 import { Dispatch } from "@reduxjs/toolkit";
 import { fetchRequests } from "../requests/requestsActions";
-import { IAccount, IAddAccount } from "../../models/account";
+import { IAccount, IAccountLogin, IAddAccount } from "../../models/account";
 import { fetchTickets } from "../tickets/ticketsActions";
 //reducer
 import { RootState } from "../rootReducer";
@@ -32,4 +32,8 @@ const createAccount = (data: IAddAccount) => async (dispatch: Dispatch, getState
         .catch((error) => console.log(error));
 };
 
-export { fetchAccounts, deleteAccount, createAccount };
+const loginAccount = (data: IAccountLogin) => async (dispatch: Dispatch, getState: () => RootState) => {
+    await apiServices.loginAccount(data);
+};
+
+export { fetchAccounts, deleteAccount, createAccount, loginAccount };

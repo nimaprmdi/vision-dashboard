@@ -1,4 +1,4 @@
-import { IEditAccount, IAccount, IAddAccount } from "../../models/account";
+import { IEditAccount, IAccount, IAddAccount, IAccountLogin } from "../../models/account";
 
 class AccountsQuery {
     readonly fetchAccountsQuery = () => {
@@ -229,6 +229,25 @@ class AccountsQuery {
                 userName: data.userName,
                 password: data.password,
                 isAdmin: false,
+            },
+        });
+    };
+
+    readonly loginAccountQuery = (data: IAccountLogin) => {
+        return JSON.stringify({
+            query: `
+              query ($email: String!, $password: String!) {
+                accountsConnection(where: {email: $email, password: $password }) {
+                  edges {
+                    node {
+                      itemId
+                    }
+                  } 
+              }
+            }`,
+            variables: {
+                email: data.email,
+                password: data.password,
             },
         });
     };

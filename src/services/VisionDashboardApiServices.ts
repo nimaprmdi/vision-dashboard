@@ -4,17 +4,22 @@ import requestsQuery from "./query/Requests";
 import accountsQuery from "./query/Accounts";
 import assetsQuery from "./query/Assets";
 
+// reducers actions @todo : what is going on here action reducers and actions bottoms ?
 import * as requestsActions from "../store/requests/requestsReducer";
 import * as ticketsActions from "../store/tickets/ticketsReducer";
 import * as accountsActions from "../store/account/accountsReducer";
 
+// actions
 import { fetchTickets } from "../store/tickets/ticketsActions";
 import { fetchRequests } from "../store/requests/requestsActions";
 import configureStore from "../store/configureStore";
 
-import { IAccount, IAddAccount, IEditAccount } from "../models/account";
+// Models
+import { IAccount, IAddAccount, IEditAccount, IAccountLogin } from "../models/account";
 import { IRequest } from "../models/request";
 import { ITicketResponse } from "../models/tickets";
+
+//urtils
 import { toast } from "react-toastify";
 
 const store = configureStore;
@@ -298,6 +303,19 @@ class VisionDashboardApiServices {
             .catch((error) => {
                 toast.error(error.messsage);
                 return error;
+            });
+    };
+
+    readonly loginAccount = async (data: IAccountLogin) => {
+        await http
+            .post("", accountsQuery.loginAccountQuery(data))
+            .then((response) => {
+                console.log("response login", response);
+                toast.success("Login Successful");
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error("Ann Error Occourd");
             });
     };
 }

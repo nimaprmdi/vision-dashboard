@@ -12,7 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 import { RootState } from "../../../store/rootReducer";
-import { createAccount } from "../../../store/account/accountsActions";
+
+// actions
+import { loginAccount } from "../../../store/account/accountsActions";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -78,24 +80,20 @@ const LoginForm = () => {
         hasRemember: Joi.boolean().required().label("Remember"),
     });
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, c?: boolean) => {
-        const errorMsg = validateProperty(e.target, schema);
-
-        console.log(e.currentTarget.value);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean) => {
+        const errorMsg = e.target.name !== "hasRemember" && validateProperty(e.target, schema);
 
         setErrors({ ...errors, [e.target.name]: errorMsg });
 
         if (e.target.name === "hasRemember") {
             setData((prevState) => {
-                return { ...prevState, [e.target.name]: c };
+                return { ...prevState, [e.target.name]: checked };
             });
         } else {
             setData((prevState) => {
                 return { ...prevState, [e.target.name]: e.target.value };
             });
         }
-
-        console.log(data);
 
         if (errorMsg) {
             setErrors({ ...errors, [e.target.name]: errorMsg });
@@ -110,7 +108,7 @@ const LoginForm = () => {
 
     const handleSubmit = () => {
         // @todo : validate function before sending also for other forms
-        // dispatch(createAccount(data) as any);
+        dispatch(loginAccount(data) as any);
     };
 
     return (
