@@ -292,10 +292,11 @@ class VisionDashboardApiServices {
             .post("", accountsQuery.createAccountQuery(data))
             .then((response) => {
                 toast.success("Create Account Successful");
+                this.publishAccount(response.data.data.createAccount.itemId);
                 return response;
             })
             .catch((error) => {
-                toast.error("Create Account Failed");
+                toast.error(error.messsage);
                 return error;
             });
     };

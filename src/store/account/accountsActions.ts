@@ -27,8 +27,7 @@ const createAccount = (data: IAddAccount) => async (dispatch: Dispatch, getState
     await apiServices
         .createAccount(data)
         .then((response) => {
-            const data = response.data;
-            dispatch(CREATE_ACCOUNT(data));
+            dispatch(CREATE_ACCOUNT(response.data));
         })
         .catch((error) => console.log(error));
 };

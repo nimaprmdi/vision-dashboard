@@ -26,6 +26,12 @@ const Footer = () => {
                             </MUILink>
                         </Link>
 
+                        <Link className="u-link-primary" to="/register">
+                            <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
+                                Register
+                            </MUILink>
+                        </Link>
+
                         {routes.map((route, index: number) => {
                             return (
                                 <Link className="u-link-primary" key={`footer-route-${index}`} to={`${route.path}`}>

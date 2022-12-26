@@ -1,5 +1,18 @@
-import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Link, FormLabel } from "@mui/material";
+import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Link as MUILink, FormLabel } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GoogleIcon from "@mui/icons-material/Google";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+// models
+import { IAccountLogin, IAccountLoginError } from "../../../models/account";
+import { validateProperty } from "../../form/validate";
+import Joi from "joi";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+
+import { RootState } from "../../../store/rootReducer";
+import { createAccount } from "../../../store/account/accountsActions";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -43,6 +56,63 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const LoginForm = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [errors, setErrors] = useState<IAccountLoginError>();
+    const [hasRemeber, setHasRemember] = useState<boolean>();
+    const [data, setData] = useState<IAccountLogin>({
+        email: "",
+        password: "",
+        hasRemember: false,
+    });
+    const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
+
+    const schema = Joi.object({
+        email: Joi.string()
+            .email({ tlds: { allow: false } })
+            .label("Email"),
+        password: Joi.string()
+            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
+            .message("Password Does Not Match pattern")
+            .label("Password"),
+        hasRemember: Joi.boolean().required().label("Remember"),
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, c?: boolean) => {
+        const errorMsg = validateProperty(e.target, schema);
+
+        console.log(e.currentTarget.value);
+
+        setErrors({ ...errors, [e.target.name]: errorMsg });
+
+        if (e.target.name === "hasRemember") {
+            setData((prevState) => {
+                return { ...prevState, [e.target.name]: c };
+            });
+        } else {
+            setData((prevState) => {
+                return { ...prevState, [e.target.name]: e.target.value };
+            });
+        }
+
+        console.log(data);
+
+        if (errorMsg) {
+            setErrors({ ...errors, [e.target.name]: errorMsg });
+        } else {
+            setErrors(() => {
+                const allErrors: any = { ...errors };
+                delete allErrors[e.target.name];
+                return { ...allErrors };
+            });
+        }
+    };
+
+    const handleSubmit = () => {
+        // @todo : validate function before sending also for other forms
+        // dispatch(createAccount(data) as any);
+    };
+
     return (
         <Box
             sx={{
@@ -57,58 +127,111 @@ const LoginForm = () => {
                 background: "linear-gradient(159.02deg, #0F123B 14.25%, #090D2E 56.45%, #020515 86.14%)",
                 px: { xs: 2, md: 0 },
                 pl: { md: 12 },
-                pt: { xs: 26, sm: 0, md: 0 },
+                pt: { xs: 26, sm: "23%", md: "25%", xl: "15%" },
+                pb: 5,
             }}
         >
             <Typography variant="h2" className="u-text-big" color="white">
-                Nice to see you!
+                Welcome
             </Typography>
 
-            <Typography variant="h6" className="u-text-small" color="gray.light">
-                Enter your user and password to sign in
+            <Typography sx={{ maxWidth: "300px" }} variant="h6" className="u-text-small" color="gray.light">
+                Use these awesome forms to login or create new account in your project for free.
             </Typography>
 
-            <Box sx={{ minWidth: { xs: "100%", md: "350px" }, maxWidth: "100%" }} mt={4}>
-                <FormGroup>
-                    <Box>
+            <Box
+                sx={{
+                    width: "100%",
+                    maxWidth: { xs: "100%", md: "500px" },
+                    background: "linear-gradient(123.64deg, rgba(255, 255, 255, 0) -22.71%, rgba(255, 255, 255, 0.039) 70.04%)",
+                    backdropFilter: "blur(60px)",
+                    border: "1px solid transparent",
+                    borderImage: "linear-gradient(154deg, #ffffff0f 0%,  white 40%, #ffffff0f 100%) 1",
+                }}
+                mt={4}
+                p={4}
+            >
+                <Typography variant="h5" color="white" align="center" fontWeight={700}>
+                    Register with
+                </Typography>
+
+                <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }} my={3}>
+                    <MUILink href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
+                        <FacebookIcon sx={{ color: "white", fontSize: "40px" }} />
+                    </MUILink>
+
+                    <MUILink href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
+                        <GoogleIcon sx={{ color: "white", fontSize: "40px" }} />
+                    </MUILink>
+                </Box>
+
+                <Typography variant="h5" className="u-text-small" color="white" align="center" my={2}>
+                    or
+                </Typography>
+
+                <FormGroup sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
+                    <Box sx={{ width: "100%" }}>
                         <FormLabel className="u-text-small" sx={{ color: "white" }}>
                             Email
                         </FormLabel>
                         <TextField
+                            error={errors?.email ? true : false}
+                            helperText={errors?.email || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="email"
                             sx={{ width: "100%", mt: 1 }}
                             required
-                            id="outlined-required"
-                            label="Your Email Address"
+                            id="form-email"
+                            label="Email"
                         />
                     </Box>
 
-                    <Box mt={3}>
+                    <Box sx={{ width: "100%" }} mt={3}>
                         <FormLabel className="u-text-small" sx={{ color: "white" }}>
                             Password
                         </FormLabel>
                         <TextField
+                            error={errors?.password ? true : false}
+                            helperText={errors?.password || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="password"
                             sx={{ width: "100%", mt: 1 }}
                             required
-                            id="outlined-required"
+                            id="form-password"
                             label="Your Password"
+                            type="password"
                         />
                     </Box>
 
                     <Stack mt={3} direction="row" spacing={1} alignItems="center">
-                        <AntSwitch defaultChecked inputProps={{ "aria-label": "ant design" }} />
+                        <AntSwitch
+                            checked={data.hasRemember}
+                            onChange={(e, c) => handleInputChange(e, c)}
+                            name="hasRemember"
+                            inputProps={{ "aria-label": "hasRemember" }}
+                        />
+
                         <Typography color="white">Remember Me</Typography>
                     </Stack>
 
-                    <Button variant="contained" color="primary" sx={{ width: "100%", mt: 3 }}>
-                        Login
+                    <Button
+                        onClick={handleSubmit}
+                        disabled={isHttpCalling || (errors && Object.keys(errors).length ? true : false)}
+                        variant="contained"
+                        color="primary"
+                        sx={{ width: "100%", mt: 3 }}
+                    >
+                        Sign Up
                     </Button>
                 </FormGroup>
             </Box>
 
-            <Typography variant="h6" className="u-text-small" color="white" mt={2}>
-                Don't have an account?
-                <Link href="#" underline="none" color="white" ml={1}>
-                    Sign up
+            <Typography variant="h6" className="u-text-small" color="white" mt={2} display="flex">
+                Dont hane an account?
+                <Link className="u-link-primary" to="/register">
+                    <MUILink className="u-link-primary" component="div" underline="none" color="white" ml={1}>
+                        Register
+                    </MUILink>
                 </Link>
             </Typography>
         </Box>

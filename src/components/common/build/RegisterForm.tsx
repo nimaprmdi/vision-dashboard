@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IAddAccount, IAddAccountError } from "../../../models/account";
 import { validateProperty } from "../../form/validate";
 import Joi from "joi";
@@ -53,6 +53,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 const RegisterForm = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
     const [errors, setErrors] = useState<IAddAccountError>();
@@ -133,7 +134,7 @@ const RegisterForm = () => {
 
     const handleSubmit = () => {
         // @todo : validate function before sending also for other forms
-        setData({ ...data, userName: `${data.itemId}-${data.name}-${data.lastName}` });
+        setData({ ...data, userName: `${data.email}-${data.lastName}` });
         dispatch(createAccount(data) as any);
     };
 

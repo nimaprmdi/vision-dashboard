@@ -41,6 +41,7 @@ const accountSlice = createSlice({
         },
 
         CREATE_ACCOUNT: (state, action: { type: string; payload: models.IAccount }) => {
+            console.log(action.payload);
             state.accounts.push(action.payload);
         },
     },

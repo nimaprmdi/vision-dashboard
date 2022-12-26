@@ -13,6 +13,18 @@ interface IAddAccount {
     isAdmin: boolean;
 }
 
+interface IAccountLogin {
+    email: string;
+    password: string;
+    hasRemember: boolean;
+}
+
+interface IAccountLoginError {
+    email?: string | undefined | null;
+    password?: string | undefined | null;
+    hasRemember?: boolean;
+}
+
 interface IAddAccountError {
     name?: string | undefined | null;
     lastName?: string | undefined | null;
@@ -98,4 +110,6 @@ export type {
     IAccountLocation,
     IAddAccount,
     IAddAccountError,
+    IAccountLogin,
+    IAccountLoginError,
 };
