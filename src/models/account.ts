@@ -15,6 +15,7 @@ interface IAddAccount {
 
 interface IAccountLogin {
     email: string;
+    userName: string;
     password: string;
     hasRemember: boolean;
 }
@@ -72,6 +73,7 @@ interface IAccountInitialState {
     isLoading: boolean;
     lastFetch: null | number;
     error: string;
+    currentAccount: IAccountLogin;
 }
 
 // Fetch Successful - Action Model

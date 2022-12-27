@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 // Home
 import Home from "./components/home/Home";
 // Layouts
@@ -25,6 +25,7 @@ import { fetchTickets } from "./store/tickets/ticketsActions";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./assets/css/styles.css";
+// github servceis
 
 const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -35,12 +36,37 @@ const App: React.FC = (): JSX.Element => {
         dispatch(fetchRequests() as any);
         dispatch(fetchAccounts() as any);
         dispatch(fetchTickets() as any);
-
-        console.log("App Mounted");
     }, []);
+
+    // const handleUserData = async () => {
+    // };
 
     return (
         <section className="o-page">
+            {/* {localStorage.getItem("accessToken") ? (
+                <>
+                    <button
+                        style={{ position: "absolute", top: 0, left: 0 }}
+                        onClick={() => {
+                            localStorage.removeItem("accessToken");
+                            // setRerender(!rerender);
+                        }}
+                    >
+                        Log Out
+                    </button>
+
+                    <button style={{ position: "absolute", top: "20px", left: 0 }} onClick={() => handleUserData()}>
+                        get user data
+                    </button>
+
+                    {/* {Object.keys(user).length !== 0 ? <>{user.login}</> : <>Bye</>} 
+                </>
+            ) : (
+                <button style={{ position: "absolute", top: 0, left: 0 }} onClick={loginWithGithub}>
+                    Login With Github
+                </button>
+            )} */}
+
             <Routes>
                 <Route element={<Layouts />}>
                     <Route path="/" element={<Home />} />

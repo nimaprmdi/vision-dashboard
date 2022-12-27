@@ -16,10 +16,10 @@ root.render(
     <ThemeProvider theme={dashboardTheme}>
         <Provider store={store}>
             <BrowserRouter>
-                <React.StrictMode>
-                    <App />
-                    <ToastContainer />
-                </React.StrictMode>
+                {/* <React.StrictMode> */}
+                <App />
+                <ToastContainer />
+                {/* </React.StrictMode> */}
             </BrowserRouter>
         </Provider>
     </ThemeProvider>

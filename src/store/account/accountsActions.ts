@@ -4,9 +4,10 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { fetchRequests } from "../requests/requestsActions";
 import { IAccount, IAccountLogin, IAddAccount } from "../../models/account";
 import { fetchTickets } from "../tickets/ticketsActions";
-//reducer
+import { getUserData } from "../../services/githubServices";
+// reducer
 import { RootState } from "../rootReducer";
-import { DELETE_ACCOUNT, CREATE_ACCOUNT } from "./accountsReducer";
+import { DELETE_ACCOUNT, CREATE_ACCOUNT, SELECT_CURRENT_USER } from "./accountsReducer";
 
 const fetchAccounts = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().accounts;
@@ -36,4 +37,9 @@ const loginAccount = (data: IAccountLogin) => async (dispatch: Dispatch, getStat
     await apiServices.loginAccount(data);
 };
 
-export { fetchAccounts, deleteAccount, createAccount, loginAccount };
+const getCurrentAccount = () => async (dispatch: Dispatch, getState: () => RootState) => {
+    const x: any = await getUserData();
+    dispatch(SELECT_CURRENT_USER(x));
+};
+
+export { fetchAccounts, deleteAccount, createAccount, loginAccount, getCurrentAccount };

@@ -7,6 +7,7 @@ const initialState: models.IAccountInitialState = {
     lastFetch: null,
     totalAccounts: 0,
     error: "",
+    currentAccount: { email: "", userName: "", password: "", hasRemember: false },
 };
 
 const accountSlice = createSlice({
@@ -44,8 +45,15 @@ const accountSlice = createSlice({
             console.log(action.payload);
             state.accounts.push(action.payload);
         },
+
+        SELECT_CURRENT_USER: (state, action: { type: string; payload: models.IAccountLogin }) => {
+            // const currentAccountIndex = state.accounts.findIndex((account) => account.userName === action.payload.login);
+            // const currentAccount = state.accounts[currentAccountIndex];s
+            state.currentAccount = action.payload;
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_TOTAL_ACCOUNTS, DELETE_ACCOUNT, CREATE_ACCOUNT } = accountSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_TOTAL_ACCOUNTS, DELETE_ACCOUNT, CREATE_ACCOUNT, SELECT_CURRENT_USER } =
+    accountSlice.actions;
 export default accountSlice.reducer;

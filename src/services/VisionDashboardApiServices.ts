@@ -318,6 +318,24 @@ class VisionDashboardApiServices {
                 toast.error("Ann Error Occourd");
             });
     };
+
+    readonly handleGoogleLogin = async (googleData: any) => {
+        console.log("googleData", googleData);
+
+        const token = JSON.stringify({
+            token: googleData.clientId,
+        });
+
+        await fetch("/api/google-login", {
+            method: "POST",
+            body: JSON.stringify({
+                token: googleData.clientId,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    };
 }
 
 export default new VisionDashboardApiServices();

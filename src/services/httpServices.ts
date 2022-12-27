@@ -3,11 +3,16 @@ import configureStore from "../store/configureStore";
 import { toast } from "react-toastify";
 import { ADD_SERVER_ERROR } from "../store/entities/entitiesReducer";
 import { CHANGE_HTTP_CALL_STATUS } from "../store/entities/entitiesReducer";
+import axios from "axios";
 
 const store = configureStore;
 
 const axiosApiInstance = axsio.create({
     baseURL: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
+});
+
+const axiosGoogleInstance = axios.create({
+    baseURL: "/api/google-login",
 });
 
 axiosApiInstance.interceptors.request.use(
@@ -80,4 +85,9 @@ export default {
     post: axiosApiInstance.post,
     put: axiosApiInstance.put,
     delete: axiosApiInstance.delete,
+
+    getGoogle: axiosGoogleInstance.get,
+    postGoogle: axiosGoogleInstance.post,
+    putGoogle: axiosGoogleInstance.put,
+    deleteGoogle: axiosGoogleInstance.delete,
 };
