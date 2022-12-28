@@ -1,15 +1,28 @@
 import { IRequest } from "./request";
 import { ITicket } from "./tickets";
 
+interface IAddAccountGithub {
+    itemId: string;
+    name: string;
+    lastName: string;
+    userName: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string | null;
+    hasRemember: boolean;
+    isAdmin: boolean;
+    login: string;
+}
+
 interface IAddAccount {
     itemId: string;
     name: string;
     lastName: string;
     userName: string;
-    email: string;
-    password: string;
-    confirmPassword: string | null;
-    hasRemember: false;
+    email?: string;
+    password?: string;
+    confirmPassword?: string | null;
+    hasRemember: boolean;
     isAdmin: boolean;
 }
 
@@ -18,6 +31,7 @@ interface IAccountLogin {
     userName: string;
     password: string;
     hasRemember: boolean;
+    login?: string;
 }
 
 interface IAccountLoginError {
@@ -58,10 +72,36 @@ interface IAccount {
     requests: IRequest[];
     itemRequests: JSON;
     createdAt: string;
+    login?: string;
     color: {
         hex: string;
     };
     profileImage: {
+        url: string;
+    };
+}
+
+interface IAccountCurrentUserState {
+    itemId?: string;
+    name?: string;
+    lastName?: string;
+    email?: string;
+    userName?: string;
+    password?: string;
+    isAdmin?: boolean;
+    bio?: string;
+    location?: IAccountLocation;
+    answeredTickets?: JSON;
+    answeredRequests?: JSON;
+    tickets?: ITicket[];
+    itemTickets?: JSON;
+    requests?: IRequest[];
+    itemRequests?: JSON;
+    createdAt?: string;
+    color?: {
+        hex: string;
+    };
+    profileImage?: {
         url: string;
     };
 }
@@ -73,7 +113,7 @@ interface IAccountInitialState {
     isLoading: boolean;
     lastFetch: null | number;
     error: string;
-    currentAccount: IAccountLogin;
+    currentAccount: IAccountCurrentUserState;
 }
 
 // Fetch Successful - Action Model
@@ -114,4 +154,5 @@ export type {
     IAddAccountError,
     IAccountLogin,
     IAccountLoginError,
+    IAddAccountGithub,
 };

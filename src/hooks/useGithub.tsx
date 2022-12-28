@@ -21,6 +21,7 @@ const useGithub = () => {
 
                         if (data.access_token) {
                             localStorage.setItem("accessToken", data.access_token);
+                            localStorage.setItem("loginService", "github");
                             setRerender(!rerender);
                         }
                     });

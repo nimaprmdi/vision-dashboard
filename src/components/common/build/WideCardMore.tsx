@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
 
 const WideCardMore = () => {
-    const accountsState = useSelector((state: RootState) => state.accounts);
+    const account = useSelector((state: RootState) => state.accounts.currentAccount);
 
     return (
         <WideCard className="c-smartcard" hasBackground={true} sx={{ minHeight: "auto", width: "100%", pl: { xs: 4, md: 6 }, py: 5, gap: { xs: 10, md: 19 } }}>
@@ -15,7 +15,7 @@ const WideCardMore = () => {
                 </Typography>
 
                 <Typography variant="h2" color="white">
-                    Mark Johnson
+                    {account.name || " "}
                 </Typography>
 
                 <Typography variant="h6" color="gray.light" mt={2.5}>

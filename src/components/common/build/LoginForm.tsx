@@ -21,7 +21,7 @@ import { loginAccount, getCurrentAccount } from "../../../store/account/accounts
 
 //google
 import apiServices from "../../../services/VisionDashboardApiServices";
-import { getUserData } from "../../../services/githubServices";
+import { getUserData, loginWithGithub } from "../../../services/githubServices";
 
 // hooks
 import useGithub from "../../../hooks/useGithub";
@@ -74,8 +74,6 @@ const LoginForm = () => {
     const [errors, setErrors] = useState<IAccountLoginError>();
     const [hasRemeber, setHasRemember] = useState<boolean>();
 
-    const [isRender, setIsRender] = useState(false);
-
     const [data, setData] = useState<IAccountLogin>({
         email: "",
         password: "",
@@ -127,17 +125,9 @@ const LoginForm = () => {
         dispatch(loginAccount(data) as any);
     };
 
-    // Hook
-    const rerender = useGithub();
-
-    useEffect(() => {
-        setIsRender(rerender);
-    }, [rerender]);
-
-    const handleGetUserData = () => {
+    const handleGithubLogin = () => {
         console.log("Clicked");
-
-        dispatch(getCurrentAccount() as any);
+        loginWithGithub();
     };
 
     return (
@@ -158,7 +148,109 @@ const LoginForm = () => {
                 pb: 5,
             }}
         >
-            <Button onClick={() => handleGetUserData()}>asd</Button>
+            <Typography variant="h2" className="u-text-big" color="white">
+                Welcome
+            </Typography>
+
+            <Typography sx={{ maxWidth: "300px" }} variant="h6" className="u-text-small" color="gray.light">
+                Use these awesome forms to login or create new account in your project for free.
+            </Typography>
+
+            <Box
+                sx={{
+                    width: "100%",
+                    maxWidth: { xs: "100%", md: "500px" },
+                    background: "linear-gradient(123.64deg, rgba(255, 255, 255, 0) -22.71%, rgba(255, 255, 255, 0.039) 70.04%)",
+                    backdropFilter: "blur(60px)",
+                    border: "1px solid transparent",
+                    borderImage: "linear-gradient(154deg, #ffffff0f 0%,  white 40%, #ffffff0f 100%) 1",
+                }}
+                mt={4}
+                p={4}
+            >
+                <Typography variant="h5" color="white" align="center" fontWeight={700}>
+                    Register with
+                </Typography>
+
+                <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }} my={3}>
+                    <MUILink onClick={() => handleGithubLogin()} className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
+                        <GitHubIcon sx={{ color: "white", fontSize: "40px" }} />
+                    </MUILink>
+
+                    <MUILink href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
+                        <GoogleIcon sx={{ color: "white", fontSize: "40px" }} />
+                    </MUILink>
+                </Box>
+
+                <Typography variant="h5" className="u-text-small" color="white" align="center" my={2}>
+                    or
+                </Typography>
+
+                <FormGroup sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
+                    <Box sx={{ width: "100%" }}>
+                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
+                            Email
+                        </FormLabel>
+                        <TextField
+                            error={errors?.email ? true : false}
+                            helperText={errors?.email || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="email"
+                            sx={{ width: "100%", mt: 1 }}
+                            required
+                            id="form-email"
+                            label="Email"
+                        />
+                    </Box>
+
+                    <Box sx={{ width: "100%" }} mt={3}>
+                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
+                            Password
+                        </FormLabel>
+                        <TextField
+                            error={errors?.password ? true : false}
+                            helperText={errors?.password || ""}
+                            onChange={(e) => handleInputChange(e)}
+                            name="password"
+                            sx={{ width: "100%", mt: 1 }}
+                            required
+                            id="form-password"
+                            label="Your Password"
+                            type="password"
+                        />
+                    </Box>
+
+                    <Stack mt={3} direction="row" spacing={1} alignItems="center">
+                        <AntSwitch
+                            checked={data.hasRemember}
+                            onChange={(e, c) => handleInputChange(e, c)}
+                            name="hasRemember"
+                            inputProps={{ "aria-label": "hasRemember" }}
+                        />
+
+                        <Typography color="white">Remember Me</Typography>
+                    </Stack>
+
+                    <Button
+                        onClick={handleSubmit}
+                        disabled={isHttpCalling || (errors && Object.keys(errors).length ? true : false)}
+                        variant="contained"
+                        color="primary"
+                        sx={{ width: "100%", mt: 3 }}
+                    >
+                        Sign Up
+                    </Button>
+                </FormGroup>
+            </Box>
+
+            <Typography variant="h6" className="u-text-small" color="white" mt={2} display="flex">
+                Dont hane an account?
+                <Link className="u-link-primary" to="/register">
+                    <MUILink className="u-link-primary" component="div" underline="none" color="white" ml={1}>
+                        Register
+                    </MUILink>
+                </Link>
+            </Typography>
         </Box>
     );
 };

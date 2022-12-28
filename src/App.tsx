@@ -19,17 +19,34 @@ import Notfound from "./components/404/Notfound";
 import ServerError from "./components/404/ServerError";
 // Fetch Data
 import { fetchRequests } from "./store/requests/requestsActions";
-import { fetchAccounts } from "./store/account/accountsActions";
+import { fetchAccounts, createAccount, createGithubAccount } from "./store/account/accountsActions";
 import { fetchTickets } from "./store/tickets/ticketsActions";
 // Utils
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./assets/css/styles.css";
+
+import { getCurrentAccount } from "./store/account/accountsActions";
+
 // github servceis
+import { loginWithGithub, getUserData } from "./services/githubServices";
+import useGithub from "./hooks/useGithub";
+import { RootState } from "./store/rootReducer";
+import { IAddAccountGithub, IAddAccount } from "./models/account";
+import { v4 as uuidv4 } from "uuid";
+import PopUp from "./components/common/PopUp";
 
 const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
+    const accountsState = useSelector((state: RootState) => state.accounts);
     const navigate = useNavigate();
+
+    // Hook
+    const rerender = useGithub();
+
+    useEffect(() => {
+        setIsRender(rerender);
+    }, [rerender]);
 
     useEffect(() => {
         // @todo: Merge Requests
@@ -38,35 +55,49 @@ const App: React.FC = (): JSX.Element => {
         dispatch(fetchTickets() as any);
     }, []);
 
-    // const handleUserData = async () => {
-    // };
+    /// github issues
+
+    const [user, setUser] = useState<IAddAccount>();
+    const [accountIndex, setAccountIndex] = useState<number>();
+    const [isRender, setIsRender] = useState(false);
+
+    const [isEmailPopupOpen, setIsEmailPopupOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!accountsState.isLoading && localStorage.getItem("accessToken") !== null && localStorage.getItem("loginService") === "github") {
+            (async () => {
+                const x = await getUserData();
+                const itemId = `github-${x.login}-${uuidv4()}`;
+
+                setUser({
+                    itemId: itemId,
+                    name: x.name || x.login,
+                    lastName: "",
+                    userName: x.login,
+                    email: x.email,
+                    hasRemember: false,
+                    isAdmin: false,
+                });
+
+                const accountIndex = accountsState.accounts.findIndex((account) => account.userName === x.login);
+                setAccountIndex(accountIndex);
+
+                if (accountIndex !== -1) {
+                    console.log("inside");
+                    dispatch(getCurrentAccount(accountIndex) as any);
+                }
+            })();
+        }
+    }, [accountsState.isLoading, localStorage.getItem("accessToken")]);
+
+    useEffect(() => {
+        if (user && accountIndex === -1 && localStorage.getItem("loginService") === "github") {
+            user && dispatch(createGithubAccount(user) as any);
+        }
+    }, [user]);
 
     return (
         <section className="o-page">
-            {/* {localStorage.getItem("accessToken") ? (
-                <>
-                    <button
-                        style={{ position: "absolute", top: 0, left: 0 }}
-                        onClick={() => {
-                            localStorage.removeItem("accessToken");
-                            // setRerender(!rerender);
-                        }}
-                    >
-                        Log Out
-                    </button>
-
-                    <button style={{ position: "absolute", top: "20px", left: 0 }} onClick={() => handleUserData()}>
-                        get user data
-                    </button>
-
-                    {/* {Object.keys(user).length !== 0 ? <>{user.login}</> : <>Bye</>} 
-                </>
-            ) : (
-                <button style={{ position: "absolute", top: 0, left: 0 }} onClick={loginWithGithub}>
-                    Login With Github
-                </button>
-            )} */}
-
             <Routes>
                 <Route element={<Layouts />}>
                     <Route path="/" element={<Home />} />

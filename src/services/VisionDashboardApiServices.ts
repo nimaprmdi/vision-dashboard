@@ -306,6 +306,21 @@ class VisionDashboardApiServices {
             });
     };
 
+    readonly createGithubAccount = async (data: IAddAccount) => {
+        console.log("data query", data);
+        return await http
+            .post("", accountsQuery.createGithubAccountQuery(data))
+            .then((response) => {
+                toast.success("Create Account Successful");
+                this.publishAccount(response.data.data.createAccount.itemId);
+                return response;
+            })
+            .catch((error) => {
+                toast.error(error.messsage);
+                return error;
+            });
+    };
+
     readonly loginAccount = async (data: IAccountLogin) => {
         await http
             .post("", accountsQuery.loginAccountQuery(data))

@@ -7,7 +7,7 @@ const initialState: models.IAccountInitialState = {
     lastFetch: null,
     totalAccounts: 0,
     error: "",
-    currentAccount: { email: "", userName: "", password: "", hasRemember: false },
+    currentAccount: {},
 };
 
 const accountSlice = createSlice({
@@ -46,10 +46,8 @@ const accountSlice = createSlice({
             state.accounts.push(action.payload);
         },
 
-        SELECT_CURRENT_USER: (state, action: { type: string; payload: models.IAccountLogin }) => {
-            // const currentAccountIndex = state.accounts.findIndex((account) => account.userName === action.payload.login);
-            // const currentAccount = state.accounts[currentAccountIndex];s
-            state.currentAccount = action.payload;
+        SELECT_CURRENT_USER: (state, action: { type: string; payload: number }) => {
+            state.currentAccount = state.accounts[action.payload];
         },
     },
 });

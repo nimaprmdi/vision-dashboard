@@ -64,19 +64,19 @@ const SingleProfile = () => {
     return (
         <Box px={{ xs: 2, md: 0 }}>
             {user && isEditPermissionPopOpen && (
-                <PopUp handler={() => setIsEditPermissionPopOpen(false)}>
+                <PopUp handleClose={() => setIsEditPermissionPopOpen(false)}>
                     <EditPermissions isAdmin={user.isAdmin} itemId={user.itemId} />
                 </PopUp>
             )}
 
             {user && isEditAccountPopupOpen && (
-                <PopUp handler={() => setIsEditAccountPopupOpen(false)} title="Edit Profile">
+                <PopUp handleClose={() => setIsEditAccountPopupOpen(false)} title="Edit Profile">
                     <EditUser data={user} handleImageChange={handleImageChange} />
                 </PopUp>
             )}
 
             {user && isDeletePopOpen && (
-                <PopUp handler={() => setIsDeletePopOpen(false)}>
+                <PopUp handleClose={() => setIsDeletePopOpen(false)}>
                     <Typo variant="h4" color="white">
                         Are You Sure?
                     </Typo>
