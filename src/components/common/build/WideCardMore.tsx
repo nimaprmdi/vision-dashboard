@@ -1,8 +1,9 @@
 import WideCard from "../WideCard";
 import EastIcon from "@mui/icons-material/East";
-import { Box, Typography, Link } from "@mui/material";
+import { Box, Typography, Link as MUILink } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
+import { Link } from "react-router-dom";
 
 const WideCardMore = () => {
     const account = useSelector((state: RootState) => state.accounts.currentAccount);
@@ -23,13 +24,15 @@ const WideCardMore = () => {
                 </Typography>
             </Box>
 
-            <Link href="#" underline="none">
-                <Box className="c-smartcard__more" sx={{ display: "flex", alignItems: "center" }}>
-                    <Typography variant="h6" color="white" mr={2}>
-                        View More
-                    </Typography>
-                    <EastIcon sx={{ color: "white" }} />
-                </Box>
+            <Link to={`/user/${account.itemId}`} className="u-link-primary">
+                <MUILink component="div" className="u-link-primary" underline="none">
+                    <Box className="c-smartcard__more" sx={{ display: "flex", alignItems: "center" }}>
+                        <Typography variant="h6" color="white" mr={2}>
+                            View More
+                        </Typography>
+                        <EastIcon sx={{ color: "white" }} />
+                    </Box>
+                </MUILink>
             </Link>
         </WideCard>
     );

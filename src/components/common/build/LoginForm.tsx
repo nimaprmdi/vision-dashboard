@@ -126,7 +126,6 @@ const LoginForm = () => {
     };
 
     const handleGithubLogin = () => {
-        console.log("Clicked");
         loginWithGithub();
     };
 
@@ -175,10 +174,6 @@ const LoginForm = () => {
                 <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }} my={3}>
                     <MUILink onClick={() => handleGithubLogin()} className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
                         <GitHubIcon sx={{ color: "white", fontSize: "40px" }} />
-                    </MUILink>
-
-                    <MUILink href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
-                        <GoogleIcon sx={{ color: "white", fontSize: "40px" }} />
                     </MUILink>
                 </Box>
 

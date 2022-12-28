@@ -1,7 +1,7 @@
 import { IAddAccountGithub } from "../models/account";
 
 const loginWithGithub = () => {
-    window.location.assign("https://github.com/login/oauth/authorize?client_id=" + process.env.REACT_APP_GITHUB_CLIENT_ID);
+    window.location.assign("https://github.com/login/oauth/authorize?client_id=" + process.env.REACT_APP_GITHUB_CLIENT_ID + "&scope=read:user,user:email");
 };
 
 const getUserData = async () => {
@@ -16,7 +16,7 @@ const getUserData = async () => {
         isAdmin: false,
     };
 
-    await fetch("http://localhost:4000/getUserData", {
+    await fetch("https://vision-dashboard.onrender.com/getUserData", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + localStorage.getItem("accessToken"),
@@ -26,7 +26,6 @@ const getUserData = async () => {
             return resposne.json();
         })
         .then((data) => {
-            console.log("githubservices data", data);
             response = data;
 
             return data;

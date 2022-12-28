@@ -62,7 +62,6 @@ class VisionDashboardApiServices {
         http.post("", ticketsQuery.fetchTicketsQuery())
             .then((response) => {
                 const { data } = response.data;
-                console.log(data);
 
                 store.dispatch(ticketsActions.FETCH_DATA_SUCCESSFUL(data.tickets));
                 store.dispatch(ticketsActions.GET_ALL_CLOSED_TICKETS());
@@ -116,7 +115,6 @@ class VisionDashboardApiServices {
             })
             .catch((error) => {
                 toast.error(error.message);
-                console.log("Publish Account Error");
             });
     };
 
@@ -124,7 +122,7 @@ class VisionDashboardApiServices {
     readonly createUser = (inputData: IAccount) => {
         http.post("/upload", inputData.profileImage)
             .then((response) => {
-                console.log(response);
+                return response;
             })
             .catch((error) => console.log(error));
     };
@@ -237,7 +235,6 @@ class VisionDashboardApiServices {
             http
                 .post("", accountsQuery.updateAccountQuery(itemId, data))
                 .then((response) => {
-                    console.log(response);
                     this.publishAccount(itemId);
                     toast.success("Information Submitted Successful");
                 })
@@ -250,7 +247,6 @@ class VisionDashboardApiServices {
         await http
             .post("", accountsQuery.updateAccountPermission(itemId, permission))
             .then(async (response) => {
-                console.log(response.data);
                 await this.publishAccount(itemId);
                 this.fetchAccounts() as any;
             })
@@ -276,7 +272,6 @@ class VisionDashboardApiServices {
         await http
             .post("", requestsQuery.createRequest(userId, data))
             .then((response) => {
-                console.log(response);
                 // Store Dispatch @todo : check logic here (the redux problem)
                 const { data } = response;
 
@@ -301,13 +296,13 @@ class VisionDashboardApiServices {
                 return response;
             })
             .catch((error) => {
-                toast.error(error.messsage);
+                error.response.data.errors && toast.error(error.response.data.errors[0].message);
+                console.log(error.response.data.errors[0].message);
                 return error;
             });
     };
 
     readonly createGithubAccount = async (data: IAddAccount) => {
-        console.log("data query", data);
         return await http
             .post("", accountsQuery.createGithubAccountQuery(data))
             .then((response) => {
@@ -325,7 +320,6 @@ class VisionDashboardApiServices {
         await http
             .post("", accountsQuery.loginAccountQuery(data))
             .then((response) => {
-                console.log("response login", response);
                 toast.success("Login Successful");
             })
             .catch((error) => {
@@ -335,8 +329,6 @@ class VisionDashboardApiServices {
     };
 
     readonly handleGoogleLogin = async (googleData: any) => {
-        console.log("googleData", googleData);
-
         const token = JSON.stringify({
             token: googleData.clientId,
         });

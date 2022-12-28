@@ -10,10 +10,6 @@ const AdminInformationCards = () => {
     const accountsState = useSelector((state: RootState) => state.accounts);
     const ticketsState = useSelector((state: RootState) => state.tickets);
 
-    const x = accountsState.accounts.filter((item) => item);
-
-    console.log("x ", x);
-
     return (
         <Grid item container spacing={2}>
             <Grid item xs={12} sm={6} md={3}>
@@ -42,12 +38,11 @@ const AdminInformationCards = () => {
 
             <Grid item xs={12} sm={6} md={3}>
                 {!accountsState.isLoading && accountsState.accounts.length > 0 ? (
-                    // <BreadCrumbItem
-                    //     title="Total Stafs"
-                    //     value={accountsState.accounts.filter((account) => account.isAdmin).length.toString()}
-                    //     icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
-                    // />
-                    <></>
+                    <BreadCrumbItem
+                        title="Total Stafs"
+                        value={accountsState.accounts.filter((account) => account.isAdmin).length.toString()}
+                        icon={<DocumentScannerIcon sx={{ fontSize: "18px" }} />}
+                    />
                 ) : (
                     <Skull sx={{ height: "85px" }} />
                 )}

@@ -10,15 +10,13 @@ const useGithub = () => {
 
         if (codeParams && localStorage.getItem("accessToken") === null) {
             async function getAccessToken() {
-                await fetch("http://localhost:4000/getAccessToken?code=" + codeParams, {
+                await fetch("https://vision-dashboard.onrender.com/getAccessToken?code=" + codeParams, {
                     method: "GET",
                 })
                     .then((response) => {
                         return response.json();
                     })
                     .then((data) => {
-                        console.log(data);
-
                         if (data.access_token) {
                             localStorage.setItem("accessToken", data.access_token);
                             localStorage.setItem("loginService", "github");

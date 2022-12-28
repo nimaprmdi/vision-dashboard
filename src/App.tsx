@@ -19,7 +19,7 @@ import Notfound from "./components/404/Notfound";
 import ServerError from "./components/404/ServerError";
 // Fetch Data
 import { fetchRequests } from "./store/requests/requestsActions";
-import { fetchAccounts, createAccount, createGithubAccount } from "./store/account/accountsActions";
+import { fetchAccounts, createGithubAccount } from "./store/account/accountsActions";
 import { fetchTickets } from "./store/tickets/ticketsActions";
 // Utils
 import { Routes, Route, useNavigate } from "react-router-dom";
@@ -29,12 +29,11 @@ import "./assets/css/styles.css";
 import { getCurrentAccount } from "./store/account/accountsActions";
 
 // github servceis
-import { loginWithGithub, getUserData } from "./services/githubServices";
+import { getUserData } from "./services/githubServices";
 import useGithub from "./hooks/useGithub";
 import { RootState } from "./store/rootReducer";
-import { IAddAccountGithub, IAddAccount } from "./models/account";
+import { IAddAccount } from "./models/account";
 import { v4 as uuidv4 } from "uuid";
-import PopUp from "./components/common/PopUp";
 
 const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -45,10 +44,6 @@ const App: React.FC = (): JSX.Element => {
     const rerender = useGithub();
 
     useEffect(() => {
-        setIsRender(rerender);
-    }, [rerender]);
-
-    useEffect(() => {
         // @todo: Merge Requests
         dispatch(fetchRequests() as any);
         dispatch(fetchAccounts() as any);
@@ -56,30 +51,29 @@ const App: React.FC = (): JSX.Element => {
     }, []);
 
     /// github issues
-
     const [user, setUser] = useState<IAddAccount>();
     const [accountIndex, setAccountIndex] = useState<number>();
-    const [isRender, setIsRender] = useState(false);
-
-    const [isEmailPopupOpen, setIsEmailPopupOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if (!accountsState.isLoading && localStorage.getItem("accessToken") !== null && localStorage.getItem("loginService") === "github") {
             (async () => {
-                const x = await getUserData();
-                const itemId = `github-${x.login}-${uuidv4()}`;
+                const userData = await getUserData();
+
+                console.log("userData", userData);
+
+                const itemId = `github-${userData.login}-${uuidv4()}`;
 
                 setUser({
                     itemId: itemId,
-                    name: x.name || x.login,
+                    name: userData.name || userData.login,
                     lastName: "",
-                    userName: x.login,
-                    email: x.email,
+                    userName: userData.login,
+                    email: userData.email,
                     hasRemember: false,
                     isAdmin: false,
                 });
 
-                const accountIndex = accountsState.accounts.findIndex((account) => account.userName === x.login);
+                const accountIndex = accountsState.accounts.findIndex((account) => account.userName === userData.login);
                 setAccountIndex(accountIndex);
 
                 if (accountIndex !== -1) {

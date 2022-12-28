@@ -1,7 +1,5 @@
 import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Link as MUILink, FormLabel } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GoogleIcon from "@mui/icons-material/Google";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IAddAccount, IAddAccountError } from "../../../models/account";
@@ -11,6 +9,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
 import { createAccount } from "../../../store/account/accountsActions";
+import { loginWithGithub } from "../../../services/githubServices";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -97,13 +97,21 @@ const RegisterForm = () => {
         isAdmin: Joi.boolean().label("Admin"),
     });
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean) => {
         const errorMsg = validateProperty(e.target, schema);
-        console.log(errors);
         setErrors({ ...errors, [e.target.name]: errorMsg });
-        setData((prevState) => {
-            return { ...prevState, [e.target.name]: e.target.value };
-        });
+
+        if (e.target.name === "hasRemember") {
+            setData((prevState) => {
+                return { ...prevState, [e.target.name]: checked };
+            });
+        } else {
+            setData((prevState) => {
+                return { ...prevState, [e.target.name]: e.target.value };
+            });
+        }
+
+        console.log(errors);
 
         if (errorMsg) {
             setErrors({ ...errors, [e.target.name]: errorMsg });
@@ -136,6 +144,10 @@ const RegisterForm = () => {
         // @todo : validate function before sending also for other forms
         setData({ ...data, userName: `${data.email}-${data.lastName}` });
         dispatch(createAccount(data) as any);
+    };
+
+    const handleGithubLogin = () => {
+        loginWithGithub();
     };
 
     useEffect(() => {
@@ -185,12 +197,8 @@ const RegisterForm = () => {
                 </Typography>
 
                 <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }} my={3}>
-                    <MUILink href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
-                        <FacebookIcon sx={{ color: "white", fontSize: "40px" }} />
-                    </MUILink>
-
-                    <MUILink href="#" className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
-                        <GoogleIcon sx={{ color: "white", fontSize: "40px" }} />
+                    <MUILink onClick={() => handleGithubLogin()} className="u-box-light-secondary" sx={{ width: "75px", height: "75px" }}>
+                        <GitHubIcon sx={{ color: "white", fontSize: "40px" }} />
                     </MUILink>
                 </Box>
 
@@ -282,7 +290,13 @@ const RegisterForm = () => {
                     </Box>
 
                     <Stack mt={3} direction="row" spacing={1} alignItems="center">
-                        <AntSwitch onChange={(e) => handleInputChange(e)} name="hasRemember" inputProps={{ "aria-label": "ant design" }} />
+                        <AntSwitch
+                            checked={data.hasRemember}
+                            onChange={(e, c) => handleInputChange(e, c)}
+                            name="hasRemember"
+                            inputProps={{ "aria-label": "hasRemember" }}
+                        />
+
                         <Typography color="white">Remember Me</Typography>
                     </Stack>
 

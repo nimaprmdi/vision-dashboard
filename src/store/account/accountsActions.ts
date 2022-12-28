@@ -25,21 +25,27 @@ const deleteAccount = (itemId: string) => async (dispatch: Dispatch) => {
     dispatch(fetchTickets() as any);
 };
 
-const createAccount = (data: IAddAccount) => async (dispatch: Dispatch, getState: () => RootState) => {
+const createAccount = (data: IAddAccount) => async (dispatch: Dispatch) => {
+    console.log("createAccount data", data);
+
     return await apiServices
         .createAccount(data)
         .then((response) => {
             dispatch(CREATE_ACCOUNT(response.data));
+
+            setTimeout(() => {
+                // window.location.href = process.env.REACT_APP_GLOBAL_HOME_LOCATION!;
+            }, 1000);
         })
         .catch((error) => console.log(error));
 };
 
 const createGithubAccount = (data: IAddAccount) => async (dispatch: Dispatch, getState: () => RootState) => {
-    console.log("createGithubAccount data", data);
-
     return await apiServices
         .createGithubAccount(data)
         .then((response) => {
+            console.log("createGithubAccount", response);
+
             dispatch(CREATE_ACCOUNT(response.data.data.createAccount));
 
             return response.data.data.createAccount;
