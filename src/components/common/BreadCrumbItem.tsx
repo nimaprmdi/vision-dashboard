@@ -8,7 +8,7 @@ interface BreadCrumbProps {
 
 const BreadCrumbItem = ({ title, value, icon }: BreadCrumbProps) => {
     return (
-        <Box className="c-breadcrumb" sx={{ borderRadius: "20px" }}>
+        <Box className="c-breadcrumb u-opacity-0 u-fadein" sx={{ borderRadius: "20px" }}>
             <Box>
                 <Typography color="gray.light" variant="h6" className="u-text-tiny">
                     {title}

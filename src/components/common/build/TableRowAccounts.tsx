@@ -9,7 +9,11 @@ const TableRowAccounts = () => {
     return (
         <>
             {accountsState.accounts.map((account) => (
-                <TableRow key={`account-item-${account.itemId}`} className="c-table__row" sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableRow
+                    key={`account-item-${account.itemId}`}
+                    className="c-table__row u-opacity-0 u-fadein"
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
                     <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
                         <Avatar alt="image" sx={{ bgcolor: account.color ? account.color.hex : "gray.light" }}>
                             {account.profileImage ? (

@@ -8,7 +8,7 @@ interface DetailsProps {
 
 const Details = ({ description, children }: DetailsProps) => {
     return (
-        <Box className="u-box-light" py={2} px={3}>
+        <Box className="u-box-light u-opacity-0 u-fadein" py={2} px={3}>
             {description && (
                 <Typography pt={4} variant="h6" className="u-text-small" color="gray.light">
                     {description}

@@ -9,7 +9,11 @@ const WideCardMore = () => {
     const account = useSelector((state: RootState) => state.accounts.currentAccount);
 
     return (
-        <WideCard className="c-smartcard" hasBackground={true} sx={{ minHeight: "auto", width: "100%", pl: { xs: 4, md: 6 }, py: 5, gap: { xs: 10, md: 19 } }}>
+        <WideCard
+            className="c-smartcard u-opacity-0 u-fadein"
+            hasBackground={true}
+            sx={{ minHeight: "auto", width: "100%", pl: { xs: 4, md: 6 }, py: 5, gap: { xs: 10, md: 19 } }}
+        >
             <Box sx={{ width: "100%", maxHeight: "305px" }}>
                 <Typography variant="h6" color="gray.light" className="u-text-small">
                     Welcome back,

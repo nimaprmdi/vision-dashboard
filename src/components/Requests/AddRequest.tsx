@@ -6,7 +6,7 @@ const AddRequest = () => {
     return (
         <Grid container sx={{ width: "100%" }} px={{ xs: 2, md: 0 }} spacing={{ md: 2 }}>
             <Grid item xs={12} md={7.5} mb={2}>
-                <Box className="u-box-light" sx={{ width: "100%" }}>
+                <Box className="u-box-light u-opacity-0 u-fadein" sx={{ width: "100%" }}>
                     <Box
                         sx={{
                             display: "flex",

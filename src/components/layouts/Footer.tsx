@@ -1,8 +1,25 @@
-import { Typography, Box, Link as MUILink } from "@mui/material";
-import { Link } from "react-router-dom";
 import routes from "../../routes";
+import { Typography, Box, Link as MUILink } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store/rootReducer";
+import { removeCurrentUser } from "../../store/account/accountsActions";
 
 const Footer = () => {
+    const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        console.log("Clicked");
+
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("loginService");
+
+        dispatch(removeCurrentUser() as any);
+        navigate("/login");
+    };
+
     return (
         <Box mt={10} pb={6} px={1}>
             <Box
@@ -20,17 +37,33 @@ const Footer = () => {
 
                 <Box sx={{ display: "flex", gap: 2 }}>
                     <>
-                        <Link className="u-link-primary" to="/login">
-                            <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
-                                Login
+                        {!Object.keys(currentUser) ? (
+                            // @todo check if we dont have any user
+                            <>
+                                <Link className="u-link-primary" to="/login">
+                                    <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
+                                        Login
+                                    </MUILink>
+                                </Link>
+                                <Link className="u-link-primary" to="/register">
+                                    <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
+                                        Register
+                                    </MUILink>
+                                </Link>
+                            </>
+                        ) : (
+                            <MUILink
+                                textTransform="capitalize"
+                                className="u-link-primary"
+                                component="a"
+                                underline="none"
+                                color="white"
+                                onClick={() => handleLogout()}
+                                sx={{ cursor: "pointer" }}
+                            >
+                                Logout
                             </MUILink>
-                        </Link>
-
-                        <Link className="u-link-primary" to="/register">
-                            <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
-                                Register
-                            </MUILink>
-                        </Link>
+                        )}
 
                         {routes.map((route, index: number) => {
                             return (

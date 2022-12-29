@@ -5,10 +5,13 @@ import TableRowTickets from "../common/build/TableRowTickets";
 import TableRowAccounts from "../common/build/TableRowAccounts";
 import { Box } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/rootReducer";
 
 const Archives = () => {
     const { type } = useParams<{ type: "requests" | "tickets" | "accounts" }>();
     const navigate = useNavigate();
+    const currentAccount = useSelector((state: RootState) => state.accounts.currentAccount);
 
     const handleArchiveComponent = () => {
         switch (type) {
@@ -17,9 +20,9 @@ const Archives = () => {
             case "tickets":
                 return <TableRowTickets />;
             case "accounts":
-                return <TableRowAccounts />;
+                return currentAccount.isAdmin ? <TableRowAccounts /> : <>{navigate("/")}</>;
             default:
-                return <TableRowAccounts />;
+                return currentAccount.isAdmin ? <TableRowAccounts /> : <>{navigate("/")}</>;
         }
     };
 

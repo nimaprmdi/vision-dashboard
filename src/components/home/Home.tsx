@@ -3,13 +3,12 @@ import WideCardDetails from "../common/build/WideCardDetails";
 import WideCard from "../common/WideCard";
 import Table from "../common/Table";
 import Skull from "../common/Skull";
-import { Grid } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/rootReducer";
-
 import Chart from "../common/Chart";
 import AdminInformationCards from "../common/build/AdminInformationCards";
 import TableRowRequests from "../common/build/TableRowRequests";
+import { Grid } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/rootReducer";
 
 const Home = (): JSX.Element => {
     const requestsState = useSelector((state: RootState) => state.requests);
@@ -48,7 +47,7 @@ const Home = (): JSX.Element => {
                     {requestsState.isLoading ? (
                         <Skull sx={{ height: "390px" }} />
                     ) : (
-                        <WideCard hasBackground={false} sx={{ pr: 3, pl: 1, pt: 4, pb: 1 }}>
+                        <WideCard className="u-opacity-0 u-fadein" hasBackground={false} sx={{ pr: 3, pl: 1, pt: 4, pb: 1 }}>
                             <Chart />
                         </WideCard>
                     )}

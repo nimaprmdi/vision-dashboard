@@ -26,7 +26,7 @@ const WideCardDetails = ({
     return (
         <WideCard
             hasBackground={false}
-            className="c-smartcard"
+            className="c-smartcard  u-opacity-0 u-fadein"
             sx={{ minHeight: "auto", width: "100%", px: 4, py: 5, gap: { xs: 10, md: 19 } }}
         >
             <Box className="c-smartcard__container">

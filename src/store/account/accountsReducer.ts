@@ -48,9 +48,21 @@ const accountSlice = createSlice({
         SELECT_CURRENT_USER: (state, action: { type: string; payload: number }) => {
             state.currentAccount = state.accounts[action.payload];
         },
+
+        REMOVE_CURRENT_USER: (state) => {
+            state.currentAccount = {};
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_TOTAL_ACCOUNTS, DELETE_ACCOUNT, CREATE_ACCOUNT, SELECT_CURRENT_USER } =
-    accountSlice.actions;
+export const {
+    FETCH_DATA,
+    FETCH_DATA_SUCCESSFUL,
+    FETCH_DATA_FAILED,
+    GET_TOTAL_ACCOUNTS,
+    DELETE_ACCOUNT,
+    CREATE_ACCOUNT,
+    SELECT_CURRENT_USER,
+    REMOVE_CURRENT_USER,
+} = accountSlice.actions;
 export default accountSlice.reducer;

@@ -16,7 +16,6 @@ class AccountsQuery {
                 bio
                 answeredTickets
                 answeredRequests
-                password
                 location {latitude , longitude}
                 color {
                   hex

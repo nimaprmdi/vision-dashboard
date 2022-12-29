@@ -81,7 +81,7 @@ const LoginForm = () => {
         userName: "",
     });
 
-    const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
+    const isHttpCalling: boolean = useSelector((state: RootState) => state.entities.isHttpCalling);
 
     const schema = Joi.object({
         email: Joi.string()
@@ -120,9 +120,12 @@ const LoginForm = () => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // @todo : validate function before sending also for other forms
-        dispatch(loginAccount(data) as any);
+
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("loginService");
+        dispatch(loginAccount(data, navigate) as any);
     };
 
     const handleGithubLogin = () => {
@@ -152,10 +155,11 @@ const LoginForm = () => {
             </Typography>
 
             <Typography sx={{ maxWidth: "300px" }} variant="h6" className="u-text-small" color="gray.light">
-                Use these awesome forms to login or create new account in your project for free.
+                Use these awesome forms to login or create new account in your for free.
             </Typography>
 
             <Box
+                className="u-opacity-0 u-fadein"
                 sx={{
                     width: "100%",
                     maxWidth: { xs: "100%", md: "500px" },

@@ -17,31 +17,34 @@ import AddRequest from "./components/Requests/AddRequest";
 // 404
 import Notfound from "./components/404/Notfound";
 import ServerError from "./components/404/ServerError";
+import Permissions from "./components/404/Permissions";
 // Fetch Data
 import { fetchRequests } from "./store/requests/requestsActions";
 import { fetchAccounts, createGithubAccount } from "./store/account/accountsActions";
 import { fetchTickets } from "./store/tickets/ticketsActions";
 // Utils
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./assets/css/styles.css";
-
 import { getCurrentAccount } from "./store/account/accountsActions";
 
-// github servceis
+// github Services
 import { getUserData } from "./services/githubServices";
-import useGithub from "./hooks/useGithub";
 import { RootState } from "./store/rootReducer";
 import { IAddAccount } from "./models/account";
 import { v4 as uuidv4 } from "uuid";
+import useGithub from "./hooks/useGithub";
 
 const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const accountsState = useSelector((state: RootState) => state.accounts);
-    const navigate = useNavigate();
 
-    // Hook
-    const rerender = useGithub();
+    /// github issues
+    const [user, setUser] = useState<IAddAccount>();
+    const [accountIndex, setAccountIndex] = useState<number>();
+
+    // Github account Hook
+    useGithub();
 
     useEffect(() => {
         // @todo: Merge Requests
@@ -50,18 +53,13 @@ const App: React.FC = (): JSX.Element => {
         dispatch(fetchTickets() as any);
     }, []);
 
-    /// github issues
-    const [user, setUser] = useState<IAddAccount>();
-    const [accountIndex, setAccountIndex] = useState<number>();
-
     useEffect(() => {
-        if (!accountsState.isLoading && localStorage.getItem("accessToken") !== null && localStorage.getItem("loginService") === "github") {
+        if (!accountsState.isLoading && localStorage.getItem("accessToken") !== null) {
+            // Recieve github data from (custom) node.js backend server
             (async () => {
                 const userData = await getUserData();
-
-                console.log("userData", userData);
-
                 const itemId = `github-${userData.login}-${uuidv4()}`;
+                const accountIndex = accountsState.accounts.findIndex((account) => account.userName === userData.login);
 
                 setUser({
                     itemId: itemId,
@@ -73,11 +71,10 @@ const App: React.FC = (): JSX.Element => {
                     isAdmin: false,
                 });
 
-                const accountIndex = accountsState.accounts.findIndex((account) => account.userName === userData.login);
                 setAccountIndex(accountIndex);
 
+                // If we have current User on globals store
                 if (accountIndex !== -1) {
-                    console.log("inside");
                     dispatch(getCurrentAccount(accountIndex) as any);
                 }
             })();
@@ -85,7 +82,8 @@ const App: React.FC = (): JSX.Element => {
     }, [accountsState.isLoading, localStorage.getItem("accessToken")]);
 
     useEffect(() => {
-        if (user && accountIndex === -1 && localStorage.getItem("loginService") === "github") {
+        // Create User on Hygraph if github account doesnt exist on store
+        if (user && accountIndex === -1 && localStorage.getItem("accessToken") !== null) {
             user && dispatch(createGithubAccount(user) as any);
         }
     }, [user]);
@@ -94,14 +92,24 @@ const App: React.FC = (): JSX.Element => {
         <section className="o-page">
             <Routes>
                 <Route element={<Layouts />}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/archives/:type" element={<Archives />} />
+                    {Object.keys(accountsState.currentAccount).length > 0 ? (
+                        <>
+                            {accountsState.currentAccount && !accountsState.currentAccount.isAdmin ? (
+                                <Route path="/" element={<Navigate to="/archives/requests" />} />
+                            ) : (
+                                <Route path="/" element={<Home />} />
+                            )}
 
-                    <Route path="/request/:id" element={<SingleDetails />} />
-                    <Route path="/ticket/:id" element={<SingleChat />} />
-                    <Route path="/user/:id" element={<SingleProfile />} />
+                            <Route path="/request/:id" element={<SingleDetails />} />
+                            <Route path="/ticket/:id" element={<SingleChat />} />
+                            <Route path="/user/:id" element={<SingleProfile />} />
+                            <Route path="/archives/:type" element={<Archives />} />
+                            <Route path="/add-request" element={<AddRequest />} />
+                        </>
+                    ) : (
+                        <Route path="/permission" element={<Permissions />} />
+                    )}
 
-                    <Route path="/add-request" element={<AddRequest />} />
                     <Route path="/server-error" element={<ServerError />} />
                     <Route path="*" element={<Notfound />} />
                 </Route>

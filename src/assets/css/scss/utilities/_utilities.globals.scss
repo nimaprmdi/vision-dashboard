@@ -123,7 +123,6 @@
 /*------------------------------------*\
   #Link
 \*------------------------------------*/
-
 .u-link-primary {
     color: $vision-dashboard_white_color;
     text-decoration: none;
@@ -136,8 +135,18 @@
 }
 
 /*------------------------------------*\
+  #opacity
+\*------------------------------------*/
+.u-opacity-0 {
+    opacity: 0;
+}
+/*------------------------------------*\
   #Anime
 \*------------------------------------*/
 .u-rotate {
     animation: rotate 1s forwards infinite;
+}
+
+.u-fadein {
+    animation: fadeIn 0.3s linear 0s forwards alternate;
 }

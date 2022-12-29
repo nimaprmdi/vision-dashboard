@@ -177,10 +177,11 @@ const RegisterForm = () => {
             </Typography>
 
             <Typography sx={{ maxWidth: "300px" }} variant="h6" className="u-text-small" color="gray.light">
-                Use these awesome forms to login or create new account in your project for free.
+                Use these awesome forms to login or create new account in your for free.
             </Typography>
 
             <Box
+                className="u-opacity-0 u-fadein"
                 sx={{
                     width: "100%",
                     maxWidth: { xs: "100%", md: "500px" },

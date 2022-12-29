@@ -1,13 +1,12 @@
-import HomeIcon from "@mui/icons-material/Home";
-import { Avatar, ListItemAvatar, ListItemText, ListItem, List, Link as MUILink, Box } from "@mui/material";
+import routes from "../../routes";
+import { Avatar, ListItemAvatar, ListItemText, ListItem, List, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
-import { NavLink, useLocation } from "react-router-dom";
-import routes from "../../routes";
+import { NavLink } from "react-router-dom";
 
 const Nav = () => {
-    const { pathname } = useLocation();
     const entities = useSelector((state: RootState) => state.entities);
+    const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
 
     return (
         <Box
@@ -25,12 +24,16 @@ const Nav = () => {
                         to={route.path}
                         style={{ textDecoration: "none" }}
                     >
-                        <ListItem sx={{ py: 1.5 }}>
-                            <ListItemAvatar>
-                                <Avatar className="c-nav__avatar">{route.icon}</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText sx={{ textTransform: "capitalize" }} primary={route.title} />
-                        </ListItem>
+                        {currentUser.isAdmin ||
+                            (!currentUser.isAdmin &&
+                                (route.path === "/add-request" || route.path === "/archives/requests" || route.path === "/archives/tickets") && (
+                                    <ListItem sx={{ py: 1.5 }}>
+                                        <ListItemAvatar>
+                                            <Avatar className="c-nav__avatar">{route.icon}</Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText sx={{ textTransform: "capitalize" }} primary={route.title} />
+                                    </ListItem>
+                                ))}
                     </NavLink>
                 ))}
             </List>

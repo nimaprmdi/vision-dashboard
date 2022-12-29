@@ -9,7 +9,7 @@ const TableRowTickets = () => {
     return (
         <>
             {ticketsState.tickets.map((ticket) => (
-                <TableRow className="c-table__row" key={ticket.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableRow className="c-table__row u-opacity-0 u-fadein " key={ticket.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
                         <Avatar alt="image" sx={{ bgcolor: ticket.accounts ? ticket.accounts.color.hex : "gray.light" }}>
                             {ticket.accounts && ticket.accounts.profileImage ? (

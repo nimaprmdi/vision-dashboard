@@ -9,7 +9,7 @@ const TableRowRequests = (): JSX.Element => {
     return (
         <>
             {requestsState.requests.map((request) => (
-                <TableRow className="c-table__row" key={request.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableRow className="c-table__row  u-opacity-0 u-fadein " key={request.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
                         <Avatar alt="image" sx={{ bgcolor: (request.account && request.account.color.hex) || "gray.light" }}>
                             {request.account && request.account.profileImage ? (
