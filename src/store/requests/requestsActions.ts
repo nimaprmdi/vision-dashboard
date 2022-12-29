@@ -50,4 +50,8 @@ const createRequest = (userId: string, data: IRequest) => async (dispatch: Dispa
     });
 };
 
-export { fetchRequests, createUser, pendRequest, solveRequest, reviewRequest, createRequest };
+const removeRequestsHistory = () => (dispatch: Dispatch) => {
+    dispatch(actions.REMOVE_REQUESTS_HISTORY());
+};
+
+export { fetchRequests, createUser, pendRequest, solveRequest, reviewRequest, createRequest, removeRequestsHistory };

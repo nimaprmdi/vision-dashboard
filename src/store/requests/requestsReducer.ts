@@ -56,10 +56,29 @@ const requestsSlice = createSlice({
             state.requests.push(action.payload);
             // state.requests.push
         },
+
+        REMOVE_REQUESTS_HISTORY: (state) => {
+            state.requests = [];
+            state.isLoading = true;
+            state.lastFetch = null;
+            state.totalRequests = 0;
+            state.answeredRequests = 0;
+            state.pendingRequests = 0;
+            state.error = "";
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ANSWERED_REQUESTS, PEND_REQUEST, SOLVE_REQUEST, REVIEW_REQUEST, CREATE_REQUEST } =
-    requestsSlice.actions;
+export const {
+    FETCH_DATA,
+    FETCH_DATA_SUCCESSFUL,
+    FETCH_DATA_FAILED,
+    GET_ANSWERED_REQUESTS,
+    PEND_REQUEST,
+    SOLVE_REQUEST,
+    REVIEW_REQUEST,
+    CREATE_REQUEST,
+    REMOVE_REQUESTS_HISTORY,
+} = requestsSlice.actions;
 
 export default requestsSlice.reducer;

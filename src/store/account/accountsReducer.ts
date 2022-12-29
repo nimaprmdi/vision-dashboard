@@ -52,6 +52,15 @@ const accountSlice = createSlice({
         REMOVE_CURRENT_USER: (state) => {
             state.currentAccount = {};
         },
+
+        REMOVE_ACCOUNT_HISTORY: (state) => {
+            state.accounts = [];
+            state.isLoading = true;
+            state.lastFetch = null;
+            state.totalAccounts = 0;
+            state.error = "";
+            state.currentAccount = {};
+        },
     },
 });
 
@@ -64,5 +73,6 @@ export const {
     CREATE_ACCOUNT,
     SELECT_CURRENT_USER,
     REMOVE_CURRENT_USER,
+    REMOVE_ACCOUNT_HISTORY,
 } = accountSlice.actions;
 export default accountSlice.reducer;

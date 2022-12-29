@@ -3,7 +3,7 @@ import { Typography, Box, Link as MUILink } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/rootReducer";
-import { removeCurrentUser } from "../../store/account/accountsActions";
+import { removeAccountHistory } from "../../store/account/accountsActions";
 
 const Footer = () => {
     const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
@@ -16,7 +16,7 @@ const Footer = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("loginService");
 
-        dispatch(removeCurrentUser() as any);
+        dispatch(removeAccountHistory() as any);
         navigate("/login");
     };
 

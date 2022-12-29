@@ -3,12 +3,14 @@ import apiServices from "../../services/VisionDashboardApiServices";
 import { Dispatch } from "@reduxjs/toolkit";
 import { IAccountLogin, IAddAccount } from "../../models/account";
 // actions
-import { fetchRequests } from "../requests/requestsActions";
-import { fetchTickets } from "../tickets/ticketsActions";
+import { fetchRequests, removeRequestsHistory } from "../requests/requestsActions";
+import { fetchTickets, removeTicketsHistory } from "../tickets/ticketsActions";
 // reducer
 import { RootState } from "../rootReducer";
 import * as actions from "./accountsReducer";
 import { NavigateFunction } from "react-router-dom";
+
+import { CHANGE_HTTP_CALL_STATUS } from "../entities/entitiesReducer";
 
 const fetchAccounts = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().accounts;
@@ -40,18 +42,16 @@ const createAccount = (data: IAddAccount) => async (dispatch: Dispatch) => {
         .catch((error) => console.log(error));
 };
 
+// create a github account
 const createGithubAccount = (data: IAddAccount) => async (dispatch: Dispatch, getState: () => RootState) => {
     return await apiServices
         .createGithubAccount(data)
         .then((response) => {
-            console.log("createGithubAccount", response);
-
             dispatch(actions.CREATE_ACCOUNT(response.data.data.createAccount));
 
             return response.data.data.createAccount;
         })
         .then((response) => {
-            console.log("findal github create account ", response);
             const accounts = getState().accounts.accounts;
             const accountIndex = accounts.findIndex((account) => account.userName === response.userName);
             dispatch(actions.SELECT_CURRENT_USER(accountIndex));
@@ -59,14 +59,17 @@ const createGithubAccount = (data: IAddAccount) => async (dispatch: Dispatch, ge
         .catch((error) => console.log(error));
 };
 
+// Login Account by email and password
 const loginAccount = (data: IAccountLogin, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
     const accountIndex = getState().accounts.accounts.findIndex((account) => account.userName === data.userName);
+    dispatch(CHANGE_HTTP_CALL_STATUS(true));
 
     return await apiServices.loginAccount(data).then(() => {
         dispatch(actions.SELECT_CURRENT_USER(accountIndex));
 
         setTimeout(() => {
             console.log("Here");
+            dispatch(CHANGE_HTTP_CALL_STATUS(false));
             navigate("/");
         }, 1000);
     });
@@ -77,7 +80,14 @@ const getCurrentAccount = (accountIndex: number) => async (dispatch: Dispatch, g
 };
 
 const removeCurrentUser = () => (dispatch: Dispatch) => {
-    dispatch(actions.REMOVE_CURRENT_USER);
+    console.log("Here I Am");
+    dispatch(actions.REMOVE_CURRENT_USER());
 };
 
-export { fetchAccounts, deleteAccount, createAccount, loginAccount, getCurrentAccount, createGithubAccount, removeCurrentUser };
+const removeAccountHistory = () => (dispatch: Dispatch) => {
+    dispatch(actions.REMOVE_ACCOUNT_HISTORY());
+    dispatch(removeRequestsHistory() as any);
+    dispatch(removeTicketsHistory() as any);
+};
+
+export { fetchAccounts, deleteAccount, createAccount, loginAccount, getCurrentAccount, createGithubAccount, removeCurrentUser, removeAccountHistory };

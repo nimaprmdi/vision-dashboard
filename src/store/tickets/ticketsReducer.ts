@@ -41,8 +41,17 @@ const ticketsSlice = createSlice({
         DELETE_TICKET: (state, action: { type: string; payload: string }) => {
             state.tickets = state.tickets.filter((ticket) => ticket.itemId !== action.payload);
         },
+
+        REMOVE_TICKETS_HISTORY: (state) => {
+            state.tickets = [];
+            state.isLoading = true;
+            state.totalClosedTickets = 0;
+            state.lastFetch = 0;
+            state.error = "";
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS, PEND_TICKET, DELETE_TICKET } = ticketsSlice.actions;
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS, PEND_TICKET, DELETE_TICKET, REMOVE_TICKETS_HISTORY } =
+    ticketsSlice.actions;
 export default ticketsSlice.reducer;
