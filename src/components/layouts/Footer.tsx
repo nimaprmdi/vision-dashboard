@@ -3,7 +3,7 @@ import { Typography, Box, Link as MUILink } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/rootReducer";
-import { removeAccountHistory } from "../../store/account/accountsActions";
+import { removeAccountHistory, removeCurrentUser } from "../../store/account/accountsActions";
 
 const Footer = () => {
     const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
@@ -16,7 +16,8 @@ const Footer = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("loginService");
 
-        dispatch(removeAccountHistory() as any);
+        // dispatch(removeAccountHistory() as any);
+        dispatch(removeCurrentUser() as any);
         navigate("/login");
     };
 
@@ -37,7 +38,19 @@ const Footer = () => {
 
                 <Box sx={{ display: "flex", gap: 2 }}>
                     <>
-                        {!Object.keys(currentUser) ? (
+                        {currentUser && Object.keys(currentUser).length > 0 ? (
+                            <MUILink
+                                textTransform="capitalize"
+                                className="u-link-primary"
+                                component="a"
+                                underline="none"
+                                color="white"
+                                onClick={() => handleLogout()}
+                                sx={{ cursor: "pointer" }}
+                            >
+                                Logout
+                            </MUILink>
+                        ) : (
                             // @todo check if we dont have any user
                             <>
                                 <Link className="u-link-primary" to="/login">
@@ -51,18 +64,6 @@ const Footer = () => {
                                     </MUILink>
                                 </Link>
                             </>
-                        ) : (
-                            <MUILink
-                                textTransform="capitalize"
-                                className="u-link-primary"
-                                component="a"
-                                underline="none"
-                                color="white"
-                                onClick={() => handleLogout()}
-                                sx={{ cursor: "pointer" }}
-                            >
-                                Logout
-                            </MUILink>
                         )}
 
                         {routes.map((route, index: number) => {

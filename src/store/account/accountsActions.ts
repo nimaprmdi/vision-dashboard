@@ -11,6 +11,7 @@ import * as actions from "./accountsReducer";
 import { NavigateFunction } from "react-router-dom";
 
 import { CHANGE_HTTP_CALL_STATUS } from "../entities/entitiesReducer";
+import { toast } from "react-toastify";
 
 const fetchAccounts = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().accounts;
@@ -61,18 +62,23 @@ const createGithubAccount = (data: IAddAccount) => async (dispatch: Dispatch, ge
 
 // Login Account by email and password
 const loginAccount = (data: IAccountLogin, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
-    const accountIndex = getState().accounts.accounts.findIndex((account) => account.userName === data.userName);
+    // Login manual email and password
+
     dispatch(CHANGE_HTTP_CALL_STATUS(true));
+    const accountIndex = getState().accounts.accounts.findIndex((account) => account.email === data.email);
 
-    return await apiServices.loginAccount(data).then(() => {
-        dispatch(actions.SELECT_CURRENT_USER(accountIndex));
+    if (accountIndex !== -1) {
+        const x = await apiServices.loginAccount(data);
 
-        setTimeout(() => {
-            console.log("Here");
+        if (x) {
+            console.log("x", x);
+            dispatch(actions.SELECT_CURRENT_USER(accountIndex));
             dispatch(CHANGE_HTTP_CALL_STATUS(false));
             navigate("/");
-        }, 1000);
-    });
+        } else {
+            toast.error("Falied Login");
+        }
+    }
 };
 
 const getCurrentAccount = (accountIndex: number) => async (dispatch: Dispatch, getState: () => RootState) => {
@@ -84,10 +90,24 @@ const removeCurrentUser = () => (dispatch: Dispatch) => {
     dispatch(actions.REMOVE_CURRENT_USER());
 };
 
+const setLoadingStatus = (status: boolean) => (dispatch: Dispatch) => {
+    dispatch(actions.SET_LOADING_STATUS(status));
+};
+
 const removeAccountHistory = () => (dispatch: Dispatch) => {
     dispatch(actions.REMOVE_ACCOUNT_HISTORY());
     dispatch(removeRequestsHistory() as any);
     dispatch(removeTicketsHistory() as any);
 };
 
-export { fetchAccounts, deleteAccount, createAccount, loginAccount, getCurrentAccount, createGithubAccount, removeCurrentUser, removeAccountHistory };
+export {
+    fetchAccounts,
+    deleteAccount,
+    createAccount,
+    loginAccount,
+    getCurrentAccount,
+    createGithubAccount,
+    removeCurrentUser,
+    removeAccountHistory,
+    setLoadingStatus,
+};

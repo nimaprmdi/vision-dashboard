@@ -11,7 +11,7 @@ const axiosApiInstance = axsio.create({
     baseURL: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
 });
 
-const axiosGoogleInstance = axios.create({
+const axiosGithubInstance = axios.create({
     baseURL: "/api/google-login",
 });
 
@@ -85,9 +85,4 @@ export default {
     post: axiosApiInstance.post,
     put: axiosApiInstance.put,
     delete: axiosApiInstance.delete,
-
-    getGoogle: axiosGoogleInstance.get,
-    postGoogle: axiosGoogleInstance.post,
-    putGoogle: axiosGoogleInstance.put,
-    deleteGoogle: axiosGoogleInstance.delete,
 };

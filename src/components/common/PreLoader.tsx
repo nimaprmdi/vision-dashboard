@@ -1,8 +1,12 @@
 import React from "react";
-import { Box, Avatar } from "@mui/material";
+import { Box, Avatar, Typography } from "@mui/material";
 import loader from "../../assets/img/loader.svg";
 
-const PreLoader = () => {
+interface IPreloaderProps {
+    title?: string;
+}
+
+const PreLoader = ({ title }: IPreloaderProps) => {
     return (
         <Box
             sx={{
@@ -11,9 +15,14 @@ const PreLoader = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flexDirection: "column",
             }}
         >
             <Avatar sx={{ width: "200px", height: "200px" }} src={loader} alt="Loading..." />
+
+            <Typography variant="h3" color="white">
+                {title || " "}
+            </Typography>
         </Box>
     );
 };

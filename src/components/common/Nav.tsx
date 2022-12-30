@@ -6,7 +6,9 @@ import { NavLink } from "react-router-dom";
 
 const Nav = () => {
     const entities = useSelector((state: RootState) => state.entities);
-    const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
+    const accountsState = useSelector((state: RootState) => state.accounts);
+
+    console.log(accountsState.currentAccount);
 
     return (
         <Box
@@ -24,16 +26,15 @@ const Nav = () => {
                         to={route.path}
                         style={{ textDecoration: "none" }}
                     >
-                        {currentUser.isAdmin ||
-                            (!currentUser.isAdmin &&
-                                (route.path === "/add-request" || route.path === "/archives/requests" || route.path === "/archives/tickets") && (
-                                    <ListItem sx={{ py: 1.5 }}>
-                                        <ListItemAvatar>
-                                            <Avatar className="c-nav__avatar">{route.icon}</Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText sx={{ textTransform: "capitalize" }} primary={route.title} />
-                                    </ListItem>
-                                ))}
+                        {accountsState.currentAccount &&
+                            (accountsState.currentAccount.isAdmin || (!accountsState.currentAccount.isAdmin && route.path !== "/archives/users")) && (
+                                <ListItem sx={{ py: 1.5 }}>
+                                    <ListItemAvatar>
+                                        <Avatar className="c-nav__avatar">{route.icon}</Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText sx={{ textTransform: "capitalize" }} primary={route.title} />
+                                </ListItem>
+                            )}
                     </NavLink>
                 ))}
             </List>

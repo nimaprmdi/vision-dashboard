@@ -317,14 +317,18 @@ class VisionDashboardApiServices {
     };
 
     readonly loginAccount = async (data: IAccountLogin) => {
-        await http
+        return await http
             .post("", accountsQuery.loginAccountQuery(data))
             .then((response) => {
-                toast.success("Login Successful");
+                if (response.data.data.accountsConnection.aggregate.count > 0) {
+                    return true;
+                }
+                return false;
             })
             .catch((error) => {
                 console.log(error);
                 toast.error("Ann Error Occourd");
+                return false;
             });
     };
 

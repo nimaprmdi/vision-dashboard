@@ -20,7 +20,7 @@ import ServerError from "./components/404/ServerError";
 import Permissions from "./components/404/Permissions";
 // Fetch Data
 import { fetchRequests } from "./store/requests/requestsActions";
-import { fetchAccounts, createGithubAccount } from "./store/account/accountsActions";
+import { fetchAccounts, createGithubAccount, setLoadingStatus } from "./store/account/accountsActions";
 import { fetchTickets } from "./store/tickets/ticketsActions";
 // Utils
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -34,10 +34,12 @@ import { RootState } from "./store/rootReducer";
 import { IAddAccount } from "./models/account";
 import { v4 as uuidv4 } from "uuid";
 import useGithub from "./hooks/useGithub";
+import PreLoader from "./components/common/PreLoader";
 
 const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const accountsState = useSelector((state: RootState) => state.accounts);
+    const isHttpCaliing = useSelector((state: RootState) => state.entities.isHttpCalling);
 
     /// github issues
     const [user, setUser] = useState<IAddAccount>();
@@ -57,6 +59,8 @@ const App: React.FC = (): JSX.Element => {
         if (!accountsState.isLoading && localStorage.getItem("accessToken") !== null) {
             // Recieve github data from (custom) node.js backend server
             (async () => {
+                // dispatch(setLoadingStatus(true) as any);
+
                 const userData = await getUserData();
                 const itemId = `github-${userData.login}-${uuidv4()}`;
                 const accountIndex = accountsState.accounts.findIndex((account) => account.userName === userData.login);
@@ -76,6 +80,7 @@ const App: React.FC = (): JSX.Element => {
                 // If we have current User on globals store
                 if (accountIndex !== -1) {
                     dispatch(getCurrentAccount(accountIndex) as any);
+                    // dispatch(setLoadingStatus(false) as any);
                 }
             })();
         }
@@ -85,6 +90,7 @@ const App: React.FC = (): JSX.Element => {
         // Create User on Hygraph if github account doesnt exist on store
         if (user && accountIndex === -1 && localStorage.getItem("accessToken") !== null) {
             user && dispatch(createGithubAccount(user) as any);
+            dispatch(setLoadingStatus(false) as any);
         }
     }, [user]);
 
@@ -92,24 +98,19 @@ const App: React.FC = (): JSX.Element => {
         <section className="o-page">
             <Routes>
                 <Route element={<Layouts />}>
-                    {Object.keys(accountsState.currentAccount).length > 0 ? (
-                        <>
-                            {accountsState.currentAccount && !accountsState.currentAccount.isAdmin ? (
-                                <Route path="/" element={<Navigate to="/archives/requests" />} />
-                            ) : (
-                                <Route path="/" element={<Home />} />
-                            )}
+                    <Route
+                        path="/"
+                        element={accountsState.currentAccount && accountsState.currentAccount.isAdmin ? <Home /> : <Navigate to="/archives/requests" />}
+                    />
 
-                            <Route path="/request/:id" element={<SingleDetails />} />
-                            <Route path="/ticket/:id" element={<SingleChat />} />
-                            <Route path="/user/:id" element={<SingleProfile />} />
-                            <Route path="/archives/:type" element={<Archives />} />
-                            <Route path="/add-request" element={<AddRequest />} />
-                        </>
-                    ) : (
-                        <Route path="/permission" element={<Permissions />} />
-                    )}
+                    <Route path="/request/:id" element={<SingleDetails />} />
+                    <Route path="/ticket/:id" element={<SingleChat />} />
+                    <Route path="/user/:id" element={<SingleProfile />} />
+                    <Route path="/archives/:type" element={<Archives />} />
+                    <Route path="/add-request" element={<AddRequest />} />
 
+                    <Route path="/verify" element={<Permissions />} />
+                    <Route path="/permissions" element={<Permissions />} />
                     <Route path="/server-error" element={<ServerError />} />
                     <Route path="*" element={<Notfound />} />
                 </Route>

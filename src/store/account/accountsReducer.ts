@@ -61,6 +61,10 @@ const accountSlice = createSlice({
             state.error = "";
             state.currentAccount = {};
         },
+
+        SET_LOADING_STATUS: (state, action: { type: string; payload: boolean }) => {
+            state.isLoading = action.payload;
+        },
     },
 });
 
@@ -74,5 +78,6 @@ export const {
     SELECT_CURRENT_USER,
     REMOVE_CURRENT_USER,
     REMOVE_ACCOUNT_HISTORY,
+    SET_LOADING_STATUS,
 } = accountSlice.actions;
 export default accountSlice.reducer;

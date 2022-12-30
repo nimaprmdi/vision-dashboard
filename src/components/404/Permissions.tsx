@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
@@ -7,6 +7,7 @@ import PreLoader from "../common/PreLoader";
 const Permissions = () => {
     const navigate = useNavigate();
     const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
+    const accountState = useSelector((state: RootState) => state.accounts);
 
     return (
         <Box
@@ -20,7 +21,6 @@ const Permissions = () => {
             }}
         >
             <Box
-                className="u-box-light"
                 sx={{
                     width: "700px",
                     height: "350px",
@@ -32,22 +32,10 @@ const Permissions = () => {
                     gap: 2,
                 }}
             >
-                {isHttpCalling ? (
-                    <PreLoader />
+                {isHttpCalling && accountState.isLoading && Object.keys(accountState.currentAccount).length > 0 ? (
+                    <PreLoader title="Please Wait" />
                 ) : (
-                    <>
-                        <Typography variant="h2" color="white" align="center" fontWeight={700} textTransform="capitalize" px={3}>
-                            Wow! You've got an Error here.
-                        </Typography>
-
-                        <Typography variant="h5" color="white" align="center" textTransform="capitalize" px={2}>
-                            Please go back home and try again
-                        </Typography>
-
-                        <Button onClick={() => navigate("/")} variant="contained" color="primary">
-                            Go Home
-                        </Button>
-                    </>
+                    <>{navigate("/")}</>
                 )}
             </Box>
         </Box>

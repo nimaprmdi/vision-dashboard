@@ -5,6 +5,7 @@ const initialState: Entities = {
     isOpen: false,
     httpErrors: {} as IServerErrors,
     isHttpCalling: false,
+    currentAccount: {},
 };
 
 const entitiesSlice = createSlice({

@@ -29,11 +29,11 @@ const Notfound = () => {
                 }}
             >
                 <Typography variant="h2" color="white" align="center" fontWeight={700} textTransform="capitalize" px={3}>
-                    403 Error
+                    Wow! You've got an Error here.
                 </Typography>
 
                 <Typography variant="h5" color="white" align="center" textTransform="capitalize" px={2}>
-                    User does not have permission <br /> Please go back home and try again
+                    Please go back home and try again
                 </Typography>
 
                 <Button onClick={() => navigate("/")} variant="contained" color="primary">

@@ -125,6 +125,7 @@ const LoginForm = () => {
 
         localStorage.removeItem("accessToken");
         localStorage.removeItem("loginService");
+
         dispatch(loginAccount(data, navigate) as any);
     };
 

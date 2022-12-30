@@ -317,14 +317,12 @@ class AccountsQuery {
         return JSON.stringify({
             query: `
               query ($email: String!, $password: String!) {
-                accountsConnection(where: {email: $email, password: $password }) {
-                  edges {
-                    node {
-                      itemId
-                    }
-                  } 
-              }
-            }`,
+                accountsConnection(where: {email: $email, password: $password}) {
+                  aggregate {
+                    count
+                  }
+                }
+              }`,
             variables: {
                 email: data.email,
                 password: data.password,
