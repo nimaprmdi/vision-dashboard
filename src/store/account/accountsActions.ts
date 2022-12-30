@@ -8,9 +8,9 @@ import { fetchTickets, removeTicketsHistory } from "../tickets/ticketsActions";
 // reducer
 import { RootState } from "../rootReducer";
 import * as actions from "./accountsReducer";
-import { NavigateFunction } from "react-router-dom";
-
 import { CHANGE_HTTP_CALL_STATUS } from "../entities/entitiesReducer";
+
+import { NavigateFunction } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const fetchAccounts = () => (dispatch: Dispatch, getState: () => RootState) => {
@@ -28,19 +28,23 @@ const deleteAccount = (itemId: string) => async (dispatch: Dispatch) => {
     dispatch(fetchTickets() as any);
 };
 
-const createAccount = (data: IAddAccount) => async (dispatch: Dispatch) => {
-    console.log("createAccount data", data);
+const createAccount = (data: IAddAccount, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
+    dispatch(CHANGE_HTTP_CALL_STATUS(true));
+    const accountIndex = getState().accounts.accounts.findIndex((account) => account.email === data.email);
 
-    return await apiServices
-        .createAccount(data)
-        .then((response) => {
-            dispatch(actions.CREATE_ACCOUNT(response.data));
+    if (accountIndex === -1) {
+        const user = await apiServices.createAccount(data);
+        dispatch(actions.CREATE_ACCOUNT(user.data.data.createAccount));
 
-            setTimeout(() => {
-                // window.location.href = process.env.REACT_APP_GLOBAL_HOME_LOCATION!;
-            }, 1000);
-        })
-        .catch((error) => console.log(error));
+        // Select Current Account
+        const newAccountIndex = getState().accounts.accounts.findIndex((account) => account.email === user.data.data.createAccount.email);
+        dispatch(actions.SELECT_CURRENT_USER(newAccountIndex));
+        dispatch(CHANGE_HTTP_CALL_STATUS(false));
+        navigate("/");
+    } else {
+        toast.error("This Email Exist");
+        dispatch(CHANGE_HTTP_CALL_STATUS(false));
+    }
 };
 
 // create a github account
@@ -66,16 +70,13 @@ const createGithubAccount = (data: IAddAccount, navigate: NavigateFunction) => a
 
 // Login Account by email and password
 const loginAccount = (data: IAccountLogin, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
-    // Login manual email and password
-
     dispatch(CHANGE_HTTP_CALL_STATUS(true));
     const accountIndex = getState().accounts.accounts.findIndex((account) => account.email === data.email);
 
     if (accountIndex !== -1) {
-        const x = await apiServices.loginAccount(data);
+        const user = await apiServices.loginAccount(data);
 
-        if (x) {
-            console.log("x", x);
+        if (user) {
             dispatch(actions.SELECT_CURRENT_USER(accountIndex));
             dispatch(CHANGE_HTTP_CALL_STATUS(false));
             navigate("/");
@@ -95,7 +96,6 @@ const getCurrentAccount = (accountIndex: number, navigate: NavigateFunction) => 
 };
 
 const removeCurrentUser = () => (dispatch: Dispatch) => {
-    console.log("Here I Am");
     dispatch(actions.REMOVE_CURRENT_USER());
 };
 

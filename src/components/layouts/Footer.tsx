@@ -11,8 +11,6 @@ const Footer = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        console.log("Clicked");
-
         localStorage.removeItem("accessToken");
         localStorage.removeItem("loginService");
 

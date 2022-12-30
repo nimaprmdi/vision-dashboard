@@ -8,8 +8,6 @@ const Nav = () => {
     const entities = useSelector((state: RootState) => state.entities);
     const accountsState = useSelector((state: RootState) => state.accounts);
 
-    console.log(accountsState.currentAccount);
-
     return (
         <Box
             className="c-nav"
@@ -27,7 +25,9 @@ const Nav = () => {
                         style={{ textDecoration: "none" }}
                     >
                         {accountsState.currentAccount &&
-                            (accountsState.currentAccount.isAdmin || (!accountsState.currentAccount.isAdmin && route.path !== "/archives/users")) && (
+                            (accountsState.currentAccount.isAdmin ||
+                                (!accountsState.currentAccount.isAdmin &&
+                                    (route.path === "/archives/requests" || route.path === "/archives/tickets" || route.path === "/add-request"))) && (
                                 <ListItem sx={{ py: 1.5 }}>
                                     <ListItemAvatar>
                                         <Avatar className="c-nav__avatar">{route.icon}</Avatar>

@@ -52,6 +52,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
         boxSizing: "border-box",
     },
 }));
+
 const RegisterForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -143,7 +144,7 @@ const RegisterForm = () => {
     const handleSubmit = () => {
         // @todo : validate function before sending also for other forms
         setData({ ...data, userName: `${data.email}-${data.lastName}` });
-        dispatch(createAccount(data) as any);
+        dispatch(createAccount(data, navigate) as any);
     };
 
     const handleGithubLogin = () => {
