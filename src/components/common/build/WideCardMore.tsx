@@ -19,7 +19,7 @@ const WideCardMore = () => {
                     Welcome back,
                 </Typography>
 
-                <Typography variant="h2" color="white">
+                <Typography variant="h2" color="white" textTransform="capitalize">
                     {account.name || " "}
                 </Typography>
 

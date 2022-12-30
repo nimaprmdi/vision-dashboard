@@ -44,20 +44,24 @@ const createAccount = (data: IAddAccount) => async (dispatch: Dispatch) => {
 };
 
 // create a github account
-const createGithubAccount = (data: IAddAccount) => async (dispatch: Dispatch, getState: () => RootState) => {
+const createGithubAccount = (data: IAddAccount, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
     return await apiServices
         .createGithubAccount(data)
         .then((response) => {
             dispatch(actions.CREATE_ACCOUNT(response.data.data.createAccount));
-
             return response.data.data.createAccount;
         })
         .then((response) => {
-            const accounts = getState().accounts.accounts;
+            const { accounts } = getState().accounts;
             const accountIndex = accounts.findIndex((account) => account.userName === response.userName);
             dispatch(actions.SELECT_CURRENT_USER(accountIndex));
+            navigate("/");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            toast.error("Something went wrong with github actions");
+            navigate("/login");
+        });
 };
 
 // Login Account by email and password
@@ -76,13 +80,18 @@ const loginAccount = (data: IAccountLogin, navigate: NavigateFunction) => async 
             dispatch(CHANGE_HTTP_CALL_STATUS(false));
             navigate("/");
         } else {
+            dispatch(CHANGE_HTTP_CALL_STATUS(false));
             toast.error("Falied Login");
         }
+    } else {
+        toast.error("No email found");
+        dispatch(CHANGE_HTTP_CALL_STATUS(false));
     }
 };
 
-const getCurrentAccount = (accountIndex: number) => async (dispatch: Dispatch, getState: () => RootState) => {
+const getCurrentAccount = (accountIndex: number, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
     dispatch(actions.SELECT_CURRENT_USER(accountIndex));
+    navigate("/");
 };
 
 const removeCurrentUser = () => (dispatch: Dispatch) => {

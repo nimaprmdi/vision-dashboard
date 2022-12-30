@@ -17,7 +17,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 // actions
-import { loginAccount, getCurrentAccount } from "../../../store/account/accountsActions";
+import { loginAccount } from "../../../store/account/accountsActions";
 
 //google
 import apiServices from "../../../services/VisionDashboardApiServices";

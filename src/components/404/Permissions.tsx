@@ -1,13 +1,62 @@
+import useGithub from "../../hooks/useGithub";
+import PreLoader from "../common/PreLoader";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
-import PreLoader from "../common/PreLoader";
+import { useState, useEffect } from "react";
+import { IAddAccount } from "../../models/account";
+import { v4 as uuidv4 } from "uuid";
+import { getCurrentAccount } from "../../store/account/accountsActions";
+import { createGithubAccount, setLoadingStatus } from "../../store/account/accountsActions";
+import { getUserData } from "../../services/githubServices";
+import { useDispatch, useSelector } from "react-redux";
 
 const Permissions = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const accountsState = useSelector((state: RootState) => state.accounts);
     const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
-    const accountState = useSelector((state: RootState) => state.accounts);
+
+    /// github issues
+    const [user, setUser] = useState<IAddAccount>();
+    const [accountIndex, setAccountIndex] = useState<number>();
+
+    // Github account Hook
+    useGithub();
+
+    useEffect(() => {
+        if (!accountsState.isLoading && localStorage.getItem("accessToken") !== null) {
+            (async () => {
+                const userData = await getUserData();
+                const itemId = `github-${userData.login}-${uuidv4()}`;
+                const accountIndex = accountsState.accounts.findIndex((account) => account.userName === userData.login);
+
+                setUser({
+                    itemId: itemId,
+                    name: userData.name || userData.login,
+                    lastName: "",
+                    userName: userData.login,
+                    email: userData.email,
+                    hasRemember: false,
+                    isAdmin: false,
+                });
+
+                setAccountIndex(accountIndex);
+            })();
+        }
+    }, [accountsState.isLoading, localStorage.getItem("accessToken")]);
+
+    useEffect(() => {
+        if (user && accountIndex !== -1) {
+            dispatch(getCurrentAccount(accountIndex!, navigate) as any);
+        }
+
+        if (user && accountIndex === -1 && localStorage.getItem("accessToken") !== null) {
+            dispatch(createGithubAccount(user, navigate) as any);
+            dispatch(setLoadingStatus(false) as any);
+        }
+    }, [user, accountIndex]);
 
     return (
         <Box
@@ -32,11 +81,7 @@ const Permissions = () => {
                     gap: 2,
                 }}
             >
-                {isHttpCalling && accountState.isLoading && Object.keys(accountState.currentAccount).length > 0 ? (
-                    <PreLoader title="Please Wait" />
-                ) : (
-                    <>{navigate("/")}</>
-                )}
+                <PreLoader title="Please Wait" />
             </Box>
         </Box>
     );
