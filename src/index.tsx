@@ -15,12 +15,12 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
     <ThemeProvider theme={dashboardTheme}>
         <Provider store={store}>
-            <BrowserRouter>
-                {/* <React.StrictMode> */}
-                <App />
-                <ToastContainer />
-                {/* </React.StrictMode> */}
-            </BrowserRouter>
+            <HashRouter>
+                <React.StrictMode>
+                    <App />
+                    <ToastContainer />
+                </React.StrictMode>
+            </HashRouter>
         </Provider>
     </ThemeProvider>
 );

@@ -7,7 +7,7 @@ Vision-Dashboard is a Dashboard app using TypeScript, React, Axios and other rel
 ## Features
 
 -   Sass for stylesheets
--   Connected to the Hygraph GraphQL API
+-   Connected to the Hygraph API
 -   Responsive design
 -   Cross-browser compatibility
 -   Developer friendly extendable code

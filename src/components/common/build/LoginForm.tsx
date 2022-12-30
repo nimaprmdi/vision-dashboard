@@ -2,29 +2,20 @@ import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Lin
 import { styled } from "@mui/material/styles";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // models
 import { IAccountLogin, IAccountLoginError } from "../../../models/account";
 import { validateProperty } from "../../form/validate";
 import Joi from "joi";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import { loadGapiInsideDOM } from "gapi-script";
 import { RootState } from "../../../store/rootReducer";
 // icons
-import GoogleLogin from "../GoogleLogin";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 // actions
 import { loginAccount } from "../../../store/account/accountsActions";
 
 //google
-import apiServices from "../../../services/VisionDashboardApiServices";
-import { getUserData, loginWithGithub } from "../../../services/githubServices";
-
-// hooks
-import useGithub from "../../../hooks/useGithub";
+import { loginWithGithub } from "../../../services/githubServices";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,

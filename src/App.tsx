@@ -25,9 +25,8 @@ import { fetchTickets } from "./store/tickets/ticketsActions";
 // Utils
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import "./assets/css/styles.css";
-
 import { RootState } from "./store/rootReducer";
+import "./assets/css/styles.css";
 
 const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();

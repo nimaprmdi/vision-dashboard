@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { ITicketResponse } from "../../../models/tickets";
-import { getDataFromTree } from "@apollo/client/react/ssr";
 
 interface ChatBoxProps {
     data: ITicketResponse[];
@@ -29,16 +27,8 @@ const ChatBox = ({ data }: ChatBoxProps) => {
             <Box className="c-chat">
                 {Array.isArray(data) &&
                     data.map((item, index: number) => (
-                        <Box
-                            key={`chat-box-${index}`}
-                            sx={{ display: "flex", justifyContent: item.isAdmin ? "flex-start" : "flex-end", mb: 4 }}
-                        >
-                            <Box
-                                className={item.isAdmin ? "u-box-blue" : "u-box-green"}
-                                width={{ xs: "100%", sm: "80%" }}
-                                maxWidth={{ md: "500px" }}
-                                p={2}
-                            >
+                        <Box key={`chat-box-${index}`} sx={{ display: "flex", justifyContent: item.isAdmin ? "flex-start" : "flex-end", mb: 4 }}>
+                            <Box className={item.isAdmin ? "u-box-blue" : "u-box-green"} width={{ xs: "100%", sm: "80%" }} maxWidth={{ md: "500px" }} p={2}>
                                 <Box>
                                     <Typography variant="h6" color="white">
                                         {item.title || ""}

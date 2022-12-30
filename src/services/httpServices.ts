@@ -9,6 +9,7 @@ const store = configureStore;
 
 const axiosApiInstance = axsio.create({
     baseURL: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clayawfwp14ev01ukh88s2hit/master",
+    headers: {},
 });
 
 const axiosGithubInstance = axios.create({
@@ -53,9 +54,9 @@ axiosApiInstance.interceptors.response.use(
 
             // @todo : Error Tracker here -> sentry.io
 
-            // if (window.location.pathname !== redirectServerError) {
-            //     window.location.href = redirectServerError;
-            // }
+            if (window.location.pathname !== redirectServerError) {
+                window.location.href = redirectServerError;
+            }
         } else {
             if (error.response.status === 400) {
                 toast.error("Bad Request - The request could not be understood by the server");
