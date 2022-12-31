@@ -13,7 +13,7 @@ const axiosApiInstance = axsio.create({
 });
 
 const axiosGithubInstance = axios.create({
-    baseURL: "/api/google-login",
+    baseURL: "https://vision-dashboard.onrender.com/getUserData",
 });
 
 axiosApiInstance.interceptors.request.use(
@@ -86,4 +86,9 @@ export default {
     post: axiosApiInstance.post,
     put: axiosApiInstance.put,
     delete: axiosApiInstance.delete,
+
+    githubGet: axiosGithubInstance.get,
+    githubPost: axiosGithubInstance.post,
+    githubPut: axiosGithubInstance.put,
+    githubDelete: axiosGithubInstance.delete,
 };

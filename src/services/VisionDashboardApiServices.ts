@@ -21,6 +21,7 @@ import { ITicketResponse } from "../models/tickets";
 
 //urtils
 import { toast } from "react-toastify";
+import { NavigateFunction } from "react-router-dom";
 
 const store = configureStore;
 
@@ -268,8 +269,8 @@ class VisionDashboardApiServices {
             });
     };
 
-    readonly createRequest = async (userId: string, data: IRequest) => {
-        await http
+    readonly createRequest = async (userId: string, data: IRequest, navigate: NavigateFunction) => {
+        return await http
             .post("", requestsQuery.createRequest(userId, data))
             .then((response) => {
                 // Store Dispatch @todo : check logic here (the redux problem)
@@ -278,12 +279,12 @@ class VisionDashboardApiServices {
                 toast.success("Submitted Successfully");
                 store.dispatch(requestsActions.CREATE_REQUEST(data));
                 this.publishRequest(data.data.createRequest.itemId).then(() => {
-                    window.location.href = "/";
+                    navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
                 });
             })
             .catch((error) => {
                 console.log("Error");
-                toast.error("Create User Failed");
+                toast.error("Create Request Failed");
             });
     };
 

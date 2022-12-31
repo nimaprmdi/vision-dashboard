@@ -1,18 +1,12 @@
-import { Box, Typography, Button, Link } from "@mui/material";
+import { Box, Typography, Button, Link as MUILink } from "@mui/material";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
+import { Link } from "react-router-dom";
 
 const BlurHeader = () => {
     return (
         <Box className="c-header-blur" sx={{ flexWrap: "wrap", gap: 2 }}>
-            <Typography
-                variant="h2"
-                className="u-text-small"
-                color="white"
-                fontWeight={700}
-                sx={{ letterSpacing: 2 }}
-                order={1}
-            >
-                VISION UI FREE
+            <Typography variant="h2" className="u-text-small" color="white" fontWeight={700} sx={{ letterSpacing: 2 }} order={1}>
+                VISION UI
             </Typography>
 
             <Box
@@ -26,49 +20,16 @@ const BlurHeader = () => {
                 }}
                 order={{ xs: 3, md: 2 }}
             >
-                <Link
-                    underline="hover"
-                    sx={{ display: "flex", alignItems: "center", color: "white" }}
-                    color="inherit"
-                    href="#"
-                >
+                {/* <MUILink underline="hover" sx={{ display: "flex", alignItems: "center", color: "white" }} color="inherit" href="#">
                     <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
                     Core
-                </Link>
-
-                <Link
-                    underline="hover"
-                    sx={{ display: "flex", alignItems: "center", color: "white" }}
-                    color="inherit"
-                    href="#"
-                >
-                    <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-                    Core
-                </Link>
-
-                <Link
-                    underline="hover"
-                    sx={{ display: "flex", alignItems: "center", color: "white" }}
-                    color="inherit"
-                    href="#"
-                >
-                    <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-                    Core
-                </Link>
-
-                <Link
-                    underline="hover"
-                    sx={{ display: "flex", alignItems: "center", color: "white" }}
-                    color="inherit"
-                    href="#"
-                >
-                    <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-                    Core
-                </Link>
+                </MUILink> */}
             </Box>
 
             <Button variant="contained" color="primary" sx={{ px: 4, order: { xs: 2, md: 3 } }}>
-                Free Download
+                <MUILink href="https://github.com/nimaprmdi/vision-dashboard" target="_blank" underline="none" component="a" color="white">
+                    Free Download
+                </MUILink>
             </Button>
         </Box>
     );

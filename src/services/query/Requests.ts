@@ -157,7 +157,8 @@ class RequestsQuery {
 
     readonly createRequest = (userId: string, data: IRequest) => {
         return JSON.stringify({
-            query: `mutation createRequest(
+            query: `
+            mutation createRequest(
                 $itemId: String!,
                 $name: String!,
                 $lastName: String!,
@@ -183,7 +184,7 @@ class RequestsQuery {
                         service: $service,
                         date: $date,
                         itemStatus: $itemStatus,
-                        account: {connect: {itemId: "aksjdgjhasvduvbhja"} 
+                        account: {connect: {itemId: "${userId}"} 
                     }
             }) {
               itemId

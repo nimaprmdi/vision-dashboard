@@ -12,7 +12,7 @@ import { RootState } from "../../../store/rootReducer";
 // icons
 import GitHubIcon from "@mui/icons-material/GitHub";
 // actions
-import { loginAccount } from "../../../store/account/accountsActions";
+import { loginAccount, removeCurrentUser } from "../../../store/account/accountsActions";
 
 //google
 import { loginWithGithub } from "../../../services/githubServices";
@@ -116,11 +116,12 @@ const LoginForm = () => {
 
         localStorage.removeItem("accessToken");
         localStorage.removeItem("loginService");
-
+        dispatch(removeCurrentUser() as any);
         dispatch(loginAccount(data, navigate) as any);
     };
 
     const handleGithubLogin = () => {
+        dispatch(removeCurrentUser() as any);
         loginWithGithub();
     };
 
@@ -235,7 +236,7 @@ const LoginForm = () => {
             </Box>
 
             <Typography variant="h6" className="u-text-small" color="white" mt={2} display="flex">
-                Dont hane an account?
+                Dont have an account?
                 <Link className="u-link-primary" to="/register">
                     <MUILink className="u-link-primary" component="div" underline="none" color="white" ml={1}>
                         Register

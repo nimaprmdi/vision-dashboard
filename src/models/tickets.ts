@@ -20,7 +20,6 @@ interface ITicket {
     isClose: boolean;
     isPending: string;
     subject: string;
-    userId: string;
     responses: ITicketResponse[];
     accounts: IAccount;
 }
@@ -43,11 +42,4 @@ interface ITicketFetchFailed {
     payload: string;
 }
 
-export type {
-    ITicketsInitialState,
-    ITicket,
-    ITicketFetchSuccessful,
-    ITicketFetchFailed,
-    ITicketResponse,
-    IPostTicketCommentData,
-};
+export type { ITicketsInitialState, ITicket, ITicketFetchSuccessful, ITicketFetchFailed, ITicketResponse, IPostTicketCommentData };

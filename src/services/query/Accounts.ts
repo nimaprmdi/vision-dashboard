@@ -24,7 +24,6 @@ class AccountsQuery {
                   url
                 }
                 tickets {
-                  userId
                   itemId
                   isPending
                   isClose
@@ -181,7 +180,6 @@ class AccountsQuery {
                 answeredTickets,
                 answeredRequests,
                 tickets {
-                  userId
                   itemId
                   isPending
                   isClose
@@ -262,7 +260,6 @@ class AccountsQuery {
                 answeredTickets,
                 answeredRequests,
                 tickets {
-                  userId
                   itemId
                   isPending
                   isClose

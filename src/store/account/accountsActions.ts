@@ -40,7 +40,7 @@ const createAccount = (data: IAddAccount, navigate: NavigateFunction) => async (
         const newAccountIndex = getState().accounts.accounts.findIndex((account) => account.email === user.data.data.createAccount.email);
         dispatch(actions.SELECT_CURRENT_USER(newAccountIndex));
         dispatch(CHANGE_HTTP_CALL_STATUS(false));
-        navigate("/");
+        navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
     } else {
         toast.error("This Email Exist");
         dispatch(CHANGE_HTTP_CALL_STATUS(false));
@@ -59,12 +59,12 @@ const createGithubAccount = (data: IAddAccount, navigate: NavigateFunction) => a
             const { accounts } = getState().accounts;
             const accountIndex = accounts.findIndex((account) => account.userName === response.userName);
             dispatch(actions.SELECT_CURRENT_USER(accountIndex));
-            navigate("/");
+            navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
         })
         .catch((error) => {
             console.log(error);
             toast.error("Something went wrong with github actions");
-            navigate("/login");
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
         });
 };
 
@@ -79,7 +79,7 @@ const loginAccount = (data: IAccountLogin, navigate: NavigateFunction) => async 
         if (user) {
             dispatch(actions.SELECT_CURRENT_USER(accountIndex));
             dispatch(CHANGE_HTTP_CALL_STATUS(false));
-            navigate("/");
+            navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
         } else {
             dispatch(CHANGE_HTTP_CALL_STATUS(false));
             toast.error("Falied Login");
@@ -92,7 +92,7 @@ const loginAccount = (data: IAccountLogin, navigate: NavigateFunction) => async 
 
 const getCurrentAccount = (accountIndex: number, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
     dispatch(actions.SELECT_CURRENT_USER(accountIndex));
-    navigate("/");
+    navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
 };
 
 const removeCurrentUser = () => (dispatch: Dispatch) => {

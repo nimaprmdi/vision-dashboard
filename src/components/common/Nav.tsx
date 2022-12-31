@@ -24,17 +24,14 @@ const Nav = () => {
                         to={route.path}
                         style={{ textDecoration: "none" }}
                     >
-                        {accountsState.currentAccount &&
-                            (accountsState.currentAccount.isAdmin ||
-                                (!accountsState.currentAccount.isAdmin &&
-                                    (route.path === "/archives/requests" || route.path === "/archives/tickets" || route.path === "/add-request"))) && (
-                                <ListItem sx={{ py: 1.5 }}>
-                                    <ListItemAvatar>
-                                        <Avatar className="c-nav__avatar">{route.icon}</Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText sx={{ textTransform: "capitalize" }} primary={route.title} />
-                                </ListItem>
-                            )}
+                        {Object.keys(accountsState.currentAccount).length ? (
+                            <ListItem sx={{ py: 1.5 }}>
+                                <ListItemAvatar>
+                                    <Avatar className="c-nav__avatar">{route.icon}</Avatar>
+                                </ListItemAvatar>
+                                <ListItemText sx={{ textTransform: "capitalize" }} primary={route.title} />
+                            </ListItem>
+                        ) : null}
                     </NavLink>
                 ))}
             </List>

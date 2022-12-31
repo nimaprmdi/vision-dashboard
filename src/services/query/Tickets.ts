@@ -5,7 +5,6 @@ class TicketsQuery {
         return JSON.stringify({
             query: `{
               tickets {
-                userId
                 itemId
                 isPending
                 isClose

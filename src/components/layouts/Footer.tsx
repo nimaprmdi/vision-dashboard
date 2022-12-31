@@ -3,7 +3,7 @@ import { Typography, Box, Link as MUILink } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/rootReducer";
-import { removeAccountHistory, removeCurrentUser } from "../../store/account/accountsActions";
+import { removeCurrentUser } from "../../store/account/accountsActions";
 
 const Footer = () => {
     const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
@@ -16,7 +16,7 @@ const Footer = () => {
 
         // dispatch(removeAccountHistory() as any);
         dispatch(removeCurrentUser() as any);
-        navigate("/login");
+        navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
     };
 
     return (
@@ -49,29 +49,39 @@ const Footer = () => {
                                 Logout
                             </MUILink>
                         ) : (
-                            // @todo check if we dont have any user
                             <>
-                                <Link className="u-link-primary" to="/login">
-                                    <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
-                                        Login
-                                    </MUILink>
-                                </Link>
-                                <Link className="u-link-primary" to="/register">
-                                    <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
-                                        Register
-                                    </MUILink>
-                                </Link>
+                                <MUILink
+                                    onClick={() => handleLogout()}
+                                    textTransform="capitalize"
+                                    className="u-link-primary"
+                                    component="div"
+                                    underline="none"
+                                    color="white"
+                                >
+                                    Login
+                                </MUILink>
+
+                                <MUILink
+                                    onClick={() => handleLogout()}
+                                    textTransform="capitalize"
+                                    className="u-link-primary"
+                                    component="div"
+                                    underline="none"
+                                    color="white"
+                                >
+                                    Register
+                                </MUILink>
                             </>
                         )}
 
                         {routes.map((route, index: number) => {
-                            return (
+                            return Object.keys(currentUser).length ? (
                                 <Link className="u-link-primary" key={`footer-route-${index}`} to={`${route.path}`}>
                                     <MUILink textTransform="capitalize" className="u-link-primary" component="div" href="#" underline="none" color="white">
                                         {route.title}
                                     </MUILink>
                                 </Link>
-                            );
+                            ) : null;
                         })}
                     </>
                 </Box>

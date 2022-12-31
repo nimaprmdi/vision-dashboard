@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Box, Typography, Button, TextField, FormControl } from "@mui/material";
 import { ITicketResponse } from "../../../models/tickets";
 import { IPostTicketCommentData } from "../../../models/tickets";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/rootReducer";
 
 interface IPostCommentProps {
     itemId?: string;
@@ -12,14 +14,17 @@ interface IPostCommentProps {
 
 const PostComment = ({ itemId, responses, isAdmin }: IPostCommentProps) => {
     const [data, setData] = useState<IPostTicketCommentData>({ title: "", description: "", isAdmin: false });
+    const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
 
     const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setData({ ...data, [e.currentTarget.name]: e.currentTarget.value, isAdmin });
     };
 
     const onSubmit = () => {
-        itemId && apiServices.updateTicketResponse(itemId, [...responses, data]);
-        setData({ title: "", description: "", isAdmin: false });
+        const oldResponse = responses ? [...responses] : [];
+
+        itemId && apiServices.updateTicketResponse(itemId, [...oldResponse, data]);
+        setData({ title: "", description: "", isAdmin: currentUser.isAdmin! });
     };
 
     return (

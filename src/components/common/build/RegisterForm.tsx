@@ -83,6 +83,9 @@ const RegisterForm = () => {
             "string.min": `"Last name" minimum should be {#limit}`,
             "any.required": `"Last name" is a required field`,
         }),
+        userName: Joi.string()
+            .regex(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)
+            .label("User name"),
         email: Joi.string()
             .email({ tlds: { allow: false } })
             .label("Email"),
@@ -100,6 +103,7 @@ const RegisterForm = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean) => {
         const errorMsg = validateProperty(e.target, schema);
+
         setErrors({ ...errors, [e.target.name]: errorMsg });
 
         if (e.target.name === "hasRemember") {
@@ -111,8 +115,6 @@ const RegisterForm = () => {
                 return { ...prevState, [e.target.name]: e.target.value };
             });
         }
-
-        console.log(errors);
 
         if (errorMsg) {
             setErrors({ ...errors, [e.target.name]: errorMsg });
@@ -131,6 +133,8 @@ const RegisterForm = () => {
                 });
         } else if (e.target.name === "password") {
             setData({ ...data, password: e.target.value, confirmPassword: null });
+        } else if (e.target.name === "email") {
+            setData({ ...data, email: e.target.value, userName: `${e.target.value}-${uuidv4()}` });
         } else {
             setErrors((prevState) => {
                 const allErrors = { ...prevState };
@@ -143,7 +147,7 @@ const RegisterForm = () => {
 
     const handleSubmit = () => {
         // @todo : validate function before sending also for other forms
-        setData({ ...data, userName: `${data.email}-${data.lastName}` });
+        console.log(data);
         dispatch(createAccount(data, navigate) as any);
     };
 

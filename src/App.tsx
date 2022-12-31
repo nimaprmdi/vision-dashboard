@@ -43,16 +43,21 @@ const App: React.FC = (): JSX.Element => {
         <section className="o-page">
             <Routes>
                 <Route element={<Layouts />}>
-                    <Route
-                        path="/"
-                        element={accountsState.currentAccount && accountsState.currentAccount.isAdmin ? <Home /> : <Navigate to="/archives/requests" />}
-                    />
-
-                    <Route path="/request/:id" element={<SingleDetails />} />
-                    <Route path="/ticket/:id" element={<SingleChat />} />
-                    <Route path="/user/:id" element={<SingleProfile />} />
-                    <Route path="/archives/:type" element={<Archives />} />
-                    <Route path="/add-request" element={<AddRequest />} />
+                    {Object.keys(accountsState.currentAccount).length ? (
+                        <Route>
+                            <Route
+                                path="/"
+                                element={accountsState.currentAccount && accountsState.currentAccount.isAdmin ? <Home /> : <Navigate to="/archives/requests" />}
+                            />
+                            <Route path="/request/:id" element={<SingleDetails />} />
+                            <Route path="/ticket/:id" element={<SingleChat />} />
+                            <Route path="/user/:id" element={<SingleProfile />} />
+                            <Route path="/archives/:type" element={<Archives />} />
+                            <Route path="/add-request" element={<AddRequest />} />
+                        </Route>
+                    ) : (
+                        <Route path="/" element={<Navigate to="/verify" />} />
+                    )}
 
                     <Route path="/verify" element={<Permissions />} />
 

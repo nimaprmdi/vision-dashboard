@@ -1,11 +1,11 @@
 import { IAddAccountGithub } from "../models/account";
+import * as http from "./httpServices";
 
 const loginWithGithub = () => {
     window.location.assign("https://github.com/login/oauth/authorize?client_id=" + process.env.REACT_APP_GITHUB_CLIENT_ID);
 };
 
 const getUserData = async () => {
-    // @todo : axios here
     let response: IAddAccountGithub = {
         itemId: "",
         name: "",
@@ -16,6 +16,21 @@ const getUserData = async () => {
         hasRemember: false,
         isAdmin: false,
     };
+
+    // http.default
+    //     .githubGet("", {
+    //         headers: {
+    //             Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    //         },
+    //     })
+    //     .then((response) => {
+    //         response = response.data;
+    //         return response.data;
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //         return error;
+    //     });
 
     await fetch("https://vision-dashboard.onrender.com/getUserData", {
         method: "GET",
@@ -28,7 +43,6 @@ const getUserData = async () => {
         })
         .then((data) => {
             response = data;
-
             return data;
         })
         .catch((error) => {

@@ -10,10 +10,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { createRequest } from "../../store/requests/requestsActions";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const AddRequestForm = () => {
     const [errors, setErrors] = useState<IAddRequest>();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [data, setData] = useState<IRequest>({
         itemId: "",
         name: "",
@@ -34,6 +36,7 @@ const AddRequestForm = () => {
 
     // #httpIsCalling
     const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
+    const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
 
     const schema = Joi.object({
         itemId: Joi.string().label("itemId"),
@@ -102,7 +105,7 @@ const AddRequestForm = () => {
 
     const handleSubmit = () => {
         // @todo : current User
-        dispatch(createRequest("aksjdgjhasvduvbhja", data) as any);
+        dispatch(createRequest(currentUser.itemId!, data, navigate) as any);
 
         setData({
             itemId: "",

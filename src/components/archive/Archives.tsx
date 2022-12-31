@@ -20,15 +20,15 @@ const Archives = () => {
             case "tickets":
                 return <TableRowTickets />;
             case "accounts":
-                return currentAccount.isAdmin ? <TableRowAccounts /> : <>{navigate("/")}</>;
+                return <TableRowAccounts />;
             default:
-                return currentAccount.isAdmin ? <TableRowAccounts /> : <>{navigate("/")}</>;
+                return <TableRowAccounts />;
         }
     };
 
     useEffect(() => {
         if (type !== "tickets" && type !== "requests" && type !== "accounts") {
-            navigate("/404");
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         }
     }, []);
 

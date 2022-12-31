@@ -6,6 +6,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { IAccount } from "../../models/account";
 import { toast } from "react-toastify";
 import { IRequest } from "../../models/request";
+import { NavigateFunction } from "react-router-dom";
 
 const fetchRequests = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().requests;
@@ -44,10 +45,12 @@ const reviewRequest = (itemId: string, itemStatus: "pending" | "solved" | "revie
     }
 };
 
-const createRequest = (userId: string, data: IRequest) => async (dispatch: Dispatch) => {
-    return await apiService.createRequest(userId, data).then(() => {
+const createRequest = (userId: string, data: IRequest, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
+    await apiService.createRequest(userId, data, navigate).then(() => {
         dispatch(actions.CREATE_REQUEST(data));
     });
+
+    navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}archives/requests`);
 };
 
 const removeRequestsHistory = () => (dispatch: Dispatch) => {

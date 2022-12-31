@@ -53,11 +53,11 @@ const SingleProfile = () => {
 
         if (!accountsState.isLoading && id) {
             currentUser = accountsState.accounts.find((account) => account.itemId === id);
-            currentUser ? setUser(currentUser) : navigate("/404");
+            currentUser ? setUser(currentUser) : navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         } else if (!accountsState.isLoading && id && currentUser === undefined) {
-            navigate("/404");
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         } else if (!id) {
-            navigate("/404");
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         }
     }, [accountsState]);
 

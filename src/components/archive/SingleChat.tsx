@@ -31,11 +31,11 @@ const SingleChat = () => {
 
         if (!ticketsState.isLoading && id) {
             currentTicket = ticketsState.tickets.find((ticket) => ticket.itemId === id);
-            currentTicket ? setTicket(currentTicket) : navigate("/404");
+            currentTicket ? setTicket(currentTicket) : navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         } else if (!ticketsState.isLoading && id && currentTicket === undefined) {
-            navigate("/404");
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         } else if (!id) {
-            navigate("/404");
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         }
     }, [ticketsState]);
 

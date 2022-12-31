@@ -1,8 +1,19 @@
 import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/rootReducer";
 
 const Notfound = () => {
     const navigate = useNavigate();
+    const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
+
+    const handleNavigate = () => {
+        if (Object.keys(currentUser).length) {
+            navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
+        } else {
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION}login`);
+        }
+    };
 
     return (
         <Box
@@ -36,8 +47,8 @@ const Notfound = () => {
                     Please go back home and try again
                 </Typography>
 
-                <Button onClick={() => navigate("/")} variant="contained" color="primary">
-                    Go Home
+                <Button onClick={() => handleNavigate()} variant="contained" color="primary">
+                    Try Again
                 </Button>
             </Box>
         </Box>
