@@ -32,8 +32,7 @@ const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const accountsState = useSelector((state: RootState) => state.accounts);
 
-    // @todo: check requests page currentuser access
-
+    // @todo: responsive problems
     // @todo: add ticket button
 
     useEffect(() => {

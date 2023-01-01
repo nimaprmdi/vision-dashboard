@@ -35,7 +35,7 @@ const Footer = () => {
                 </Typography>
 
                 <Box sx={{ display: "flex", gap: 2 }}>
-                    <>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start", gap: 2 }}>
                         {currentUser && Object.keys(currentUser).length > 0 ? (
                             <MUILink
                                 textTransform="capitalize"
@@ -83,7 +83,7 @@ const Footer = () => {
                                 </Link>
                             ) : null;
                         })}
-                    </>
+                    </Box>
                 </Box>
             </Box>
         </Box>

@@ -17,7 +17,7 @@ const SingleChat = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const ticketsState = useSelector((state: RootState) => state.tickets);
-
+    const currentAccount = useSelector((state: RootState) => state.accounts.currentAccount);
     const [ticket, setTicket] = useState<ITicket>();
 
     const commandButtons: ICommandButtons[] = [
@@ -41,7 +41,7 @@ const SingleChat = () => {
 
     return (
         <Grid container spacing={2}>
-            <Grid item xs={12} lg={7} px={{ xs: 2, md: 0 }}>
+            <Grid item xs={12} lg={7} mx={{ xs: 2, md: 0 }}>
                 <ChatBox data={ticket ? ticket.responses : [{ title: "", description: "", isAdmin: false }]} />
 
                 {ticketsState.isLoading && ticket ? (
@@ -56,10 +56,10 @@ const SingleChat = () => {
                     <Skull />
                 )}
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={5} mx={{ xs: 2, md: 0 }}>
                 <Box className="u-box-light" p={3}>
                     <Typography variant="h5" color="white" fontWeight={700}>
-                        Ticket Area
+                        Ticket Info
                     </Typography>
 
                     <Typography variant="h6" className="u-text-small" color="gray.light" fontWeight={700} mt={2}>
@@ -68,28 +68,28 @@ const SingleChat = () => {
 
                     <Box className="u-divider" mt={6} />
 
-                    {/* <CommandButtons sx={{ justifyContent: "center", mt: 2 }} buttons={commandButtons} /> */}
-
-                    <Actions
-                        title=" "
-                        buttons={commandButtons}
-                        parentSx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            flexWrap: "wrap",
-                            justifyContent: { xs: "center", md: "center" },
-                            py: 4,
-                            px: 3,
-                        }}
-                        childSx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            flexWrap: "wrap",
-                            justifyContent: { xs: "center", md: "center" },
-                        }}
-                    />
+                    {currentAccount.isAdmin && (
+                        <Actions
+                            title=" "
+                            buttons={commandButtons}
+                            parentSx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                flexWrap: "wrap",
+                                justifyContent: { xs: "center", md: "center" },
+                                py: 4,
+                                px: 3,
+                            }}
+                            childSx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                flexWrap: "wrap",
+                                justifyContent: { xs: "center", md: "center" },
+                            }}
+                        />
+                    )}
                 </Box>
             </Grid>
         </Grid>

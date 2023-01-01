@@ -1,8 +1,9 @@
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import { Box, Typography, Button, Theme } from "@mui/material";
 import { ICommandButtons } from "../../../models/commandButtons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SystemStyleObject } from "@mui/system";
+import { RootState } from "../../../store/rootReducer";
 
 interface ActionProps {
     title?: string;
@@ -15,16 +16,11 @@ interface ActionProps {
 
 const Actions = ({ title, buttons, parentProps, childProps, parentSx, childSx }: ActionProps) => {
     const dispatch = useDispatch();
+    const currentAccount = useSelector((state: RootState) => state.accounts.currentAccount);
 
     return (
         <Box {...parentProps} sx={{ ...parentSx }}>
-            <Typography
-                width={{ xs: "100%", md: "max-content" }}
-                textAlign="center"
-                variant="h1"
-                color="white"
-                fontWeight={700}
-            >
+            <Typography width={{ xs: "100%", md: "max-content" }} textAlign="center" variant="h1" color="white" fontWeight={700}>
                 {title || "Actions"}
             </Typography>
 

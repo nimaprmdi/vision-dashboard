@@ -1,5 +1,5 @@
-import routes from "../../routes";
 import { useSelector } from "react-redux";
+import routes from "../../routes";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../store/rootReducer";
 import { Avatar, ListItemAvatar, ListItemText, ListItem, List, Box } from "@mui/material";
@@ -7,8 +7,9 @@ import { Avatar, ListItemAvatar, ListItemText, ListItem, List, Box } from "@mui/
 const Nav = () => {
     const entities = useSelector((state: RootState) => state.entities);
     const accountsState = useSelector((state: RootState) => state.accounts);
+    const currentAccount = useSelector((state: RootState) => state.accounts.currentAccount);
 
-    return !entities.isHttpCalling ? (
+    return Object.keys(currentAccount).length ? (
         <Box
             className="c-nav"
             sx={{

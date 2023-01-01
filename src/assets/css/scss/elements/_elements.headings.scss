@@ -29,6 +29,18 @@ $vision-dashboard-font-size-text-micro: 10px !default;
     @include vision-dashboard-font-size($vision-dashboard-font-size-text-massive);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.text-small,
+.text-tiny,
+.text-micro {
+    word-break: break-word;
+}
+
 h1 {
     @include vision-dashboard-font-size($vision-dashboard-font-size-h1);
 }

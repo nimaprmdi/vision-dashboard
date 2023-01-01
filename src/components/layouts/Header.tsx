@@ -86,9 +86,7 @@ const Header = () => {
                 </Box>
             </Box>
         </Box>
-    ) : (
-        <Skull sx={{ height: "90vh" }} />
-    );
+    ) : null;
 };
 
 export default Header;

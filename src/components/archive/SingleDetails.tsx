@@ -1,5 +1,4 @@
 import Skull from "../common/Skull";
-import axios from "axios";
 import MapBox from "../common/MapBox";
 import Details from "../common/build/Details";
 import Actions from "../common/build/Actions";
@@ -28,12 +27,8 @@ const SingleDetails = () => {
     const [isMapChanged, setIsMapChanged] = useState(false);
     // utils
     const requestState = useSelector((state: RootState) => state.requests);
-    const dispatch = useDispatch();
+    const currentAccount = useSelector((state: RootState) => state.accounts.currentAccount);
     const navigate = useNavigate();
-
-    // @todo : sending image -- looks done
-    const [data, setData] = useState<File>();
-    const [assetId, setAssetId] = useState<string>();
 
     const commandButtons: ICommandButtons[] = [
         { title: "Mark as solved", color: "primary", handler: solveRequest(id!, request && request.itemStatus) },
@@ -169,29 +164,31 @@ const SingleDetails = () => {
             </Grid>
 
             <Grid item xs={12}>
-                <Actions
-                    title="Requests Actions"
-                    buttons={commandButtons}
-                    parentProps={{
-                        className: "u-box-light",
-                    }}
-                    parentSx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        flexWrap: "wrap",
-                        justifyContent: { xs: "center", md: "space-between" },
-                        py: 4,
-                        px: 3,
-                    }}
-                    childSx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        flexWrap: "wrap",
-                        justifyContent: { xs: "center", md: "flex-end" },
-                    }}
-                />
+                {currentAccount.isAdmin && (
+                    <Actions
+                        title="Requests Actions"
+                        buttons={commandButtons}
+                        parentProps={{
+                            className: "u-box-light",
+                        }}
+                        parentSx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            flexWrap: "wrap",
+                            justifyContent: { xs: "center", md: "space-between" },
+                            py: 4,
+                            px: 3,
+                        }}
+                        childSx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            flexWrap: "wrap",
+                            justifyContent: { xs: "center", md: "flex-end" },
+                        }}
+                    />
+                )}
             </Grid>
         </Grid>
     );

@@ -32,10 +32,10 @@ const SingleProfile = () => {
     const accountsState = useSelector((state: RootState) => state.accounts);
 
     const commandButtons: ICommandButtons[] = [
-        { title: "Permission", color: "primary", handler: () => setIsEditPermissionPopOpen(true) },
         { title: "Edit", color: "primary", handler: () => setIsEditAccountPopupOpen(true) },
         { title: "Delete Account", color: "error", handler: () => setIsDeletePopOpen(true) },
     ];
+    accountsState.currentAccount.isAdmin && commandButtons.push({ title: "Permission", color: "primary", handler: () => setIsEditPermissionPopOpen(true) });
 
     const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         // Upload File
