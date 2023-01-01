@@ -32,6 +32,10 @@ const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const accountsState = useSelector((state: RootState) => state.accounts);
 
+    // @todo: check requests page currentuser access
+
+    // @todo: add ticket button
+
     useEffect(() => {
         // @todo: Merge Requests
         dispatch(fetchRequests() as any);
@@ -45,10 +49,7 @@ const App: React.FC = (): JSX.Element => {
                 <Route element={<Layouts />}>
                     {Object.keys(accountsState.currentAccount).length ? (
                         <Route>
-                            <Route
-                                path="/"
-                                element={accountsState.currentAccount && accountsState.currentAccount.isAdmin ? <Home /> : <Navigate to="/archives/requests" />}
-                            />
+                            <Route path="/" element={accountsState.currentAccount.isAdmin ? <Home /> : <Navigate to="/archives/requests" />} />
                             <Route path="/request/:id" element={<SingleDetails />} />
                             <Route path="/ticket/:id" element={<SingleChat />} />
                             <Route path="/user/:id" element={<SingleProfile />} />
@@ -59,8 +60,6 @@ const App: React.FC = (): JSX.Element => {
                         <Route path="/" element={<Navigate to="/verify" />} />
                     )}
 
-                    <Route path="/verify" element={<Permissions />} />
-
                     <Route path="/server-error" element={<ServerError />} />
                     <Route path="*" element={<Notfound />} />
                 </Route>
@@ -69,6 +68,8 @@ const App: React.FC = (): JSX.Element => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                 </Route>
+
+                <Route path="/verify" element={<Permissions />} />
             </Routes>
         </section>
     );

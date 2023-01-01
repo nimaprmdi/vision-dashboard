@@ -269,7 +269,7 @@ class VisionDashboardApiServices {
             });
     };
 
-    readonly createRequest = async (userId: string, data: IRequest, navigate: NavigateFunction) => {
+    readonly createRequest = async (userId: string, data: IRequest, navigate: NavigateFunction, navAddress?: string) => {
         return await http
             .post("", requestsQuery.createRequest(userId, data))
             .then((response) => {
@@ -279,7 +279,7 @@ class VisionDashboardApiServices {
                 toast.success("Submitted Successfully");
                 store.dispatch(requestsActions.CREATE_REQUEST(data));
                 this.publishRequest(data.data.createRequest.itemId).then(() => {
-                    navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
+                    navAddress ? navigate(navAddress) : navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
                 });
             })
             .catch((error) => {

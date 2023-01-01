@@ -1,14 +1,14 @@
 import routes from "../../routes";
-import { Avatar, ListItemAvatar, ListItemText, ListItem, List, Box } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/rootReducer";
 import { NavLink } from "react-router-dom";
+import { RootState } from "../../store/rootReducer";
+import { Avatar, ListItemAvatar, ListItemText, ListItem, List, Box } from "@mui/material";
 
 const Nav = () => {
     const entities = useSelector((state: RootState) => state.entities);
     const accountsState = useSelector((state: RootState) => state.accounts);
 
-    return (
+    return !entities.isHttpCalling ? (
         <Box
             className="c-nav"
             sx={{
@@ -36,7 +36,7 @@ const Nav = () => {
                 ))}
             </List>
         </Box>
-    );
+    ) : null;
 };
 
 export default Nav;

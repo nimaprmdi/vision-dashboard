@@ -1,6 +1,5 @@
 import { Box, Typography, Button, Link as MUILink } from "@mui/material";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
-import { Link } from "react-router-dom";
 
 const BlurHeader = () => {
     return (

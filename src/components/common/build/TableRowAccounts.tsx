@@ -73,9 +73,11 @@ const TableRowAccounts = () => {
                 ))
             ) : (
                 <TableRow className="c-table__row u-opacity-0 u-fadein " sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                    <Typography variant="h4" textTransform="capitalize" color="white" sx={{ mt: 2 }}>
-                        No Data Found
-                    </Typography>
+                    <TableCell>
+                        <Typography variant="h4" textTransform="capitalize" color="white" sx={{ mt: 2 }}>
+                            No Data Found
+                        </Typography>
+                    </TableCell>
                 </TableRow>
             )}
         </>

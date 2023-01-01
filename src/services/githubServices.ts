@@ -17,21 +17,6 @@ const getUserData = async () => {
         isAdmin: false,
     };
 
-    // http.default
-    //     .githubGet("", {
-    //         headers: {
-    //             Authorization: "Bearer " + localStorage.getItem("accessToken"),
-    //         },
-    //     })
-    //     .then((response) => {
-    //         response = response.data;
-    //         return response.data;
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //         return error;
-    //     });
-
     await fetch("https://vision-dashboard.onrender.com/getUserData", {
         method: "GET",
         headers: {

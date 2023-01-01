@@ -1,19 +1,20 @@
-import { Box, Typography, Stack, Button, Avatar } from "@mui/material";
 import Nav from "../common/Nav";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useDispatch, useSelector } from "react-redux";
-import { TOGGLE_MENU } from "../../store/entities/entitiesReducer";
-import { RootState } from "../../store/rootReducer";
 import CloseIcon from "@mui/icons-material/Close";
 import header_bg from "../../assets/img/header-bg.jpg";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
-import { Link } from "react-router-dom";
+import Skull from "../common/Skull";
+import { RootState } from "../../store/rootReducer";
+import { TOGGLE_MENU } from "../../store/entities/entitiesReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Typography, Stack, Button, Avatar, Link } from "@mui/material";
 
 const Header = () => {
     const dispatch = useDispatch();
     const entities = useSelector((state: RootState) => state.entities);
+    const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
 
-    return (
+    return Object.keys(currentUser).length ? (
         <Box
             className="c-header"
             sx={{
@@ -41,11 +42,7 @@ const Header = () => {
                         VISION DASHBOARD
                     </Typography>
 
-                    <Button
-                        onClick={() => dispatch({ type: TOGGLE_MENU.type })}
-                        sx={{ display: { md: "none" } }}
-                        variant="contained"
-                    >
+                    <Button onClick={() => dispatch({ type: TOGGLE_MENU.type })} sx={{ display: { md: "none" } }} variant="contained">
                         {entities.isOpen ? <CloseIcon /> : <MenuIcon />}
                     </Button>
                 </Box>
@@ -69,20 +66,19 @@ const Header = () => {
                         Need Help?
                     </Typography>
 
-                    <Typography
-                        textTransform="capitalize"
-                        variant="h6"
-                        fontWeight={400}
-                        color="white"
-                        className="u-text-small"
-                        mt={1}
-                    >
+                    <Typography textTransform="capitalize" variant="h6" fontWeight={400} color="white" className="u-text-small" mt={1}>
                         Please check our docs
                     </Typography>
 
                     <Box className="u-box-light" textAlign="center" py={2} mt={3}>
                         <Typography color="white">
-                            <Link to="/" className="u-link-primary">
+                            <Link
+                                href="https://github.com/nimaprmdi/vision-dashboard#readme"
+                                target="_blank"
+                                color="white"
+                                underline="none"
+                                className="u-link-primary"
+                            >
                                 Documentation
                             </Link>
                         </Typography>
@@ -90,6 +86,8 @@ const Header = () => {
                 </Box>
             </Box>
         </Box>
+    ) : (
+        <Skull sx={{ height: "90vh" }} />
     );
 };
 

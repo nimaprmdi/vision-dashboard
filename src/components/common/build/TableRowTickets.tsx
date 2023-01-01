@@ -14,7 +14,7 @@ const TableRowTickets = () => {
         if (currentAccount.isAdmin) {
             setTickets(ticketsState.tickets);
         } else {
-            const usertickets = ticketsState.tickets.filter((ticket) => ticket.accounts.userName === currentAccount.userName);
+            const usertickets = currentAccount.tickets;
             setTickets(usertickets);
         }
     }, [currentAccount]);
@@ -25,7 +25,10 @@ const TableRowTickets = () => {
                 tickets.map((ticket) => (
                     <TableRow className="c-table__row u-opacity-0 u-fadein " key={ticket.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                         <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
-                            <Avatar alt="image" sx={{ bgcolor: ticket.accounts.color ? ticket.accounts.color.hex : "gray.light" }}>
+                            <Avatar
+                                alt="image"
+                                sx={{ bgcolor: ticket.accounts ? (ticket.accounts.color ? ticket.accounts.color.hex : "gray.light") : "gray.light" }}
+                            >
                                 {ticket.accounts && ticket.accounts.profileImage ? (
                                     <img src={ticket.accounts.profileImage.url} />
                                 ) : (
@@ -73,9 +76,11 @@ const TableRowTickets = () => {
                 ))
             ) : (
                 <TableRow className="c-table__row u-opacity-0 u-fadein " sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                    <Typography variant="h4" textTransform="capitalize" color="white" sx={{ mt: 2 }}>
-                        No Data Found
-                    </Typography>
+                    <TableCell>
+                        <Typography variant="h4" textTransform="capitalize" color="white" sx={{ mt: 2 }}>
+                            No Data Found
+                        </Typography>
+                    </TableCell>
                 </TableRow>
             )}
         </>

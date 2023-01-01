@@ -58,6 +58,17 @@ const Permissions = () => {
         }
     }, [user, accountIndex]);
 
+    useEffect(() => {
+        if (
+            localStorage.getItem("accessToken") === null &&
+            !isHttpCalling &&
+            !accountsState.isLoading &&
+            Object.keys(accountsState.currentAccount).length === 0
+        ) {
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
+        }
+    }, [isHttpCalling]);
+
     return (
         <Box
             sx={{

@@ -212,7 +212,7 @@ const LoginForm = () => {
                         />
                     </Box>
 
-                    <Stack mt={3} direction="row" spacing={1} alignItems="center">
+                    {/* <Stack mt={3} direction="row" spacing={1} alignItems="center">
                         <AntSwitch
                             checked={data.hasRemember}
                             onChange={(e, c) => handleInputChange(e, c)}
@@ -221,7 +221,7 @@ const LoginForm = () => {
                         />
 
                         <Typography color="white">Remember Me</Typography>
-                    </Stack>
+                    </Stack> */}
 
                     <Button
                         onClick={handleSubmit}

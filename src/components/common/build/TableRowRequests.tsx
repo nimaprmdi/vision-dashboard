@@ -59,7 +59,7 @@ const TableRowRequests = (): JSX.Element => {
                         </TableCell>
 
                         <TableCell sx={{ color: "white" }} align="left">
-                            {new Date(request.date).toISOString().split("T")[0]}
+                            {request.date && new Date(request.date).toISOString().split("T")[0]}
                         </TableCell>
 
                         <TableCell>
@@ -73,9 +73,11 @@ const TableRowRequests = (): JSX.Element => {
                 ))
             ) : (
                 <TableRow className="c-table__row u-opacity-0 u-fadein " sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                    <Typography variant="h4" textTransform="capitalize" color="white" sx={{ mt: 2 }}>
-                        No Data Found
-                    </Typography>
+                    <TableCell>
+                        <Typography variant="h4" textTransform="capitalize" color="white" sx={{ mt: 2 }}>
+                            No Data Found
+                        </Typography>
+                    </TableCell>
                 </TableRow>
             )}
         </>
