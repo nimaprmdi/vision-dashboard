@@ -1,5 +1,15 @@
 import { IAccount } from "./account";
 
+interface ICreateTicketResponseError {
+    title?: string | undefined | null;
+    description?: string | undefined | null;
+}
+
+interface ICreateTicketError {
+    subject?: string | undefined | null;
+    description?: string | undefined | null;
+}
+
 interface ITicketResponse {
     title: string | undefined;
     description: string | undefined;
@@ -42,4 +52,13 @@ interface ITicketFetchFailed {
     payload: string;
 }
 
-export type { ITicketsInitialState, ITicket, ITicketFetchSuccessful, ITicketFetchFailed, ITicketResponse, IPostTicketCommentData };
+export type {
+    ITicketsInitialState,
+    ITicket,
+    ITicketFetchSuccessful,
+    ITicketFetchFailed,
+    ITicketResponse,
+    IPostTicketCommentData,
+    ICreateTicketResponseError,
+    ICreateTicketError,
+};

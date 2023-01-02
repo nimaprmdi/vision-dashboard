@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
+import Joi from "joi";
 import { Box, Typography, Button, TextField, FormControl, Theme } from "@mui/material";
 import { SystemStyleObject } from "@mui/system";
-import { ITicket, ITicketResponse } from "../../../models/tickets";
+import { ITicket, ICreateTicketResponseError, ICreateTicketError } from "../../../models/tickets";
 import { IPostTicketCommentData } from "../../../models/tickets";
-import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTicket } from "../../../store/tickets/ticketsActions";
 import { v4 as uuidv4 } from "uuid";
-import { ADD_ACCOUNT_TICKET } from "../../../store/account/accountsReducer";
+import { validateProperty } from "../../form/validate";
 
 interface CreateTicketProps {
     itemId?: string;
@@ -22,7 +22,9 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
     const navigateRoute = useNavigate();
     const currentAccount = useSelector((state: RootState) => state.accounts.currentAccount);
     const accounts = useSelector((state: RootState) => state.accounts.accounts);
-
+    const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
+    const [responseErrors, setResponseErrors] = useState<ICreateTicketResponseError>();
+    const [errors, setErrors] = useState<ICreateTicketError>();
     const [response, setResponse] = useState<IPostTicketCommentData>({
         title: "",
         description: "",
@@ -40,12 +42,50 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
         responses: [{ title: "", description: "", isAdmin: false }],
     });
 
+    const responseSchema = Joi.object({
+        title: Joi.string().required().label("title"),
+        description: Joi.string().required().label("response description"),
+    });
+
+    const dataSchema = Joi.object({
+        subject: Joi.string().required().label("ticket subject"),
+        description: Joi.string().required().label("ticket description"),
+    });
+
     const handleChangeResponse = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const errorMessage = validateProperty(e.target, responseSchema);
+
+        if (errorMessage) {
+            setResponseErrors({ ...responseErrors, [e.target.name]: errorMessage });
+        } else {
+            setResponseErrors(() => {
+                const allErrors: any = { ...responseErrors };
+                delete allErrors[e.target.name];
+                return { ...allErrors };
+            });
+        }
+
+        console.log("setResponseErrors", responseErrors);
+
         setResponse({ ...response, [e.target.name]: e.target.value });
         setData({ ...data, responses: [response] });
     };
 
     const handleChangeData = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const errorMessage = validateProperty(e.target, dataSchema);
+
+        if (errorMessage) {
+            setErrors({ ...errors, [e.target.name]: errorMessage });
+        } else {
+            setErrors(() => {
+                const allErrors: any = { ...errors };
+                delete allErrors[e.target.name];
+                return { ...allErrors };
+            });
+        }
+
+        console.log("errors", errors);
+
         setData({ ...data, [e.currentTarget.name]: e.currentTarget.value });
     };
 
@@ -80,7 +120,12 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                     Submit A Ticket
                 </Typography>
 
-                <Button onClick={() => onSubmit()} variant="contained" color="primary">
+                <Button
+                    onClick={() => onSubmit()}
+                    variant="contained"
+                    color="primary"
+                    disabled={isHttpCalling || (errors && Object.keys(errors).length) || (responseErrors && Object.keys(responseErrors).length) ? true : false}
+                >
                     Post Ticket
                 </Button>
             </Box>
@@ -97,6 +142,8 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                             type="text"
                             onChange={(e) => handleChangeData(e)}
                             required
+                            error={errors?.subject ? true : false}
+                            helperText={errors?.subject || ""}
                         />
 
                         <TextField
@@ -108,6 +155,8 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                             type="text"
                             onChange={(e) => handleChangeData(e)}
                             required
+                            error={errors?.description ? true : false}
+                            helperText={errors?.description || ""}
                         />
                     </Box>
 
@@ -120,6 +169,8 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                         type="text"
                         onChange={(e) => handleChangeResponse(e)}
                         required
+                        error={responseErrors?.title ? true : false}
+                        helperText={responseErrors?.title || ""}
                     />
 
                     <TextField
@@ -133,6 +184,8 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                         rows={6}
                         onChange={(e) => handleChangeResponse(e)}
                         required
+                        error={responseErrors?.description ? true : false}
+                        helperText={responseErrors?.description || ""}
                     />
                 </FormControl>
             </Box>

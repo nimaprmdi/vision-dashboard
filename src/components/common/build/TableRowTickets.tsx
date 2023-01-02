@@ -14,8 +14,8 @@ const TableRowTickets = () => {
         if (currentAccount.isAdmin) {
             setTickets(ticketsState.tickets);
         } else {
-            const usertickets = currentAccount.tickets;
-            setTickets(usertickets);
+            const accountTickets = ticketsState.tickets.filter((ticket) => ticket.accounts?.itemId !== currentAccount.itemId);
+            accountTickets && setTickets(accountTickets);
         }
     }, [currentAccount]);
 

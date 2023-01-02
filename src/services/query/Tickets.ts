@@ -145,6 +145,7 @@ class TicketsQuery {
                 isPending: data.isPending,
                 accountId: accountId,
                 responses: data.responses,
+                subject: data.subject,
             },
         });
     };

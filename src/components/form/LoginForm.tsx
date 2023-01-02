@@ -14,7 +14,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 // actions
 import { loginAccount, removeCurrentUser } from "../../store/account/accountsActions";
 
-//google
+//github
 import { loginWithGithub } from "../../services/githubServices";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -61,9 +61,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 const LoginForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [userData, setUserData] = useState<any>();
     const [errors, setErrors] = useState<IAccountLoginError>();
-    const [hasRemeber, setHasRemember] = useState<boolean>();
 
     const [data, setData] = useState<IAccountLogin>({
         email: "",
