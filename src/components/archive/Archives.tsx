@@ -57,7 +57,7 @@ const Archives = () => {
 
     useEffect(() => {
         if (type !== "tickets" && type !== "requests" && type !== "accounts") {
-            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
+            navigate(`/404`);
         }
     }, []);
 

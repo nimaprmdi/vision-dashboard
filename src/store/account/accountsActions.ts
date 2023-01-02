@@ -40,7 +40,7 @@ const createAccount = (data: IAddAccount, navigate: NavigateFunction) => async (
         const newAccountIndex = getState().accounts.accounts.findIndex((account) => account.email === user.data.data.createAccount.email);
         dispatch(actions.SELECT_CURRENT_USER(newAccountIndex));
         dispatch(CHANGE_HTTP_CALL_STATUS(false));
-        navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
+        navigate("/");
     } else {
         toast.error("This email exist");
         dispatch(CHANGE_HTTP_CALL_STATUS(false));
@@ -62,12 +62,12 @@ const createGithubAccount = (data: IAddAccount, navigate: NavigateFunction) => a
             const { accounts } = getState().accounts;
             const accountIndex = accounts.findIndex((account) => account.userName === response.userName);
             dispatch(actions.SELECT_CURRENT_USER(accountIndex));
-            navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
+            navigate("/");
         })
         .catch((error) => {
             console.log(error);
             toast.error("Something went wrong with github actions");
-            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
+            navigate(`/login`);
         });
 };
 
@@ -82,7 +82,7 @@ const loginAccount = (data: IAccountLogin, navigate: NavigateFunction) => async 
         if (user) {
             dispatch(actions.SELECT_CURRENT_USER(accountIndex));
             dispatch(CHANGE_HTTP_CALL_STATUS(false));
-            navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
+            navigate("/");
         } else {
             dispatch(CHANGE_HTTP_CALL_STATUS(false));
             toast.error("Falied Login");
@@ -95,7 +95,7 @@ const loginAccount = (data: IAccountLogin, navigate: NavigateFunction) => async 
 
 const getCurrentAccount = (accountIndex: number, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
     dispatch(actions.SELECT_CURRENT_USER(accountIndex));
-    navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
+    navigate("/");
 };
 
 const removeCurrentUser = () => (dispatch: Dispatch) => {

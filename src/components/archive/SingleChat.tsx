@@ -33,14 +33,14 @@ const SingleChat = () => {
             currentTicket = ticketsState.tickets.find((ticket) => ticket.itemId === id);
             console.log(currentTicket);
 
-            currentTicket ? setTicket(currentTicket) : navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
+            currentTicket ? setTicket(currentTicket) : navigate(`/404`);
         } else if (!ticketsState.isLoading && id && currentTicket === undefined) {
             console.log("here");
 
-            // navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
+            // navigate(`/404`);
         } else if (!id) {
             console.log("there");
-            // navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
+            // navigate(`/404`);
         }
     }, [ticketsState]);
 

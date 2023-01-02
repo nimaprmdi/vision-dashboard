@@ -39,10 +39,10 @@ const SingleDetails = () => {
     useEffect(() => {
         if (!requestState.isLoading && id) {
             const currentRequest = requestState.requests.find((request) => request.itemId === id);
-            currentRequest ? setRequest(currentRequest) : navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
+            currentRequest ? setRequest(currentRequest) : navigate(`/404`);
         } else {
             if (!id) {
-                navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
+                navigate(`/404`);
             }
         }
     }, [requestState]);

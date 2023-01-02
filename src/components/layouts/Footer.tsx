@@ -16,7 +16,7 @@ const Footer = () => {
 
         // dispatch(removeAccountHistory() as any);
         dispatch(removeCurrentUser() as any);
-        navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
+        navigate(`/login`);
     };
 
     return (

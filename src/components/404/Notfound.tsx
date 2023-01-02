@@ -9,7 +9,7 @@ const Notfound = () => {
 
     const handleNavigate = () => {
         if (Object.keys(currentUser).length) {
-            navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
+            navigate("/");
         } else {
             navigate(`login`);
         }

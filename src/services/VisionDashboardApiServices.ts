@@ -170,7 +170,6 @@ class VisionDashboardApiServices {
             .then(() => {
                 toast.success("Answer Submitted");
                 this.publishTicket(itemId, "Ticket Published", "Ticket Publish Failed");
-                
             })
             .catch(() => {
                 toast.error("There Was an error for submitting answer");
@@ -297,7 +296,7 @@ class VisionDashboardApiServices {
                 toast.success("Submitted Successfully");
                 store.dispatch(requestsActions.CREATE_REQUEST(data));
                 this.publishRequest(data.data.createRequest.itemId).then(() => {
-                    navAddress ? navigate(navAddress) : navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
+                    navAddress ? navigate(navAddress) : navigate("/");
                 });
             })
             .catch((error) => {

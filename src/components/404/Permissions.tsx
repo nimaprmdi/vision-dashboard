@@ -45,7 +45,7 @@ const Permissions = () => {
                         dispatch(CHANGE_HTTP_CALL_STATUS(false));
 
                         toast.error("Login with github failed");
-                        navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
+                        navigate(`/login`);
 
                         return error;
                     });
