@@ -64,9 +64,6 @@ const App: React.FC = (): JSX.Element => {
                     ) : (
                         <Route path="/" element={<Navigate to="/verify" />} />
                     )}
-
-                    <Route path="/server-error" element={<ServerError />} />
-                    <Route path="*" element={<Notfound />} />
                 </Route>
 
                 <Route element={<LayoutsHasHeader />}>
@@ -74,6 +71,8 @@ const App: React.FC = (): JSX.Element => {
                     <Route path="/register" element={<Register />} />
                 </Route>
 
+                <Route path="/server-error" element={<ServerError />} />
+                <Route path="*" element={<Notfound />} />
                 <Route path="/verify" element={<Permissions />} />
             </Routes>
         </section>
