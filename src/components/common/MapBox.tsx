@@ -1,7 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import mapboxgl from "mapbox-gl";
 import { Box } from "@mui/material";
 import { IAccountLocation } from "../../models/account";
+
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import mapboxgl from "!mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 interface MapBoxProps {
@@ -42,7 +45,7 @@ const MapBox = ({ isChanged, location, darggable = false, handler }: MapBoxProps
             .setLngLat([lng, lat])
             .addTo(map.current);
 
-        marker.on("dragend", function (e) {
+        marker.on("dragend", function (e: any) {
             var lngLat = marker.getLngLat();
 
             handler && handler({ latitude: lngLat["lat"], longitude: lngLat["lng"] });

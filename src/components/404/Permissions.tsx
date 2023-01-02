@@ -82,8 +82,6 @@ const Permissions = () => {
         const urlParams = new URLSearchParams(queryString);
         const codeParams = urlParams.get("code");
 
-        console.log(codeParams);
-
         if (!isHttpCalling && !accountsState.isLoading && localStorage.getItem("accessToken") === null && !codeParams) {
             navigate(`/login`);
         }
