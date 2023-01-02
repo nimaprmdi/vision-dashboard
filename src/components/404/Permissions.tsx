@@ -81,7 +81,7 @@ const Permissions = () => {
 
     useEffect(() => {
         if (!isHttpCalling && !accountsState.isLoading && localStorage.getItem("accessToken") === null) {
-            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
+            navigate(`/vision-dashboard/#/login`);
         }
     }, [isHttpCalling, localStorage.getItem("accessToken")]);
 

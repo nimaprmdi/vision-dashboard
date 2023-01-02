@@ -50,6 +50,14 @@ const Notfound = () => {
                 <Button onClick={() => handleNavigate()} variant="contained" color="primary">
                     Try Again
                 </Button>
+
+                <Button onClick={() => navigate("login")} variant="contained" color="primary">
+                    login
+                </Button>
+
+                <Button onClick={() => navigate("/login")} variant="contained" color="primary">
+                    /login
+                </Button>
             </Box>
         </Box>
     );
