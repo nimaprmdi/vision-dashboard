@@ -52,7 +52,6 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
     const onSubmit = () => {
         if (itemId && currentAccount.itemId) {
             dispatch(addTicket(currentAccount.itemId, data, navigateRoute) as any);
-            dispatch(ADD_ACCOUNT_TICKET(data) as any); // Update current account ticket locally
 
             setData({
                 itemId: "",

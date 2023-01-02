@@ -170,6 +170,7 @@ class VisionDashboardApiServices {
             .then(() => {
                 toast.success("Answer Submitted");
                 this.publishTicket(itemId, "Ticket Published", "Ticket Publish Failed");
+                
             })
             .catch(() => {
                 toast.error("There Was an error for submitting answer");
@@ -202,6 +203,7 @@ class VisionDashboardApiServices {
             });
     };
 
+    // #addTicket
     readonly addTicket = async (accountId: string, data: ITicket) => {
         return await http
             .post("", ticketsQuery.addTicketQuery(accountId, data))
@@ -209,9 +211,11 @@ class VisionDashboardApiServices {
                 toast.success("Ticket Has Been Created");
                 this.publishTicket(response.data.data.createTicket.itemId, "Ticket Published", "Error Publishing Ticket");
                 this.publishAccount(accountId);
+                return response;
             })
             .catch((error) => {
                 toast.error("There was and error creating ticket");
+                return error;
             });
     };
 

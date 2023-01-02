@@ -4,6 +4,7 @@ import { RootState } from "../rootReducer";
 import { toast } from "react-toastify";
 import apiService from "../../services/VisionDashboardApiServices";
 import * as actions from "./ticketsReducer";
+import { ADD_ACCOUNT_TICKET } from "../account/accountsReducer";
 import { ITicket } from "../../models/tickets";
 import { NavigateFunction } from "react-router-dom";
 
@@ -34,9 +35,12 @@ const removeTicketsHistory = () => (dispatch: Dispatch) => {
     dispatch(actions.REMOVE_TICKETS_HISTORY());
 };
 
-const addTicket = (accountId: string, ticket: ITicket, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
-    const x = await apiService.addTicket(accountId, ticket);
-    dispatch(actions.ADD_TICKET(ticket));
+const addTicket = (accountId: string, ticket: ITicket, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
+    await apiService.addTicket(accountId, ticket).then((response) => {
+        console.log(response);
+        dispatch(actions.ADD_TICKET(ticket));
+        dispatch(ADD_ACCOUNT_TICKET(response.data.data.createTicket) as any); // Update current account ticket locally
+    });
 
     navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION}archives/tickets`);
 };

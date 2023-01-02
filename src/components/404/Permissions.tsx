@@ -10,6 +10,8 @@ import { getCurrentAccount } from "../../store/account/accountsActions";
 import { createGithubAccount, setLoadingStatus } from "../../store/account/accountsActions";
 import { getUserData } from "../../services/githubServices";
 import { useDispatch, useSelector } from "react-redux";
+import { CHANGE_HTTP_CALL_STATUS } from "../../store/entities/entitiesReducer";
+import { toast } from "react-toastify";
 
 const Permissions = () => {
     const dispatch = useDispatch();
@@ -21,30 +23,29 @@ const Permissions = () => {
     /// github issues
     const [user, setUser] = useState<IAddAccount>();
     const [accountIndex, setAccountIndex] = useState<number>();
-
     // Github account Hook
     useGithub();
 
     useEffect(() => {
+        // isLoading = false
+        // accountIsLoading = false
+
         if (!isHttpCalling && !accountsState.isLoading && localStorage.getItem("accessToken") !== null) {
             console.log("meo");
 
             (async () => {
+                dispatch(CHANGE_HTTP_CALL_STATUS(true));
+
                 const userData = await getUserData()
                     .then((response) => {
+                        dispatch(CHANGE_HTTP_CALL_STATUS(false));
                         return response;
                     })
                     .catch((error) => {
-                        if (
-                            localStorage.getItem("accessToken") === null &&
-                            !isHttpCalling &&
-                            !accountsState.isLoading &&
-                            Object.keys(accountsState.currentAccount).length === 0
-                        ) {
-                            setTimeout(() => {
-                                navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
-                            }, 1000);
-                        }
+                        dispatch(CHANGE_HTTP_CALL_STATUS(false));
+
+                        toast.error("Login with github failed");
+                        navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
 
                         return error;
                     });
@@ -78,7 +79,11 @@ const Permissions = () => {
         }
     }, [user, accountIndex]);
 
-    useEffect(() => {}, [isHttpCalling, localStorage.getItem("accessToken")]);
+    useEffect(() => {
+        if (!isHttpCalling && !accountsState.isLoading && localStorage.getItem("accessToken") === null) {
+            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
+        }
+    }, [isHttpCalling, localStorage.getItem("accessToken")]);
 
     return (
         <Box

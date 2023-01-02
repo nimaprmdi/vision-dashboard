@@ -5,7 +5,6 @@ import { useEffect } from "react";
 
 const Login = () => {
     useEffect(() => {
-        console.log("Here");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("loginService");
     }, []);

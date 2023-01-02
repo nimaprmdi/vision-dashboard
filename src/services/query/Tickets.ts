@@ -94,6 +94,8 @@ class TicketsQuery {
                     $isClose: Boolean!,
                     $isPending: Boolean!,
                     $accountId: String,
+                    $responses: Json,
+                    $subject: String,
                 ) {
                     createTicket(
                         data: {
@@ -103,10 +105,35 @@ class TicketsQuery {
                             hasReply: $hasReply,
                             isClose: $isClose,
                             isPending: $isPending,
-                            accounts: { connect: { Account: { itemId: $accountId } } }
+                            accounts: { connect: { Account: { itemId: $accountId } } },
+                            responses: $responses,
+                            subject: $subject,
                         }   
                     ) {
                         itemId
+                        isPending
+                        isClose
+                        id
+                        hasReply
+                        description
+                        date
+                        subject
+                        responses
+                        accounts {
+                          ... on Account {
+                            id
+                            email
+                            name
+                            lastName
+                            isAdmin
+                            color {
+                              hex
+                            }
+                            profileImage {
+                              url
+                            }
+                          }
+                        }
                     }
                 }`,
             variables: {
@@ -117,6 +144,7 @@ class TicketsQuery {
                 isClose: data.isClose,
                 isPending: data.isPending,
                 accountId: accountId,
+                responses: data.responses,
             },
         });
     };
