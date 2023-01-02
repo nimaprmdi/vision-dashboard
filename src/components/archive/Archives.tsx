@@ -36,7 +36,7 @@ const Archives = () => {
                 );
             case "tickets":
                 return (
-                    <Button variant="contained" color="primary" onClick={() => navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION}add-ticket`)}>
+                    <Button variant="contained" color="primary" onClick={() => navigate(`add-ticket`)}>
                         Add Ticket
                     </Button>
                 );

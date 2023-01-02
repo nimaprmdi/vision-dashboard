@@ -11,7 +11,7 @@ const Notfound = () => {
         if (Object.keys(currentUser).length) {
             navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
         } else {
-            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION}login`);
+            navigate(`login`);
         }
     };
 

@@ -42,7 +42,7 @@ const addTicket = (accountId: string, ticket: ITicket, navigate: NavigateFunctio
         dispatch(ADD_ACCOUNT_TICKET(response.data.data.createTicket) as any); // Update current account ticket locally
     });
 
-    navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION}archives/tickets`);
+    navigate(`archives/tickets`);
 };
 
 export { fetchTickets, closeTicket, deleteTicketAct, removeTicketsHistory, addTicket };
