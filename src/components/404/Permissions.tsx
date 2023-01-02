@@ -31,8 +31,6 @@ const Permissions = () => {
         // accountIsLoading = false
 
         if (!isHttpCalling && !accountsState.isLoading && localStorage.getItem("accessToken") !== null) {
-            console.log("meo");
-
             (async () => {
                 dispatch(CHANGE_HTTP_CALL_STATUS(true));
 
@@ -80,8 +78,14 @@ const Permissions = () => {
     }, [user, accountIndex]);
 
     useEffect(() => {
-        if (!isHttpCalling && !accountsState.isLoading && localStorage.getItem("accessToken") === null) {
-            navigate(`/vision-dashboard/#/login`);
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const codeParams = urlParams.get("code");
+
+        console.log(codeParams);
+
+        if (!isHttpCalling && !accountsState.isLoading && localStorage.getItem("accessToken") === null && !codeParams) {
+            navigate(`/login`);
         }
     }, [isHttpCalling, localStorage.getItem("accessToken")]);
 

@@ -30,7 +30,7 @@ const Archives = () => {
         switch (type) {
             case "requests":
                 return (
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" color="primary" onClick={() => navigate(`add-request`)}>
                         Add Request
                     </Button>
                 );
