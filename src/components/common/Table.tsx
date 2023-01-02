@@ -1,8 +1,4 @@
-import { useState } from "react";
 import { Table as TableMUI, Typography, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar, Box, Chip, Link, Theme } from "@mui/material";
-
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/rootReducer";
 import { SystemStyleObject } from "@mui/system";
 
 interface TableProps {

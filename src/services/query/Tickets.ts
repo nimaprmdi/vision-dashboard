@@ -1,4 +1,4 @@
-import { ITicketResponse } from "../../models/tickets";
+import { ITicket, ITicketResponse } from "../../models/tickets";
 
 class TicketsQuery {
     readonly fetchTicketsQuery = () => {
@@ -75,6 +75,49 @@ class TicketsQuery {
                     publishTicket(where: {itemId: "${itemId}"}) { id }
                 } 
             `,
+        });
+    };
+
+    readonly addTicketQuery = (accountId: string, data: ITicket) => {
+        console.log("addTicketQuery :", data);
+        console.log("accountId :", accountId);
+
+        data.accounts && delete data.accounts;
+
+        return JSON.stringify({
+            query: `
+                mutation createTicket(
+                    $itemId: String!,
+                    $description: String!,
+                    $date: DateTime!,
+                    $hasReply: Boolean!,
+                    $isClose: Boolean!,
+                    $isPending: Boolean!,
+                    $accountId: String,
+                ) {
+                    createTicket(
+                        data: {
+                            itemId: $itemId,
+                            description: $description,
+                            date: $date,
+                            hasReply: $hasReply,
+                            isClose: $isClose,
+                            isPending: $isPending,
+                            accounts: { connect: { Account: { itemId: $accountId } } }
+                        }   
+                    ) {
+                        itemId
+                    }
+                }`,
+            variables: {
+                itemId: data.itemId,
+                description: data.description,
+                date: data.date,
+                hasReply: data.hasReply,
+                isClose: data.isClose,
+                isPending: data.isPending,
+                accountId: accountId,
+            },
         });
     };
 }

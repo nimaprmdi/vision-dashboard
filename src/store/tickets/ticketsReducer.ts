@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ITicketsInitialState } from "../../models/tickets";
+import * as models from "../../models/tickets";
 
-const initialState: ITicketsInitialState = {
+const initialState: models.ITicketsInitialState = {
     tickets: [],
     isLoading: true,
     totalClosedTickets: 0,
@@ -11,7 +11,7 @@ const initialState: ITicketsInitialState = {
 
 const ticketsSlice = createSlice({
     name: "tickets",
-    initialState: initialState as ITicketsInitialState,
+    initialState: initialState as models.ITicketsInitialState,
     reducers: {
         // Fetch
         FETCH_DATA: (state) => {
@@ -49,9 +49,14 @@ const ticketsSlice = createSlice({
             state.lastFetch = 0;
             state.error = "";
         },
+
+        ADD_TICKET: (state, action: { type: string; payload: models.ITicket }) => {
+            // state.tickets.push(action.payload);
+            state.tickets = { ...state.tickets, ...action.payload };
+        },
     },
 });
 
-export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS, PEND_TICKET, DELETE_TICKET, REMOVE_TICKETS_HISTORY } =
+export const { FETCH_DATA, FETCH_DATA_SUCCESSFUL, FETCH_DATA_FAILED, GET_ALL_CLOSED_TICKETS, PEND_TICKET, DELETE_TICKET, REMOVE_TICKETS_HISTORY, ADD_TICKET } =
     ticketsSlice.actions;
 export default ticketsSlice.reducer;

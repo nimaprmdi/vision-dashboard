@@ -1,8 +1,15 @@
 import { Grid, Box, Typography } from "@mui/material";
 import login_background from "../../assets/img/login-bg.jpg";
-import LoginForm from "../common/build/LoginForm";
+import LoginForm from "../form/LoginForm";
+import { useEffect } from "react";
 
 const Login = () => {
+    useEffect(() => {
+        console.log("Here");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("loginService");
+    }, []);
+
     return (
         <Grid container sx={{ height: "100vh" }}>
             <Grid item xs={12} md={6} sx={{ display: { xs: "none", md: "block" } }}>

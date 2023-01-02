@@ -4,6 +4,8 @@ import { RootState } from "../rootReducer";
 import { toast } from "react-toastify";
 import apiService from "../../services/VisionDashboardApiServices";
 import * as actions from "./ticketsReducer";
+import { ITicket } from "../../models/tickets";
+import { NavigateFunction } from "react-router-dom";
 
 const fetchTickets = () => (dispatch: Dispatch, getState: () => RootState) => {
     const { lastFetch } = getState().tickets;
@@ -32,4 +34,11 @@ const removeTicketsHistory = () => (dispatch: Dispatch) => {
     dispatch(actions.REMOVE_TICKETS_HISTORY());
 };
 
-export { fetchTickets, closeTicket, deleteTicketAct, removeTicketsHistory };
+const addTicket = (accountId: string, ticket: ITicket, navigate: NavigateFunction) => async (dispatch: Dispatch, getState: () => RootState) => {
+    const x = await apiService.addTicket(accountId, ticket);
+    dispatch(actions.ADD_TICKET(ticket));
+
+    navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION}archives/tickets`);
+};
+
+export { fetchTickets, closeTicket, deleteTicketAct, removeTicketsHistory, addTicket };

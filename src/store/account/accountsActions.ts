@@ -42,7 +42,7 @@ const createAccount = (data: IAddAccount, navigate: NavigateFunction) => async (
         dispatch(CHANGE_HTTP_CALL_STATUS(false));
         navigate(process.env.REACT_APP_GLOBAL_HOME_LOCATION!);
     } else {
-        toast.error("This Email Exist");
+        toast.error("This email exist");
         dispatch(CHANGE_HTTP_CALL_STATUS(false));
     }
 };
@@ -52,7 +52,9 @@ const createGithubAccount = (data: IAddAccount, navigate: NavigateFunction) => a
     return await apiServices
         .createGithubAccount(data)
         .then((response) => {
+            console.log(data);
             console.log(response);
+
             dispatch(actions.CREATE_ACCOUNT(response.data.data.createAccount));
             return response.data.data.createAccount;
         })

@@ -31,11 +31,16 @@ const SingleChat = () => {
 
         if (!ticketsState.isLoading && id) {
             currentTicket = ticketsState.tickets.find((ticket) => ticket.itemId === id);
+            console.log(currentTicket);
+
             currentTicket ? setTicket(currentTicket) : navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         } else if (!ticketsState.isLoading && id && currentTicket === undefined) {
-            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
+            console.log("here");
+
+            // navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         } else if (!id) {
-            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
+            console.log("there");
+            // navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}404`);
         }
     }, [ticketsState]);
 
@@ -49,7 +54,7 @@ const SingleChat = () => {
                 ) : ticket ? (
                     <PostComment
                         itemId={ticket ? ticket.itemId : ""}
-                        isAdmin={ticket && ticket.accounts && ticket.accounts.isAdmin}
+                        isAdmin={ticket && ticket.accounts !== undefined ? ticket.accounts.isAdmin : false}
                         responses={ticket ? ticket.responses : [{ title: "", description: "", isAdmin: false }]}
                     />
                 ) : (

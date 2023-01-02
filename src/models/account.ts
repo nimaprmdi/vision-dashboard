@@ -155,5 +155,5 @@ export type {
     IAccountLogin,
     IAccountLoginError,
     IAddAccountGithub,
-    IAccountCurrentUserState
+    IAccountCurrentUserState,
 };

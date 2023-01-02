@@ -26,9 +26,29 @@ const Permissions = () => {
     useGithub();
 
     useEffect(() => {
-        if (!accountsState.isLoading && localStorage.getItem("accessToken") !== null) {
+        if (!isHttpCalling && !accountsState.isLoading && localStorage.getItem("accessToken") !== null) {
+            console.log("meo");
+
             (async () => {
-                const userData = await getUserData();
+                const userData = await getUserData()
+                    .then((response) => {
+                        return response;
+                    })
+                    .catch((error) => {
+                        if (
+                            localStorage.getItem("accessToken") === null &&
+                            !isHttpCalling &&
+                            !accountsState.isLoading &&
+                            Object.keys(accountsState.currentAccount).length === 0
+                        ) {
+                            setTimeout(() => {
+                                navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
+                            }, 1000);
+                        }
+
+                        return error;
+                    });
+
                 const itemId = `github-${userData.login}-${uuidv4()}`;
                 const accountIndex = accountsState.accounts.findIndex((account) => account.userName === userData.login);
 
@@ -45,7 +65,7 @@ const Permissions = () => {
                 setAccountIndex(accountIndex);
             })();
         }
-    }, [accountsState.isLoading, localStorage.getItem("accessToken")]);
+    }, [accountsState.isLoading, localStorage.getItem("accessToken"), isHttpCalling]);
 
     useEffect(() => {
         if (user && accountIndex !== -1) {
@@ -58,16 +78,7 @@ const Permissions = () => {
         }
     }, [user, accountIndex]);
 
-    useEffect(() => {
-        if (
-            localStorage.getItem("accessToken") === null &&
-            !isHttpCalling &&
-            !accountsState.isLoading &&
-            Object.keys(accountsState.currentAccount).length === 0
-        ) {
-            navigate(`${process.env.REACT_APP_GLOBAL_HOME_LOCATION!}login`);
-        }
-    }, [isHttpCalling]);
+    useEffect(() => {}, [isHttpCalling, localStorage.getItem("accessToken")]);
 
     return (
         <Box

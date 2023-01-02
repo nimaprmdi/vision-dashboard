@@ -16,12 +16,12 @@ interface ITicket {
     itemId: string;
     date: string;
     description: string;
-    hasReply: string;
+    hasReply: boolean;
     isClose: boolean;
-    isPending: string;
+    isPending: boolean;
     subject: string;
     responses: ITicketResponse[];
-    accounts: IAccount;
+    accounts?: IAccount;
 }
 
 interface ITicketsInitialState {

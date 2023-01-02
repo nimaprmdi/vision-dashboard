@@ -24,25 +24,27 @@ const TableRowRequests = (): JSX.Element => {
             {requests && requests.length ? (
                 requests.map((request) => (
                     <TableRow className="c-table__row  u-opacity-0 u-fadein " key={request.itemId} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                        <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
-                            <Avatar alt="image" sx={{ bgcolor: request.account && request.account.color ? request.account.color.hex : "gray.light" }}>
-                                {request.account && request.account.profileImage ? (
-                                    <img src={request.account && request.account.profileImage.url} />
-                                ) : (
-                                    <Typography variant="h4" textTransform="capitalize" color="white">
-                                        {request.name ? request.name.charAt(0) : "👻"}
+                        <TableCell sx={{ color: "white" }} component="th" scope="row">
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                <Avatar alt="image" sx={{ bgcolor: request.account && request.account.color ? request.account.color.hex : "gray.light" }}>
+                                    {request.account && request.account.profileImage ? (
+                                        <img src={request.account && request.account.profileImage.url} />
+                                    ) : (
+                                        <Typography variant="h4" textTransform="capitalize" color="white">
+                                            {request.name ? request.name.charAt(0) : "👻"}
+                                        </Typography>
+                                    )}
+                                </Avatar>
+
+                                <Box>
+                                    <Typography variant="h6" textTransform="capitalize" className="u-text-small" color="white">
+                                        {`${request.name} ${request.lastName}`}
                                     </Typography>
-                                )}
-                            </Avatar>
 
-                            <Box>
-                                <Typography variant="h6" textTransform="capitalize" className="u-text-small" color="white">
-                                    {`${request.name} ${request.lastName}`}
-                                </Typography>
-
-                                <Typography variant="h6" className="u-text-small" color="gray.light">
-                                    {request.mobile}
-                                </Typography>
+                                    <Typography variant="h6" className="u-text-small" color="gray.light">
+                                        {request.mobile}
+                                    </Typography>
+                                </Box>
                             </Box>
                         </TableCell>
                         <TableCell sx={{ color: "white" }} align="left">

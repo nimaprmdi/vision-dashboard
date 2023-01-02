@@ -17,7 +17,7 @@ import configureStore from "../store/configureStore";
 // Models
 import { IAccount, IAddAccount, IEditAccount, IAccountLogin } from "../models/account";
 import { IRequest } from "../models/request";
-import { ITicketResponse } from "../models/tickets";
+import { ITicketResponse, ITicket } from "../models/tickets";
 
 //urtils
 import { toast } from "react-toastify";
@@ -189,8 +189,9 @@ class VisionDashboardApiServices {
     };
 
     // Delete Ticket
-    readonly deleteTicket = (itemId: string) => {
-        http.post("", ticketsQuery.deleteTicketQuery(itemId))
+    readonly deleteTicket = async (itemId: string) => {
+        return await http
+            .post("", ticketsQuery.deleteTicketQuery(itemId))
             .then(() => {
                 store.dispatch(ticketsActions.DELETE_TICKET(itemId));
                 toast.success("Ticket Has Been Deleted");
@@ -198,6 +199,19 @@ class VisionDashboardApiServices {
             })
             .catch(() => {
                 toast.error("Failed Deleting Ticket");
+            });
+    };
+
+    readonly addTicket = async (accountId: string, data: ITicket) => {
+        return await http
+            .post("", ticketsQuery.addTicketQuery(accountId, data))
+            .then((response) => {
+                toast.success("Ticket Has Been Created");
+                this.publishTicket(response.data.data.createTicket.itemId, "Ticket Published", "Error Publishing Ticket");
+                this.publishAccount(accountId);
+            })
+            .catch((error) => {
+                toast.error("There was and error creating ticket");
             });
     };
 

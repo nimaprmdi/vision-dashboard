@@ -1,16 +1,21 @@
 import { Grid, Box, Typography, TextField, Stack, Button, Switch, FormGroup, Link as MUILink, FormLabel } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import React, { useState, useEffect } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
-import { IAddAccount, IAddAccountError } from "../../../models/account";
-import { validateProperty } from "../../form/validate";
+import { useState } from "react";
+// models
+import { IAccountLogin, IAccountLoginError } from "../../models/account";
+import { validateProperty } from "./validate";
 import Joi from "joi";
-import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store/rootReducer";
-import { createAccount } from "../../../store/account/accountsActions";
-import { loginWithGithub } from "../../../services/githubServices";
+import { RootState } from "../../store/rootReducer";
+// icons
 import GitHubIcon from "@mui/icons-material/GitHub";
+// actions
+import { loginAccount, removeCurrentUser } from "../../store/account/accountsActions";
+
+//google
+import { loginWithGithub } from "../../services/githubServices";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -53,39 +58,23 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 
-const RegisterForm = () => {
+const LoginForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
-    const [errors, setErrors] = useState<IAddAccountError>();
-    const [data, setData] = useState<IAddAccount>({
-        itemId: "",
-        name: "",
-        lastName: "",
-        userName: "",
+    const [userData, setUserData] = useState<any>();
+    const [errors, setErrors] = useState<IAccountLoginError>();
+    const [hasRemeber, setHasRemember] = useState<boolean>();
+
+    const [data, setData] = useState<IAccountLogin>({
         email: "",
         password: "",
-        confirmPassword: "",
         hasRemember: false,
-        isAdmin: false,
+        userName: "",
     });
 
+    const isHttpCalling: boolean = useSelector((state: RootState) => state.entities.isHttpCalling);
+
     const schema = Joi.object({
-        name: Joi.string().min(3).label("Name").messages({
-            "string.base": `"Name" should text`,
-            "string.empty": `"Name" cannot be empty`,
-            "string.min": `"Name" minimum should be {#limit} chars`,
-            "any.required": `"Name" is a required field`,
-        }),
-        lastName: Joi.string().min(4).label("Last name").messages({
-            "string.base": `"Last name" should text`,
-            "string.empty": `"Last name" cannot be empty`,
-            "string.min": `"Last name" minimum should be {#limit}`,
-            "any.required": `"Last name" is a required field`,
-        }),
-        userName: Joi.string()
-            .regex(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)
-            .label("User name"),
         email: Joi.string()
             .email({ tlds: { allow: false } })
             .label("Email"),
@@ -93,16 +82,11 @@ const RegisterForm = () => {
             .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
             .message("Password Does Not Match pattern")
             .label("Password"),
-        confirmPassword: Joi.string()
-            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "Password")
-            .message("Password Does Not Match pattern")
-            .label("Password"),
         hasRemember: Joi.boolean().required().label("Remember"),
-        isAdmin: Joi.boolean().label("Admin"),
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean) => {
-        const errorMsg = validateProperty(e.target, schema);
+        const errorMsg = e.target.name !== "hasRemember" && validateProperty(e.target, schema);
 
         setErrors({ ...errors, [e.target.name]: errorMsg });
 
@@ -125,39 +109,21 @@ const RegisterForm = () => {
                 return { ...allErrors };
             });
         }
-
-        if (e.target.name === "confirmPassword") {
-            data?.password !== e.target.value &&
-                setErrors((prevState) => {
-                    return { ...prevState, confirmPassword: "Password Does Not Match" };
-                });
-        } else if (e.target.name === "password") {
-            setData({ ...data, password: e.target.value, confirmPassword: null });
-        } else if (e.target.name === "email") {
-            setData({ ...data, email: e.target.value, userName: `${e.target.value}-${uuidv4()}` });
-        } else {
-            setErrors((prevState) => {
-                const allErrors = { ...prevState };
-                delete allErrors["confirmPassword"];
-
-                return { ...allErrors };
-            });
-        }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // @todo : validate function before sending also for other forms
-        console.log(data);
-        dispatch(createAccount(data, navigate) as any);
+
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("loginService");
+        dispatch(removeCurrentUser() as any);
+        dispatch(loginAccount(data, navigate) as any);
     };
 
     const handleGithubLogin = () => {
+        dispatch(removeCurrentUser() as any);
         loginWithGithub();
     };
-
-    useEffect(() => {
-        setData({ ...data, itemId: uuidv4() });
-    }, []);
 
     return (
         <Box
@@ -213,39 +179,7 @@ const RegisterForm = () => {
                 </Typography>
 
                 <FormGroup sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
-                    <Box sx={{ width: { md: "48%" } }}>
-                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
-                            Name
-                        </FormLabel>
-                        <TextField
-                            error={errors?.name ? true : false}
-                            helperText={errors?.name || ""}
-                            onChange={(e) => handleInputChange(e)}
-                            name="name"
-                            sx={{ width: "100%", mt: 1 }}
-                            required
-                            id="form-name"
-                            label="Your Name"
-                        />
-                    </Box>
-
-                    <Box sx={{ width: { md: "48%" } }}>
-                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
-                            Last name
-                        </FormLabel>
-                        <TextField
-                            error={errors?.lastName ? true : false}
-                            helperText={errors?.lastName || ""}
-                            onChange={(e) => handleInputChange(e)}
-                            name="lastName"
-                            sx={{ width: "100%", mt: 1 }}
-                            required
-                            id="form-last-name"
-                            label="Your Last Name"
-                        />
-                    </Box>
-
-                    <Box sx={{ width: "100%" }} mt={3}>
+                    <Box sx={{ width: "100%" }}>
                         <FormLabel className="u-text-small" sx={{ color: "white" }}>
                             Email
                         </FormLabel>
@@ -257,11 +191,11 @@ const RegisterForm = () => {
                             sx={{ width: "100%", mt: 1 }}
                             required
                             id="form-email"
-                            label="Your Email Address"
+                            label="Email"
                         />
                     </Box>
 
-                    <Box sx={{ width: { md: "48%" } }} mt={3}>
+                    <Box sx={{ width: "100%" }} mt={3}>
                         <FormLabel className="u-text-small" sx={{ color: "white" }}>
                             Password
                         </FormLabel>
@@ -273,23 +207,6 @@ const RegisterForm = () => {
                             sx={{ width: "100%", mt: 1 }}
                             required
                             id="form-password"
-                            label="Your Password"
-                            type="password"
-                        />
-                    </Box>
-
-                    <Box sx={{ width: { md: "48%" } }} mt={3}>
-                        <FormLabel className="u-text-small" sx={{ color: "white" }}>
-                            Confirm Password
-                        </FormLabel>
-                        <TextField
-                            error={errors?.confirmPassword ? true : false}
-                            helperText={errors?.confirmPassword || ""}
-                            onChange={(e) => handleInputChange(e)}
-                            name="confirmPassword"
-                            sx={{ width: "100%", mt: 1 }}
-                            required
-                            id="form-confirm-password"
                             label="Your Password"
                             type="password"
                         />
@@ -319,10 +236,10 @@ const RegisterForm = () => {
             </Box>
 
             <Typography variant="h6" className="u-text-small" color="white" mt={2} display="flex">
-                Already have an account?
-                <Link className="u-link-primary" to="/login">
+                Dont have an account?
+                <Link className="u-link-primary" to="/register">
                     <MUILink className="u-link-primary" component="div" underline="none" color="white" ml={1}>
-                        Login
+                        Register
                     </MUILink>
                 </Link>
             </Typography>
@@ -330,4 +247,4 @@ const RegisterForm = () => {
     );
 };
 
-export default RegisterForm;
+export default LoginForm;

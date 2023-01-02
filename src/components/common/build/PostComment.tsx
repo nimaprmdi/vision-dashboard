@@ -1,18 +1,29 @@
 import apiServices from "../../../services/VisionDashboardApiServices";
-import React, { useState } from "react";
-import { Box, Typography, Button, TextField, FormControl } from "@mui/material";
-import { ITicketResponse } from "../../../models/tickets";
+import React, { useState, useEffect } from "react";
+import { Box, Typography, Button, TextField, FormControl, Theme } from "@mui/material";
+import { SystemStyleObject } from "@mui/system";
+import { ITicket, ITicketResponse } from "../../../models/tickets";
 import { IPostTicketCommentData } from "../../../models/tickets";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addTicket } from "../../../store/tickets/ticketsActions";
+import { v4 as uuidv4 } from "uuid";
+import { ADD_ACCOUNT_TICKET } from "../../../store/account/accountsReducer";
 
 interface IPostCommentProps {
     itemId?: string;
     isAdmin: boolean;
     responses: ITicketResponse[];
+    sx?: SystemStyleObject<Theme>;
+    navigate?: string;
+    isNewTicket?: boolean;
 }
 
-const PostComment = ({ itemId, responses, isAdmin }: IPostCommentProps) => {
+const PostComment = ({ itemId, responses, isAdmin, sx, navigate, isNewTicket = false }: IPostCommentProps) => {
+    const navigateRoute = useNavigate();
+    const dispatch = useDispatch();
     const [data, setData] = useState<IPostTicketCommentData>({ title: "", description: "", isAdmin: false });
     const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
 
@@ -23,19 +34,22 @@ const PostComment = ({ itemId, responses, isAdmin }: IPostCommentProps) => {
     const onSubmit = () => {
         const oldResponse = responses ? [...responses] : [];
 
+        // @todo dispatch here
         itemId && apiServices.updateTicketResponse(itemId, [...oldResponse, data]);
         setData({ title: "", description: "", isAdmin: currentUser.isAdmin! });
+
+        // @todo navigate
     };
 
     return (
-        <Box className="u-box-light" height="auto" mt={3} p={3}>
+        <Box className="u-box-light" height="auto" mt={3} p={3} sx={{ ...sx }}>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Typography variant="h5" color="white">
-                    Submit An Answer
+                    Submit A Ticket
                 </Typography>
 
                 <Button onClick={() => onSubmit()} variant="contained" color="primary">
-                    Post Answer
+                    Post Ticket
                 </Button>
             </Box>
 

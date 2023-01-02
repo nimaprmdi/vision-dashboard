@@ -27,13 +27,17 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/rootReducer";
 import "./assets/css/styles.css";
+import AddTicket from "./components/form/AddTicket";
 
 const App: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const accountsState = useSelector((state: RootState) => state.accounts);
 
-    // @todo: responsive problems
-    // @todo: add ticket button
+    // @todo: Add Ticket Button
+    // other todos
+
+    // Current Account Dispatch Problem
+    // T`icket request select prblem relation
 
     useEffect(() => {
         // @todo: Merge Requests
@@ -54,6 +58,7 @@ const App: React.FC = (): JSX.Element => {
                             <Route path="/user/:id" element={<SingleProfile />} />
                             <Route path="/archives/:type" element={<Archives />} />
                             <Route path="/add-request" element={<AddRequest />} />
+                            <Route path="/add-ticket" element={<AddTicket />} />
                         </Route>
                     ) : (
                         <Route path="/" element={<Navigate to="/verify" />} />

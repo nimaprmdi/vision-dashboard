@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import * as models from "../../models/account";
+import { ITicket } from "../../models/tickets";
 
 const initialState: models.IAccountInitialState = {
     accounts: [],
@@ -65,6 +66,10 @@ const accountSlice = createSlice({
         SET_LOADING_STATUS: (state, action: { type: string; payload: boolean }) => {
             state.isLoading = action.payload;
         },
+
+        ADD_ACCOUNT_TICKET: (state, action: { type: string; payload: ITicket }) => {
+            state.currentAccount.tickets?.push({ ...action.payload });
+        },
     },
 });
 
@@ -79,5 +84,6 @@ export const {
     REMOVE_CURRENT_USER,
     REMOVE_ACCOUNT_HISTORY,
     SET_LOADING_STATUS,
+    ADD_ACCOUNT_TICKET,
 } = accountSlice.actions;
 export default accountSlice.reducer;

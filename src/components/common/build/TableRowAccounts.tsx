@@ -28,25 +28,27 @@ const TableRowAccounts = () => {
                         className="c-table__row u-opacity-0 u-fadein"
                         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                        <TableCell sx={{ color: "white", display: "flex", alignItems: "center", gap: 2 }} component="th" scope="row">
-                            <Avatar alt="image" sx={{ bgcolor: account.color ? account.color.hex : "gray.light" }}>
-                                {account.profileImage ? (
-                                    <img src={account.profileImage.url} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
-                                ) : (
-                                    <Typography variant="h4" textTransform="capitalize" color="white">
-                                        {account.name.charAt(0)}
+                        <TableCell sx={{ color: "white" }} component="th" scope="row">
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                <Avatar alt="image" sx={{ bgcolor: account.color ? account.color.hex : "gray.light" }}>
+                                    {account.profileImage ? (
+                                        <img src={account.profileImage.url} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                                    ) : (
+                                        <Typography variant="h4" textTransform="capitalize" color="white">
+                                            {account.name.charAt(0)}
+                                        </Typography>
+                                    )}
+                                </Avatar>
+
+                                <Box>
+                                    <Typography variant="h6" textTransform="capitalize" className="u-text-small" color="white">
+                                        {`${account.name} ${account.lastName}`}
                                     </Typography>
-                                )}
-                            </Avatar>
 
-                            <Box>
-                                <Typography variant="h6" textTransform="capitalize" className="u-text-small" color="white">
-                                    {`${account.name} ${account.lastName}`}
-                                </Typography>
-
-                                <Typography variant="h6" className="u-text-small" color="gray.light">
-                                    {account.userName}
-                                </Typography>
+                                    <Typography variant="h6" className="u-text-small" color="gray.light">
+                                        {account.userName}
+                                    </Typography>
+                                </Box>
                             </Box>
                         </TableCell>
                         <TableCell sx={{ color: "white" }} align="left">
