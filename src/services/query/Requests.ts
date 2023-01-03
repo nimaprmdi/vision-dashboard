@@ -187,7 +187,33 @@ class RequestsQuery {
                         account: {connect: {itemId: "${userId}"} 
                     }
             }) {
-              itemId
+                id
+                itemId
+                itemStatus
+                lastName
+                location
+                mobile
+                name
+                phone
+                service
+                date
+                gender
+                address
+                description
+                location
+                account {
+                    itemId
+                    name
+                    lastName
+                    userName
+                    isAdmin
+                    color {
+                        hex
+                    }
+                    profileImage {
+                        url
+                    }
+                }
             }}`,
             variables: {
                 itemId: data.itemId,

@@ -54,7 +54,6 @@ const requestsSlice = createSlice({
 
         CREATE_REQUEST: (state, action: { type: string; payload: models.IRequest }) => {
             state.requests.push(action.payload);
-            // state.requests.push
         },
 
         REMOVE_REQUESTS_HISTORY: (state) => {

@@ -11,7 +11,7 @@ const Notfound = () => {
         if (Object.keys(currentUser).length) {
             navigate("/");
         } else {
-            navigate(`login`);
+            navigate(`/login`);
         }
     };
 

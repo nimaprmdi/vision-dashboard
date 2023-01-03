@@ -115,12 +115,13 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
 
     return (
         <Box className="u-box-light" height="auto" mt={3} p={3} sx={{ ...sx }}>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 3 }}>
                 <Typography variant="h5" color="white">
                     Submit A Ticket
                 </Typography>
 
                 <Button
+                    sx={{ mb: 2 }}
                     onClick={() => onSubmit()}
                     variant="contained"
                     color="primary"
@@ -132,12 +133,12 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
 
             <Box mt={2}>
                 <FormControl sx={{ width: "100%" }}>
-                    <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+                    <Box sx={{ display: "flex", gap: 2, mb: 2, flexWrap: "wrap" }}>
                         <TextField
                             id="comment-ticket-title"
                             name="subject"
                             value={data.subject}
-                            sx={{ width: "100%" }}
+                            sx={{ width: { xs: "100%", md: "48%" } }}
                             label="Enter Ticket Subject"
                             type="text"
                             onChange={(e) => handleChangeData(e)}
@@ -150,7 +151,7 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                             id="comment-ticket-description"
                             name="description"
                             value={data.description}
-                            sx={{ width: "100%" }}
+                            sx={{ width: { xs: "100%", md: "48%" } }}
                             label="Enter Ticket Description"
                             type="text"
                             onChange={(e) => handleChangeData(e)}

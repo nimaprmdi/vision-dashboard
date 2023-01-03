@@ -38,7 +38,6 @@ const SingleProfile = () => {
     accountsState.currentAccount.isAdmin && commandButtons.push({ title: "Permission", color: "primary", handler: () => setIsEditPermissionPopOpen(true) });
 
     const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        // Upload File
         if (e.target && e.target.files) {
             const formData = new FormData();
             setImageUploading(true);

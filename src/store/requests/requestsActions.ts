@@ -46,9 +46,7 @@ const reviewRequest = (itemId: string, itemStatus: "pending" | "solved" | "revie
 };
 
 const createRequest = (userId: string, data: IRequest, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
-    await apiService.createRequest(userId, data, navigate, "/archives/requests/").then(() => {
-        dispatch(actions.CREATE_REQUEST(data));
-    });
+    await apiService.createRequest(userId, data, navigate, "/archives/requests/");
 };
 
 const removeRequestsHistory = () => (dispatch: Dispatch) => {

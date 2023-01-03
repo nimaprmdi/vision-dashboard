@@ -36,7 +36,7 @@ const Archives = () => {
                 );
             case "tickets":
                 return (
-                    <Button variant="contained" color="primary" onClick={() => navigate(`add-ticket`)}>
+                    <Button variant="contained" color="primary" onClick={() => navigate(`/add-ticket`)}>
                         Add Ticket
                     </Button>
                 );
@@ -57,7 +57,7 @@ const Archives = () => {
     }, []);
 
     return (
-        <Box className="c-archives" sx={{ px: { sx: 2, md: 0 } }}>
+        <Box className="c-archives" sx={{ px: { xs: 2, md: 0 } }}>
             {handleArchiveButton()}
             <Table data={type || "requests"}>{handleArchiveComponent()}</Table>
         </Box>

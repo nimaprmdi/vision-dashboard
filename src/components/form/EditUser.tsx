@@ -244,7 +244,16 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
 
             <Box
                 className="u-box-light-tertiary"
-                sx={{ height: "56px", width: { xs: "100%", md: "68%" }, mt: 2, display: "flex", justifyContent: "space-between", px: 2 }}
+                sx={{
+                    height: { xs: "auto", md: "56px" },
+                    width: { xs: "100%", md: "68%" },
+                    mt: 2,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    px: 2,
+                    py: { xs: 2, md: 0 },
+                    flexWrap: "wrap",
+                }}
             >
                 <Typo variant="h6" color="white">
                     {editData.profileImage ? (
@@ -254,7 +263,7 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
                     )}
                 </Typo>
 
-                <Box display="flex" gap={2}>
+                <Box display="flex" flexWrap="wrap" gap={2}>
                     <Button component="label" variant="contained" color="primary">
                         Select File
                         <input

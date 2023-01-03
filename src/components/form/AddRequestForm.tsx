@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import Joi from "joi";
 import MapBox from "../common/MapBox";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Box, TextField, Button, Typography, Select, SelectChangeEvent, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { IRequest, IAddRequest } from "../../models/request";
@@ -34,7 +34,6 @@ const AddRequestForm = () => {
         },
     });
 
-    // #httpIsCalling
     const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
     const currentUser = useSelector((state: RootState) => state.accounts.currentAccount);
 
@@ -104,7 +103,6 @@ const AddRequestForm = () => {
     };
 
     const handleSubmit = () => {
-        // @todo : current User
         dispatch(createRequest(currentUser.itemId!, data, navigate) as any);
 
         setData({

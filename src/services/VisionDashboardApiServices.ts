@@ -289,15 +289,14 @@ class VisionDashboardApiServices {
     readonly createRequest = async (userId: string, data: IRequest, navigate: NavigateFunction, navAddress?: string) => {
         return await http
             .post("", requestsQuery.createRequest(userId, data))
-            .then((response) => {
-                // Store Dispatch @todo : check logic here (the redux problem)
+            .then(async (response) => {
                 const { data } = response;
-
                 toast.success("Submitted Successfully");
-                store.dispatch(requestsActions.CREATE_REQUEST(data));
-                this.publishRequest(data.data.createRequest.itemId).then(() => {
+                store.dispatch(requestsActions.CREATE_REQUEST(data.data.createRequest));
+                await this.publishRequest(data.data.createRequest.itemId).then(() => {
                     navAddress ? navigate(navAddress) : navigate("/");
                 });
+                await this.publishAccount(data.data.createRequest.account.itemId);
             })
             .catch((error) => {
                 console.log("Error");
