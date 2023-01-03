@@ -23,7 +23,6 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
     const dispatch = useDispatch();
     const navigateRoute = useNavigate();
     const currentAccount = useSelector((state: RootState) => state.accounts.currentAccount);
-    console.log(currentAccount.requests!);
     const accounts = useSelector((state: RootState) => state.accounts.accounts);
     const requestsState = useSelector((state: RootState) => state.requests);
     const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
@@ -78,8 +77,6 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                 return { ...allErrors };
             });
         }
-
-        console.log("setResponseErrors", responseErrors);
 
         setResponse({ ...response, [e.target.name]: e.target.value });
         setData({ ...data, responses: [response] });
