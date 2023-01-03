@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/vision-dashboard/static/css/main.c21bd9dc.css",
-    "main.js": "/vision-dashboard/static/js/main.762364d1.js",
+    "main.js": "/vision-dashboard/static/js/main.b48e9312.js",
     "static/js/787.a107eda1.chunk.js": "/vision-dashboard/static/js/787.a107eda1.chunk.js",
     "static/media/login-bg.jpg": "/vision-dashboard/static/media/login-bg.847bb35ca77c597a8f50.jpg",
     "static/media/user-background.jpg": "/vision-dashboard/static/media/user-background.e6643a596282e44c7bc5.jpg",
@@ -10,11 +10,11 @@
     "static/media/loader.svg": "/vision-dashboard/static/media/loader.ddd27b591d4733e8ba456f4c18de3e73.svg",
     "index.html": "/vision-dashboard/index.html",
     "main.c21bd9dc.css.map": "/vision-dashboard/static/css/main.c21bd9dc.css.map",
-    "main.762364d1.js.map": "/vision-dashboard/static/js/main.762364d1.js.map",
+    "main.b48e9312.js.map": "/vision-dashboard/static/js/main.b48e9312.js.map",
     "787.a107eda1.chunk.js.map": "/vision-dashboard/static/js/787.a107eda1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c21bd9dc.css",
-    "static/js/main.762364d1.js"
+    "static/js/main.b48e9312.js"
   ]
 }
