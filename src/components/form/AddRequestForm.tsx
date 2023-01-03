@@ -77,6 +77,8 @@ const AddRequestForm = () => {
         }
 
         setData({ ...data, [e.target.name]: e.target.value });
+
+        console.log("data", data);
     };
 
     const handleMapChange = (e: IAccountLocation) => {
@@ -84,6 +86,8 @@ const AddRequestForm = () => {
             setData((prevState) => {
                 return { ...prevState, location: e };
             });
+
+        console.log("data map", data);
     };
 
     const [selectData, setSelectData] = useState({

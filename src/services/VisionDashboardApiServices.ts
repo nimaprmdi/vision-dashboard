@@ -298,6 +298,8 @@ class VisionDashboardApiServices {
                     navAddress ? navigate(navAddress) : navigate("/");
                 });
                 await this.publishAccount(data.data.createRequest.account.itemId);
+
+                console.log(response);
             })
             .catch((error) => {
                 console.log(error);

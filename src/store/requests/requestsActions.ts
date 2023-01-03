@@ -45,7 +45,7 @@ const reviewRequest = (itemId: string, itemStatus: "pending" | "solved" | "revie
     }
 };
 
-const createRequest = (userId: string, data: IRequest, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
+const createRequest = (userId: string, data: IRequest, navigate: NavigateFunction) => async () => {
     await apiService.createRequest(userId, data, navigate, "/archives/requests/");
 };
 

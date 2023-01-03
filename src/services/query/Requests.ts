@@ -156,6 +156,8 @@ class RequestsQuery {
     };
 
     readonly createRequest = (userId: string, data: IRequest) => {
+        console.log("data query", data);
+        console.log("userId", userId);
         return JSON.stringify({
             query: `
             mutation createRequest(
@@ -170,6 +172,7 @@ class RequestsQuery {
                 $service: String!,
                 $date: DateTime!,
                 $itemStatus: String!,
+                $location: Json,
                 ) {
                 createRequest (
                     data: {
@@ -184,14 +187,14 @@ class RequestsQuery {
                         service: $service,
                         date: $date,
                         itemStatus: $itemStatus,
-                        account: {connect: {itemId: "${userId}"} 
+                        location: $location,
+                        account: {connect: {itemId: "${userId}"},
                     }
             }) {
                 id
                 itemId
                 itemStatus
                 lastName
-                location
                 mobile
                 name
                 phone
@@ -227,6 +230,7 @@ class RequestsQuery {
                 service: data.service,
                 date: data.date,
                 itemStatus: data.itemStatus,
+                location: data.location,
             },
         });
     };
