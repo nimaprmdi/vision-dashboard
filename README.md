@@ -2,7 +2,7 @@
 
 Vision-Dashboard is a Dashboard app using TypeScript, React, Axios and other related technologies.
 
-![HomePage](/images/screen_1.png)
+![HomePage](screenshot.jpg)
 
 ## Features
 
