@@ -300,7 +300,7 @@ class VisionDashboardApiServices {
                 await this.publishAccount(data.data.createRequest.account.itemId);
             })
             .catch((error) => {
-                console.log("Error");
+                console.log(error);
                 toast.error("Create Request Failed");
             });
     };

@@ -31,15 +31,11 @@ const SingleChat = () => {
 
         if (!ticketsState.isLoading && id) {
             currentTicket = ticketsState.tickets.find((ticket) => ticket.itemId === id);
-            console.log(currentTicket);
 
             currentTicket ? setTicket(currentTicket) : navigate(`/404`);
         } else if (!ticketsState.isLoading && id && currentTicket === undefined) {
-            console.log("here");
-
             // navigate(`/404`);
         } else if (!id) {
-            console.log("there");
             // navigate(`/404`);
         }
     }, [ticketsState]);

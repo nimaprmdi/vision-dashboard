@@ -53,7 +53,6 @@ const createGithubAccount = (data: IAddAccount, navigate: NavigateFunction) => a
         .createGithubAccount(data)
         .then((response) => {
             console.log(data);
-            console.log(response);
 
             dispatch(actions.CREATE_ACCOUNT(response.data.data.createAccount));
             return response.data.data.createAccount;

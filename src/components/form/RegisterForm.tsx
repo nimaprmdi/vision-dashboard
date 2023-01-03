@@ -147,7 +147,6 @@ const RegisterForm = () => {
 
     const handleSubmit = () => {
         // @todo : validate function before sending also for other forms
-        console.log(data);
         dispatch(createAccount(data, navigate) as any);
     };
 

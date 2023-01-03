@@ -11,6 +11,7 @@ import { addTicket } from "../../../store/tickets/ticketsActions";
 import { v4 as uuidv4 } from "uuid";
 import { validateProperty } from "../../form/validate";
 import { SelectChangeEvent } from "@mui/material/Select";
+import { toast } from "react-toastify";
 
 interface CreateTicketProps {
     itemId?: string;
@@ -97,13 +98,11 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
             });
         }
 
-        console.log("errors", errors);
-
         setData({ ...data, [e.currentTarget.name]: e.currentTarget.value });
     };
 
     const onSubmit = () => {
-        if (itemId && currentAccount.itemId) {
+        if (itemId && currentAccount.itemId && data.request !== "select-request") {
             dispatch(addTicket(currentAccount.itemId, data, navigateRoute) as any);
 
             setData({
@@ -116,9 +115,9 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                 subject: "",
                 responses: [{ title: "", description: "", isAdmin: false }],
             });
+        } else {
+            toast.error("Please Check Form once again");
         }
-
-        // @todo navigate here
     };
 
     const [selectData, setSelectData] = useState({

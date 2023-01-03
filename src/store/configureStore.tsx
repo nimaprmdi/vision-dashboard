@@ -6,4 +6,5 @@ import logger from "redux-logger";
 export default configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), thunkMiddleware],
+    devTools: false,
 });

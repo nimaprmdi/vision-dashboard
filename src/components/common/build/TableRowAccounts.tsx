@@ -14,7 +14,6 @@ const TableRowAccounts = () => {
             setAccounts(accountsState.accounts);
         } else {
             const userAccount = accountsState.accounts.filter((account) => account.itemId === accountsState.currentAccount.itemId);
-            console.log(userAccount);
             setAccounts(userAccount);
         }
     }, [accountsState.currentAccount]);
