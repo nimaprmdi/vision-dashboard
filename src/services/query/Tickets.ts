@@ -79,9 +79,6 @@ class TicketsQuery {
     };
 
     readonly addTicketQuery = (accountId: string, data: ITicket) => {
-        console.log("addTicketQuery :", data);
-        console.log("accountId :", accountId);
-
         data.accounts && delete data.accounts;
 
         return JSON.stringify({
@@ -94,6 +91,7 @@ class TicketsQuery {
                     $isClose: Boolean!,
                     $isPending: Boolean!,
                     $accountId: String,
+                    $requestId: String,
                     $responses: Json,
                     $subject: String,
                 ) {
@@ -106,6 +104,7 @@ class TicketsQuery {
                             isClose: $isClose,
                             isPending: $isPending,
                             accounts: { connect: { Account: { itemId: $accountId } } },
+                            requests: { connect: { Request: { itemId: $requestId } } },
                             responses: $responses,
                             subject: $subject,
                         }   
@@ -134,6 +133,13 @@ class TicketsQuery {
                             }
                           }
                         }
+                        requests {
+                            ... on Request {
+                              id
+                              name
+                              itemId
+                            }
+                        }
                     }
                 }`,
             variables: {
@@ -146,6 +152,7 @@ class TicketsQuery {
                 accountId: accountId,
                 responses: data.responses,
                 subject: data.subject,
+                requestId: data.request,
             },
         });
     };

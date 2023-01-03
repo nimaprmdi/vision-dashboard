@@ -210,6 +210,7 @@ class VisionDashboardApiServices {
                 toast.success("Ticket Has Been Created");
                 this.publishTicket(response.data.data.createTicket.itemId, "Ticket Published", "Error Publishing Ticket");
                 this.publishAccount(accountId);
+                this.publishRequest(response.data.data.createTicket.requests.itemId);
                 return response;
             })
             .catch((error) => {

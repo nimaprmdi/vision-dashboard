@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Joi from "joi";
-import { Box, Typography, Button, TextField, FormControl, Theme } from "@mui/material";
+import { Box, Typography, Button, TextField, FormControl, Theme, InputLabel, MenuItem, Select } from "@mui/material";
 import { SystemStyleObject } from "@mui/system";
-import { ITicket, ICreateTicketResponseError, ICreateTicketError } from "../../../models/tickets";
-import { IPostTicketCommentData } from "../../../models/tickets";
+import { ITicket, ICreateTicketResponseError, ICreateTicketError, IPostTicketCommentData } from "../../../models/tickets";
+import { IRequest } from "../../../models/request";
 import { RootState } from "../../../store/rootReducer";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicket } from "../../../store/tickets/ticketsActions";
 import { v4 as uuidv4 } from "uuid";
 import { validateProperty } from "../../form/validate";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 interface CreateTicketProps {
     itemId?: string;
@@ -21,10 +22,13 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
     const dispatch = useDispatch();
     const navigateRoute = useNavigate();
     const currentAccount = useSelector((state: RootState) => state.accounts.currentAccount);
+    console.log(currentAccount.requests!);
     const accounts = useSelector((state: RootState) => state.accounts.accounts);
+    const requestsState = useSelector((state: RootState) => state.requests);
     const isHttpCalling = useSelector((state: RootState) => state.entities.isHttpCalling);
     const [responseErrors, setResponseErrors] = useState<ICreateTicketResponseError>();
     const [errors, setErrors] = useState<ICreateTicketError>();
+    const [requests, setRequests] = useState<IRequest[]>();
     const [response, setResponse] = useState<IPostTicketCommentData>({
         title: "",
         description: "",
@@ -41,6 +45,15 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
         subject: "",
         responses: [{ title: "", description: "", isAdmin: false }],
     });
+
+    useEffect(() => {
+        if (currentAccount.isAdmin) {
+            setRequests(requestsState.requests);
+        } else {
+            const userRequests = requestsState.requests.filter((request) => request.account?.userName === currentAccount.userName);
+            setRequests(userRequests);
+        }
+    }, [currentAccount]);
 
     const responseSchema = Joi.object({
         title: Joi.string().required().label("title"),
@@ -108,6 +121,18 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
         // @todo navigate here
     };
 
+    const [selectData, setSelectData] = useState({
+        request: "select-request",
+    });
+
+    const handleSelectChange = (event: SelectChangeEvent<string>) => {
+        setSelectData({ ...selectData, [event.target.name]: event.target.value as string });
+
+        if (event.target.value !== "select-request") {
+            setData({ ...data, [event.target.name]: event.target.value as string });
+        }
+    };
+
     useEffect(() => {
         const currentUserFromStore = accounts.find((account) => account.itemId === currentAccount.itemId!);
         currentUserFromStore && setData({ ...data, accounts: currentUserFromStore });
@@ -133,7 +158,7 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
 
             <Box mt={2}>
                 <FormControl sx={{ width: "100%" }}>
-                    <Box sx={{ display: "flex", gap: 2, mb: 2, flexWrap: "wrap" }}>
+                    <Box sx={{ display: "flex", gap: 2, mb: 1, flexWrap: "wrap" }}>
                         <TextField
                             id="comment-ticket-title"
                             name="subject"
@@ -160,6 +185,26 @@ const CreateTicket = ({ itemId, isAdmin, sx }: CreateTicketProps) => {
                             helperText={errors?.description || ""}
                         />
                     </Box>
+
+                    <FormControl sx={{ width: { xs: "100%", md: "100%" }, my: 2 }}>
+                        <InputLabel id="gender-input">Request</InputLabel>
+                        <Select
+                            required
+                            name="request"
+                            labelId="request-input"
+                            id="demo-simple-select-request"
+                            value={selectData.request}
+                            label="Request"
+                            onChange={handleSelectChange}
+                        >
+                            <MenuItem value="select-request">Select Request</MenuItem>
+                            {requests?.map((request) => (
+                                <MenuItem key={`request-${request.itemId}`} value={request.itemId}>
+                                    {`${request.name} ${request.lastName} (${request.service})`}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
                     <TextField
                         id="comment-title"

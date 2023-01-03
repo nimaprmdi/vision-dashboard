@@ -1,4 +1,5 @@
 import { IAccount } from "./account";
+import { IRequest } from "./request";
 
 interface ICreateTicketResponseError {
     title?: string | undefined | null;
@@ -32,6 +33,7 @@ interface ITicket {
     subject: string;
     responses: ITicketResponse[];
     accounts?: IAccount;
+    request?: string;
 }
 
 interface ITicketsInitialState {

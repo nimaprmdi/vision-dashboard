@@ -14,10 +14,12 @@ const TableRowTickets = () => {
         if (currentAccount.isAdmin) {
             setTickets(ticketsState.tickets);
         } else {
-            const accountTickets = ticketsState.tickets.filter((ticket) => ticket.accounts?.itemId !== currentAccount.itemId);
-            accountTickets && setTickets(accountTickets);
+            if (ticketsState.tickets.length) {
+                const accountTickets = ticketsState.tickets.filter((ticket) => ticket.accounts?.itemId !== currentAccount.itemId);
+                accountTickets && setTickets(accountTickets);
+            }
         }
-    }, [currentAccount]);
+    }, [currentAccount, ticketsState]);
 
     return (
         <>

@@ -39,7 +39,7 @@ const addTicket = (accountId: string, ticket: ITicket, navigate: NavigateFunctio
     await apiService.addTicket(accountId, ticket).then((response) => {
         console.log(response);
         dispatch(actions.ADD_TICKET(ticket));
-        dispatch(ADD_ACCOUNT_TICKET(response.data.data.createTicket) as any); // Update current account ticket locally
+        dispatch(ADD_ACCOUNT_TICKET(response.data.data.createTicket) as any); // Update Current account ticket locally
     });
 
     navigate(`/archives/tickets`);
