@@ -26,7 +26,7 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
         confirmPassword: "",
         isAdmin: false,
         bio: "",
-        color: "",
+        color: "#ffffff",
         location: {
             latitude: data.location ? data.location.latitude : 50.11003957248653,
             longitude: data.location ? data.location.longitude : 8.687357922951406,
@@ -56,12 +56,11 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
             .message("Password Does Not Match pattern")
             .label("Password"),
         bio: Joi.string().label("Bio"),
-        color: Joi.string()
-            .regex(/^#[A-Fa-f0-9]{6}/)
-            .label("Color"),
+        isAdmin: Joi.boolean(),
+        color: Joi.string(),
         location: Joi.object({
-            a: Joi.number().min(1).max(10).integer(),
-            b: Joi.number().min(1).max(10).integer(),
+            longitude: Joi.number().integer(),
+            latitude: Joi.number().integer(),
         }).label("Location"),
     });
 
@@ -121,9 +120,12 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
 
     const handleSubmit = async () => {
         // @todo : validate function before sending also for other forms
+        const errorMsg = validate(editData, schema);
 
         if (editData.password !== editData.confirmPassword) {
             setErrors({ confirmPassword: "Password is not matched" });
+        } else if (errorMsg && Object.keys(errorMsg).length > 0) {
+            setErrors({ ...errors, ...errorMsg });
         } else {
             apiServices.updateAccount(data.itemId, editData!);
         }
@@ -142,7 +144,7 @@ const EditUser = ({ data, handleImageChange }: IEditUserProps) => {
             email: data.email,
             isAdmin: data.isAdmin,
             bio: data.bio,
-            color: data.color && data.color.hex,
+            color: data.color ? data.color.hex : "#ffffff",
             password: data.password,
             confirmPassword: data.password,
             location: {

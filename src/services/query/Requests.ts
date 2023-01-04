@@ -156,8 +156,6 @@ class RequestsQuery {
     };
 
     readonly createRequest = (userId: string, data: IRequest) => {
-        console.log("data query", data);
-        console.log("userId", userId);
         return JSON.stringify({
             query: `
             mutation createRequest(

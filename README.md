@@ -67,10 +67,6 @@ Toast Notification by react-toastify
 License: MIT, https://raw.githubusercontent.com/phosphor-icons/phosphor-home/master/LICENSE
 Source: https://fkhadra.github.io/react-toastify/introduction/
 
-Swiper.js React by nolimits4web
-License: GNU GPLv3, https://github.com/nolimits4web/swiper/blob/master/LICENSE
-Source: https://github.com/nolimits4web/swiper
-
 ## Developer Notes
 
 -   I would like to thank everybody in the open-source community

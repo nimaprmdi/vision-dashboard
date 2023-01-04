@@ -258,7 +258,8 @@ class VisionDashboardApiServices {
                     toast.success("Information Submitted Successful");
                 })
                 .catch((error) => {
-                    console.log(error);
+                    const errorMsg = error.response.data.errors[0].message;
+                    toast.error(errorMsg);
                 });
     };
 
@@ -317,7 +318,6 @@ class VisionDashboardApiServices {
             })
             .catch((error) => {
                 error.response.data.errors && toast.error(error.response.data.errors[0].message);
-                console.log(error.response.data.errors[0].message);
                 return error;
             });
     };
