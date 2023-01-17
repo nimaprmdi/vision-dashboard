@@ -57,10 +57,11 @@ class VisionDashboardApiServices {
     };
 
     // Fetch All Tickets
-    readonly fetchTickets = () => {
+    readonly fetchTickets = async () => {
         store.dispatch(ticketsActions.FETCH_DATA());
 
-        http.post("", ticketsQuery.fetchTicketsQuery())
+        return await http
+            .post("", ticketsQuery.fetchTicketsQuery())
             .then((response) => {
                 const { data } = response.data;
 
@@ -74,10 +75,11 @@ class VisionDashboardApiServices {
     };
 
     // Fetch All Users
-    readonly fetchRequests = () => {
+    readonly fetchRequests = async () => {
         store.dispatch(requestsActions.FETCH_DATA());
 
-        http.post("", requestsQuery.fetchUsers())
+        await http
+            .post("", requestsQuery.fetchUsers())
             .then((response) => {
                 const { data } = response.data;
                 store.dispatch(requestsActions.FETCH_DATA_SUCCESSFUL(data.requests));
@@ -208,7 +210,11 @@ class VisionDashboardApiServices {
             .post("", ticketsQuery.addTicketQuery(accountId, data))
             .then((response) => {
                 toast.success("Ticket Has Been Created");
-                this.publishTicket(response.data.data.createTicket.itemId, "Ticket Published", "Error Publishing Ticket");
+                this.publishTicket(
+                    response.data.data.createTicket.itemId,
+                    "Ticket Published",
+                    "Error Publishing Ticket"
+                );
                 this.publishAccount(accountId);
                 this.publishRequest(response.data.data.createTicket.requests.itemId);
                 return response;
@@ -220,7 +226,11 @@ class VisionDashboardApiServices {
     };
 
     // Update Profile Image
-    readonly updateProfileImage = async (itemId: string, formData: FormData, setImageUpload: (value: React.SetStateAction<boolean>) => void) => {
+    readonly updateProfileImage = async (
+        itemId: string,
+        formData: FormData,
+        setImageUpload: (value: React.SetStateAction<boolean>) => void
+    ) => {
         // Upload Assets
         await http
             .post("/upload", formData)
@@ -288,7 +298,12 @@ class VisionDashboardApiServices {
             });
     };
 
-    readonly createRequest = async (userId: string, data: IRequest, navigate: NavigateFunction, navAddress?: string) => {
+    readonly createRequest = async (
+        userId: string,
+        data: IRequest,
+        navigate: NavigateFunction,
+        navAddress?: string
+    ) => {
         return await http
             .post("", requestsQuery.createRequest(userId, data))
             .then(async (response) => {
